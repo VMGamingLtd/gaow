@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Example</title>
+</head>
+<body>
+    <h1>WebSocket Example</h1>
+    <script>
+        // Create a new WebSocket connection to the server
+        const ws = new WebSocket('ws://localhost:9001');
+
+        // When the connection is open, send the "ping" message
+        ws.onopen = function() {
+            console.log('Connection opened');
+            ws.send('ping');
+            console.log('Sent: ping');
+        };
+
+        // Log any messages received from the server
+        ws.onmessage = function(event) {
+            console.log('Received:', event.data);
+        };
+
+        // Handle any errors that occur
+        ws.onerror = function(error) {
+            console.error('WebSocket Error:', error);
+        };
+
+        // When the connection is closed, log the event
+        ws.onclose = function() {
+            console.log('Connection closed');
+        };
+    </script>
+</body>
+</html>
