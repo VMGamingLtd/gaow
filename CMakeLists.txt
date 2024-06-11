@@ -40,6 +40,32 @@ else()
   message(FATAL_ERROR "unsupported platform")
 endif()
 
+add_library(libprotobuf STATIC IMPORTED)
+if(WIN32)
+  set_target_properties(libprotobuf PROPERTIES
+    IMPORTED_LOCATION ${vcpkg_install_path}/lib/libprotobuf.lib 
+  )
+  target_include_directories(libprotobuf 
+    INTERFACE ${vcpkg_install_path}/include
+  )
+elseif(UNIX)
+else()
+  message(FATAL_ERROR "unsupported platform")
+endif()
+
+add_library(libprotoc STATIC IMPORTED)
+if(WIN32)
+  set_target_properties(libprotoc PROPERTIES
+    IMPORTED_LOCATION ${vcpkg_install_path}/lib/libprotoc.lib 
+  )
+  target_include_directories(libprotoc 
+    INTERFACE ${vcpkg_install_path}/include
+  )
+elseif(UNIX)
+else()
+  message(FATAL_ERROR "unsupported platform")
+endif()
+
 
 add_library(uWebSocketsLib OBJECT IMPORTED)
 file(GLOB uWebSocketsLib_obj_files "${CMAKE_SOURCE_DIR}/uWebSockets/uSockets/*.o")
@@ -50,17 +76,23 @@ set(uWebSocketsLib_includes
 set_property(TARGET uWebSocketsLib PROPERTY
   IMPORTED_OBJECTS ${uWebSocketsLib_obj_files}
 )
+
 if(WIN32)
-target_include_directories(uWebSocketsLib 
-  INTERFACE ${vcpkg_install_path}/include
-)
+	#target_include_directories(uWebSocketsLib 
+	#  INTERFACE ${vcpkg_install_path}/include
+	#)
 endif()
 
 
 project(WebsocketServer)
 
+file(GLOB protobuf_source_files "${CMAKE_SOURCE_DIR}/wsrv/protobuf/*.pb.cc")
+
 add_executable(wsrv 
   wsrv/main.cpp
+  wsrv/messages/Dispatcher.cpp
+  wsrv/messages/websocket/PingPong.cpp
+  ${protobuf_source_files}
 )
 
 if(WIN32)
@@ -68,6 +100,8 @@ if(WIN32)
     uWebSocketsLib 
     libuv
     libz
+	libprotobuf
+	libprotoc
   )
 elseif(UNIX)
   target_link_libraries(wsrv 
@@ -78,7 +112,11 @@ elseif(UNIX)
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
-target_include_directories(wsrv PRIVATE ${uWebSocketsLib_includes})
+
+target_include_directories(wsrv PRIVATE ${uWebSocketsLib_includes}/)
+#if(WIN32)
+#	target_include_directories(wsrv PRIVATE ${vcpkg_install_path}/include)
+#endif()
 
 #project(app1)
 #

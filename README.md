@@ -35,13 +35,13 @@ Open MS Visual Studio Installer  and verify that clang is installed.
 
 [also see](https://github.com/uNetworking/uWebSockets/actions/runs/8217383674/workflow)
 
-### Windows Build
+### Build On Windows
 
 Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside the project root.
 
 
 ```
-> cd /c/w2/avocado
+> cd /c/w2/gaow
 > git clone --recursive https://github.com/uNetworking/uWebSockets.git
 ```
 
@@ -55,7 +55,7 @@ Open  'x64 tools command prompt' terminal which was installed as part of visual 
 
 ```
 
-### Linux Build
+### Build On Linux
 
 Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside the project root.
 
@@ -70,7 +70,7 @@ Build uWebSockets:
 ~/w2/avocado> cd uWebSockets
 ~/w2/avocado/uWebSockets> make
 ```
-# Build project
+# Build project (windows only)
 
 We build project using [clang platform toolset](https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/tools-pc/visualstudio/gr-vs-clang),
 [also see CMAKE_GENERATOR_TOOLSET](https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2017%202022.html).
@@ -81,6 +81,7 @@ In powershell terminal:
 > mkdir /w1/gaow_build
 > cd /w1/gaow_build
 > cmake -T clangcl ../gaow
+> cmake --build .
 ```
 
 
