@@ -30,7 +30,6 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
-#include "MessageHeader.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_Ping_2eproto
@@ -182,10 +181,9 @@ class Ping final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMessageFieldNumber = 2,
-    kHeaderFieldNumber = 1,
+    kMessageFieldNumber = 1,
   };
-  // string message = 2;
+  // string message = 1;
   void clear_message();
   const std::string& message() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -199,24 +197,6 @@ class Ping final :
   std::string* _internal_mutable_message();
   public:
 
-  // .GaoProtobuf.MessageHeader header = 1;
-  bool has_header() const;
-  private:
-  bool _internal_has_header() const;
-  public:
-  void clear_header();
-  const ::GaoProtobuf::MessageHeader& header() const;
-  PROTOBUF_NODISCARD ::GaoProtobuf::MessageHeader* release_header();
-  ::GaoProtobuf::MessageHeader* mutable_header();
-  void set_allocated_header(::GaoProtobuf::MessageHeader* header);
-  private:
-  const ::GaoProtobuf::MessageHeader& _internal_header() const;
-  ::GaoProtobuf::MessageHeader* _internal_mutable_header();
-  public:
-  void unsafe_arena_set_allocated_header(
-      ::GaoProtobuf::MessageHeader* header);
-  ::GaoProtobuf::MessageHeader* unsafe_arena_release_header();
-
   // @@protoc_insertion_point(class_scope:GaoProtobuf.Ping)
  private:
   class _Internal;
@@ -226,7 +206,6 @@ class Ping final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr message_;
-    ::GaoProtobuf::MessageHeader* header_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -355,10 +334,9 @@ class Pong final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMessageFieldNumber = 2,
-    kHeaderFieldNumber = 1,
+    kMessageFieldNumber = 1,
   };
-  // string message = 2;
+  // string message = 1;
   void clear_message();
   const std::string& message() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -372,24 +350,6 @@ class Pong final :
   std::string* _internal_mutable_message();
   public:
 
-  // .GaoProtobuf.MessageHeader header = 1;
-  bool has_header() const;
-  private:
-  bool _internal_has_header() const;
-  public:
-  void clear_header();
-  const ::GaoProtobuf::MessageHeader& header() const;
-  PROTOBUF_NODISCARD ::GaoProtobuf::MessageHeader* release_header();
-  ::GaoProtobuf::MessageHeader* mutable_header();
-  void set_allocated_header(::GaoProtobuf::MessageHeader* header);
-  private:
-  const ::GaoProtobuf::MessageHeader& _internal_header() const;
-  ::GaoProtobuf::MessageHeader* _internal_mutable_header();
-  public:
-  void unsafe_arena_set_allocated_header(
-      ::GaoProtobuf::MessageHeader* header);
-  ::GaoProtobuf::MessageHeader* unsafe_arena_release_header();
-
   // @@protoc_insertion_point(class_scope:GaoProtobuf.Pong)
  private:
   class _Internal;
@@ -399,7 +359,6 @@ class Pong final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr message_;
-    ::GaoProtobuf::MessageHeader* header_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -416,92 +375,7 @@ class Pong final :
 #endif  // __GNUC__
 // Ping
 
-// .GaoProtobuf.MessageHeader header = 1;
-inline bool Ping::_internal_has_header() const {
-  return this != internal_default_instance() && _impl_.header_ != nullptr;
-}
-inline bool Ping::has_header() const {
-  return _internal_has_header();
-}
-inline const ::GaoProtobuf::MessageHeader& Ping::_internal_header() const {
-  const ::GaoProtobuf::MessageHeader* p = _impl_.header_;
-  return p != nullptr ? *p : reinterpret_cast<const ::GaoProtobuf::MessageHeader&>(
-      ::GaoProtobuf::_MessageHeader_default_instance_);
-}
-inline const ::GaoProtobuf::MessageHeader& Ping::header() const {
-  // @@protoc_insertion_point(field_get:GaoProtobuf.Ping.header)
-  return _internal_header();
-}
-inline void Ping::unsafe_arena_set_allocated_header(
-    ::GaoProtobuf::MessageHeader* header) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.header_);
-  }
-  _impl_.header_ = header;
-  if (header) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:GaoProtobuf.Ping.header)
-}
-inline ::GaoProtobuf::MessageHeader* Ping::release_header() {
-  
-  ::GaoProtobuf::MessageHeader* temp = _impl_.header_;
-  _impl_.header_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::GaoProtobuf::MessageHeader* Ping::unsafe_arena_release_header() {
-  // @@protoc_insertion_point(field_release:GaoProtobuf.Ping.header)
-  
-  ::GaoProtobuf::MessageHeader* temp = _impl_.header_;
-  _impl_.header_ = nullptr;
-  return temp;
-}
-inline ::GaoProtobuf::MessageHeader* Ping::_internal_mutable_header() {
-  
-  if (_impl_.header_ == nullptr) {
-    auto* p = CreateMaybeMessage<::GaoProtobuf::MessageHeader>(GetArenaForAllocation());
-    _impl_.header_ = p;
-  }
-  return _impl_.header_;
-}
-inline ::GaoProtobuf::MessageHeader* Ping::mutable_header() {
-  ::GaoProtobuf::MessageHeader* _msg = _internal_mutable_header();
-  // @@protoc_insertion_point(field_mutable:GaoProtobuf.Ping.header)
-  return _msg;
-}
-inline void Ping::set_allocated_header(::GaoProtobuf::MessageHeader* header) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.header_);
-  }
-  if (header) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(header));
-    if (message_arena != submessage_arena) {
-      header = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, header, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.header_ = header;
-  // @@protoc_insertion_point(field_set_allocated:GaoProtobuf.Ping.header)
-}
-
-// string message = 2;
+// string message = 1;
 inline void Ping::clear_message() {
   _impl_.message_.ClearToEmpty();
 }
@@ -555,92 +429,7 @@ inline void Ping::set_allocated_message(std::string* message) {
 
 // Pong
 
-// .GaoProtobuf.MessageHeader header = 1;
-inline bool Pong::_internal_has_header() const {
-  return this != internal_default_instance() && _impl_.header_ != nullptr;
-}
-inline bool Pong::has_header() const {
-  return _internal_has_header();
-}
-inline const ::GaoProtobuf::MessageHeader& Pong::_internal_header() const {
-  const ::GaoProtobuf::MessageHeader* p = _impl_.header_;
-  return p != nullptr ? *p : reinterpret_cast<const ::GaoProtobuf::MessageHeader&>(
-      ::GaoProtobuf::_MessageHeader_default_instance_);
-}
-inline const ::GaoProtobuf::MessageHeader& Pong::header() const {
-  // @@protoc_insertion_point(field_get:GaoProtobuf.Pong.header)
-  return _internal_header();
-}
-inline void Pong::unsafe_arena_set_allocated_header(
-    ::GaoProtobuf::MessageHeader* header) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.header_);
-  }
-  _impl_.header_ = header;
-  if (header) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:GaoProtobuf.Pong.header)
-}
-inline ::GaoProtobuf::MessageHeader* Pong::release_header() {
-  
-  ::GaoProtobuf::MessageHeader* temp = _impl_.header_;
-  _impl_.header_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::GaoProtobuf::MessageHeader* Pong::unsafe_arena_release_header() {
-  // @@protoc_insertion_point(field_release:GaoProtobuf.Pong.header)
-  
-  ::GaoProtobuf::MessageHeader* temp = _impl_.header_;
-  _impl_.header_ = nullptr;
-  return temp;
-}
-inline ::GaoProtobuf::MessageHeader* Pong::_internal_mutable_header() {
-  
-  if (_impl_.header_ == nullptr) {
-    auto* p = CreateMaybeMessage<::GaoProtobuf::MessageHeader>(GetArenaForAllocation());
-    _impl_.header_ = p;
-  }
-  return _impl_.header_;
-}
-inline ::GaoProtobuf::MessageHeader* Pong::mutable_header() {
-  ::GaoProtobuf::MessageHeader* _msg = _internal_mutable_header();
-  // @@protoc_insertion_point(field_mutable:GaoProtobuf.Pong.header)
-  return _msg;
-}
-inline void Pong::set_allocated_header(::GaoProtobuf::MessageHeader* header) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.header_);
-  }
-  if (header) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(header));
-    if (message_arena != submessage_arena) {
-      header = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, header, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.header_ = header;
-  // @@protoc_insertion_point(field_set_allocated:GaoProtobuf.Pong.header)
-}
-
-// string message = 2;
+// string message = 1;
 inline void Pong::clear_message() {
   _impl_.message_.ClearToEmpty();
 }

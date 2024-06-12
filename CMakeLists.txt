@@ -86,14 +86,40 @@ endif()
 
 project(WebsocketServer)
 
-file(GLOB protobuf_source_files "${CMAKE_SOURCE_DIR}/wsrv/protobuf/*.pb.cc")
+file(GLOB protobuf_source_files "${CMAKE_SOURCE_DIR}/wsrv/protobuf/*.pb.cc"  "${CMAKE_SOURCE_DIR}/wsrv/protobuf/*.pb.h")
 
 add_executable(wsrv 
   wsrv/main.cpp
-  wsrv/messages/Dispatcher.cpp
-  wsrv/messages/websocket/PingPong.cpp
+  wsrv/WsSocketContext.cpp
+  wsrv/WsSocketContext.h
+  wsrv/message/Dispatcher.cpp
+  wsrv/message/Dispatcher.h
+  wsrv/message/parser/Ping.cpp
+  wsrv/message/parser/Ping.h
+  wsrv/message/websocket/PingPong.cpp
+  wsrv/message/websocket/PingPong.h
   ${protobuf_source_files}
 )
+
+# Create source groups to maintain directory structure in Visual Studio
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}")
+
+#source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/wsrv" PREFIX "wsrv" FILES
+#  wsrv/main.cpp
+#)
+#source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/wsrv/messages" PREFIX "wsrv/messages" FILES
+#  wsrv/messages/Dispatcher.cpp
+#)
+#source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/wsrv/messages/websocket" PREFIX "wsrv/messages/websocket" FILES
+#  wsrv/messages/websocket/PingPong.cpp
+#)
+## protobuf directories
+#foreach(file IN LISTS protobuf_source_files)
+#  get_filename_component(dir ${file} DIRECTORY)
+#  file(RELATIVE_PATH dir ${CMAKE_CURRENT_SOURCE_DIR} ${dir})
+#  # Create groups based on directory structure for protobuf files
+#  source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" PREFIX "${dir}" FILES "${file}")
+#endforeach()
 
 if(WIN32)
   target_link_libraries(wsrv 
@@ -113,7 +139,10 @@ else()
   message(FATAL_ERROR "unsupported platform")
 endif()
 
-target_include_directories(wsrv PRIVATE ${uWebSocketsLib_includes}/)
+target_include_directories(wsrv PRIVATE 
+	${uWebSocketsLib_includes}
+	${vcpkg_install_path}/include
+)
 #if(WIN32)
 #	target_include_directories(wsrv PRIVATE ${vcpkg_install_path}/include)
 #endif()

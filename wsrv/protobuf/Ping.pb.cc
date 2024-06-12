@@ -24,7 +24,6 @@ namespace GaoProtobuf {
 PROTOBUF_CONSTEXPR Ping::Ping(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.header_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct PingDefaultTypeInternal {
   PROTOBUF_CONSTEXPR PingDefaultTypeInternal()
@@ -38,7 +37,6 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR Pong::Pong(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.header_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct PongDefaultTypeInternal {
   PROTOBUF_CONSTEXPR PongDefaultTypeInternal()
@@ -61,7 +59,6 @@ const uint32_t TableStruct_Ping_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::GaoProtobuf::Ping, _impl_.header_),
   PROTOBUF_FIELD_OFFSET(::GaoProtobuf::Ping, _impl_.message_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::GaoProtobuf::Pong, _internal_metadata_),
@@ -69,12 +66,11 @@ const uint32_t TableStruct_Ping_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::GaoProtobuf::Pong, _impl_.header_),
   PROTOBUF_FIELD_OFFSET(::GaoProtobuf::Pong, _impl_.message_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::GaoProtobuf::Ping)},
-  { 8, -1, -1, sizeof(::GaoProtobuf::Pong)},
+  { 7, -1, -1, sizeof(::GaoProtobuf::Pong)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -83,21 +79,15 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_Ping_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nPing.proto\022\013GaoProtobuf\032\023MessageHeader"
-  ".proto\"C\n\004Ping\022*\n\006header\030\001 \001(\0132\032.GaoProt"
-  "obuf.MessageHeader\022\017\n\007message\030\002 \001(\t\"C\n\004P"
-  "ong\022*\n\006header\030\001 \001(\0132\032.GaoProtobuf.Messag"
-  "eHeader\022\017\n\007message\030\002 \001(\tB\016\252\002\013GaoProtobuf"
-  "b\006proto3"
+  "\n\nPing.proto\022\013GaoProtobuf\"\027\n\004Ping\022\017\n\007mes"
+  "sage\030\001 \001(\t\"\027\n\004Pong\022\017\n\007message\030\001 \001(\tB\016\252\002\013"
+  "GaoProtobufb\006proto3"
   ;
-static const ::_pbi::DescriptorTable* const descriptor_table_Ping_2eproto_deps[1] = {
-  &::descriptor_table_MessageHeader_2eproto,
-};
 static ::_pbi::once_flag descriptor_table_Ping_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Ping_2eproto = {
-    false, false, 208, descriptor_table_protodef_Ping_2eproto,
+    false, false, 99, descriptor_table_protodef_Ping_2eproto,
     "Ping.proto",
-    &descriptor_table_Ping_2eproto_once, descriptor_table_Ping_2eproto_deps, 1, 2,
+    &descriptor_table_Ping_2eproto_once, nullptr, 0, 2,
     schemas, file_default_instances, TableStruct_Ping_2eproto::offsets,
     file_level_metadata_Ping_2eproto, file_level_enum_descriptors_Ping_2eproto,
     file_level_service_descriptors_Ping_2eproto,
@@ -114,19 +104,8 @@ namespace GaoProtobuf {
 
 class Ping::_Internal {
  public:
-  static const ::GaoProtobuf::MessageHeader& header(const Ping* msg);
 };
 
-const ::GaoProtobuf::MessageHeader&
-Ping::_Internal::header(const Ping* msg) {
-  return *msg->_impl_.header_;
-}
-void Ping::clear_header() {
-  if (GetArenaForAllocation() == nullptr && _impl_.header_ != nullptr) {
-    delete _impl_.header_;
-  }
-  _impl_.header_ = nullptr;
-}
 Ping::Ping(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -138,7 +117,6 @@ Ping::Ping(const Ping& from)
   Ping* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.message_){}
-    , decltype(_impl_.header_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -150,9 +128,6 @@ Ping::Ping(const Ping& from)
     _this->_impl_.message_.Set(from._internal_message(), 
       _this->GetArenaForAllocation());
   }
-  if (from._internal_has_header()) {
-    _this->_impl_.header_ = new ::GaoProtobuf::MessageHeader(*from._impl_.header_);
-  }
   // @@protoc_insertion_point(copy_constructor:GaoProtobuf.Ping)
 }
 
@@ -162,7 +137,6 @@ inline void Ping::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.message_){}
-    , decltype(_impl_.header_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.message_.InitDefault();
@@ -183,7 +157,6 @@ Ping::~Ping() {
 inline void Ping::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.message_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.header_;
 }
 
 void Ping::SetCachedSize(int size) const {
@@ -197,10 +170,6 @@ void Ping::Clear() {
   (void) cached_has_bits;
 
   _impl_.message_.ClearToEmpty();
-  if (GetArenaForAllocation() == nullptr && _impl_.header_ != nullptr) {
-    delete _impl_.header_;
-  }
-  _impl_.header_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -210,17 +179,9 @@ const char* Ping::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .GaoProtobuf.MessageHeader header = 1;
+      // string message = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_header(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // string message = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           auto str = _internal_mutable_message();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -257,21 +218,14 @@ uint8_t* Ping::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .GaoProtobuf.MessageHeader header = 1;
-  if (this->_internal_has_header()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(1, _Internal::header(this),
-        _Internal::header(this).GetCachedSize(), target, stream);
-  }
-
-  // string message = 2;
+  // string message = 1;
   if (!this->_internal_message().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_message().data(), static_cast<int>(this->_internal_message().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "GaoProtobuf.Ping.message");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_message(), target);
+        1, this->_internal_message(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -290,18 +244,11 @@ size_t Ping::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string message = 2;
+  // string message = 1;
   if (!this->_internal_message().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_message());
-  }
-
-  // .GaoProtobuf.MessageHeader header = 1;
-  if (this->_internal_has_header()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.header_);
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -324,10 +271,6 @@ void Ping::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_
 
   if (!from._internal_message().empty()) {
     _this->_internal_set_message(from._internal_message());
-  }
-  if (from._internal_has_header()) {
-    _this->_internal_mutable_header()->::GaoProtobuf::MessageHeader::MergeFrom(
-        from._internal_header());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -352,7 +295,6 @@ void Ping::InternalSwap(Ping* other) {
       &_impl_.message_, lhs_arena,
       &other->_impl_.message_, rhs_arena
   );
-  swap(_impl_.header_, other->_impl_.header_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Ping::GetMetadata() const {
@@ -365,19 +307,8 @@ void Ping::InternalSwap(Ping* other) {
 
 class Pong::_Internal {
  public:
-  static const ::GaoProtobuf::MessageHeader& header(const Pong* msg);
 };
 
-const ::GaoProtobuf::MessageHeader&
-Pong::_Internal::header(const Pong* msg) {
-  return *msg->_impl_.header_;
-}
-void Pong::clear_header() {
-  if (GetArenaForAllocation() == nullptr && _impl_.header_ != nullptr) {
-    delete _impl_.header_;
-  }
-  _impl_.header_ = nullptr;
-}
 Pong::Pong(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -389,7 +320,6 @@ Pong::Pong(const Pong& from)
   Pong* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.message_){}
-    , decltype(_impl_.header_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -401,9 +331,6 @@ Pong::Pong(const Pong& from)
     _this->_impl_.message_.Set(from._internal_message(), 
       _this->GetArenaForAllocation());
   }
-  if (from._internal_has_header()) {
-    _this->_impl_.header_ = new ::GaoProtobuf::MessageHeader(*from._impl_.header_);
-  }
   // @@protoc_insertion_point(copy_constructor:GaoProtobuf.Pong)
 }
 
@@ -413,7 +340,6 @@ inline void Pong::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.message_){}
-    , decltype(_impl_.header_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.message_.InitDefault();
@@ -434,7 +360,6 @@ Pong::~Pong() {
 inline void Pong::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.message_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.header_;
 }
 
 void Pong::SetCachedSize(int size) const {
@@ -448,10 +373,6 @@ void Pong::Clear() {
   (void) cached_has_bits;
 
   _impl_.message_.ClearToEmpty();
-  if (GetArenaForAllocation() == nullptr && _impl_.header_ != nullptr) {
-    delete _impl_.header_;
-  }
-  _impl_.header_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -461,17 +382,9 @@ const char* Pong::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .GaoProtobuf.MessageHeader header = 1;
+      // string message = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_header(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // string message = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           auto str = _internal_mutable_message();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -508,21 +421,14 @@ uint8_t* Pong::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .GaoProtobuf.MessageHeader header = 1;
-  if (this->_internal_has_header()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(1, _Internal::header(this),
-        _Internal::header(this).GetCachedSize(), target, stream);
-  }
-
-  // string message = 2;
+  // string message = 1;
   if (!this->_internal_message().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_message().data(), static_cast<int>(this->_internal_message().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "GaoProtobuf.Pong.message");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_message(), target);
+        1, this->_internal_message(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -541,18 +447,11 @@ size_t Pong::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string message = 2;
+  // string message = 1;
   if (!this->_internal_message().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_message());
-  }
-
-  // .GaoProtobuf.MessageHeader header = 1;
-  if (this->_internal_has_header()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.header_);
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -575,10 +474,6 @@ void Pong::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_
 
   if (!from._internal_message().empty()) {
     _this->_internal_set_message(from._internal_message());
-  }
-  if (from._internal_has_header()) {
-    _this->_internal_mutable_header()->::GaoProtobuf::MessageHeader::MergeFrom(
-        from._internal_header());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -603,7 +498,6 @@ void Pong::InternalSwap(Pong* other) {
       &_impl_.message_, lhs_arena,
       &other->_impl_.message_, rhs_arena
   );
-  swap(_impl_.header_, other->_impl_.header_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Pong::GetMetadata() const {

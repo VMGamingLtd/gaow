@@ -1,3 +1,4 @@
+#include "./WsSocketContext.h"
 /*
 #include <iostream>
 
@@ -8,16 +9,17 @@ int main() {
 */
 
 /* We simply call the root header file "App.h", giving you uWS::App and uWS::SSLApp */
-#include "App.h"
+#include <App.h> // this is the file 'uWebSockets/src/App.h' 
 
 /* This is a simple WebSocket echo server example.
  * You may compile it with "WITH_OPENSSL=1 make" or with "make" */
 
 int main() {
     /* ws->getUserData returns one of these */
-    struct PerSocketData {
-        /* Fill with user data */
+    /*
+    struct SocketContextData {
     };
+    */
 
     /* Keep in mind that uWS::SSLApp({options}) is the same as uWS::App() when compiled without SSL support.
      * You may swap to using uWS:App() if you don't need SSL */
@@ -26,7 +28,7 @@ int main() {
         .key_file_name = "misc/key.pem",
         .cert_file_name = "misc/cert.pem",
         .passphrase = "1234"
-    }).ws<PerSocketData>("/*", {
+    }).ws<SocketContextData>("/*", {
         /* Settings */
         .compression = uWS::CompressOptions(uWS::DEDICATED_COMPRESSOR_4KB | uWS::DEDICATED_DECOMPRESSOR),
         .maxPayloadLength = 100 * 1024 * 1024,
@@ -43,6 +45,7 @@ int main() {
 
         },
         .message = [](auto *ws, std::string_view message, uWS::OpCode opCode) {
+            uWS::WebSocket<false, true, SocketContextData>* sock = ws;
             /* This is the opposite of what you probably want; compress if message is LARGER than 16 kb
              * the reason we do the opposite here; compress if SMALLER than 16 kb is to allow for 
              * benchmarking of large message sending without compression */
