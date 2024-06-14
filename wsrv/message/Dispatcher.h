@@ -16,10 +16,10 @@ namespace message
     };
 
     enum class WebSocketClassIds {
-        Ping = 1
+        PingPong = 1
     };
 
-    enum class WebSocketPingMethodIds {
+    enum class WebSocketPingPongMethodIds {
         Ping = 1,
         Pong = 2
     };
@@ -42,7 +42,7 @@ namespace message
 
         static void dispatchMessage_Namespace_Websocket(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message, int32_t namespaceId, int32_t classId, int32_t methodId);
 
-        static void dispatchMessage_Namespace_Websocket_Class_Ping(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message, int32_t namespaceId, int32_t classId, int32_t methodId);
+        static void dispatchMessage_Namespace_Websocket_Class_PingPong(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message, int32_t namespaceId, int32_t classId, int32_t methodId);
 
     };
 }

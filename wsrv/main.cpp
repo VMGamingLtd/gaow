@@ -1,4 +1,5 @@
 #include "./WsSocketContext.h"
+#include "./message/Dispatcher.h"
 /*
 #include <iostream>
 
@@ -50,9 +51,10 @@ int main() {
              * the reason we do the opposite here; compress if SMALLER than 16 kb is to allow for 
              * benchmarking of large message sending without compression */
 
-            std::cout << "Message received: " << message << std::endl; //@@@@@@@@@@@@@@@@@@
-            ws->send("pong", opCode, message.length() > 16 * 1024);
+            //std::cout << "Message received: " << message << std::endl; //@@@@@@@@@@@@@@@@@@
+            //ws->send("pong", opCode, message.length() > 16 * 1024);
             //ws->send(message, opCode, message.length() < 16 * 1024);
+            message::Dispatcher::handleMessage(ws, message, opCode);
         },
         .dropped = [](auto */*ws*/, std::string_view /*message*/, uWS::OpCode /*opCode*/) {
             /* A message was dropped due to set maxBackpressure and closeOnBackpressureLimit limit */

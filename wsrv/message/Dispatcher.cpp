@@ -124,8 +124,8 @@ namespace message
             // switch based on the classId
             switch (classId)
             {
-            case (int32_t)WebSocketClassIds::Ping:
-                Dispatcher::dispatchMessage_Namespace_Websocket_Class_Ping(ws, message, namespaceId, classId, methodId);
+            case (int32_t)WebSocketClassIds::PingPong:
+                Dispatcher::dispatchMessage_Namespace_Websocket_Class_PingPong(ws, message, namespaceId, classId, methodId);
             default:
                 std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket(): no such classId: " << classId;
             }
@@ -137,26 +137,26 @@ namespace message
 
     }
 
-    void Dispatcher::dispatchMessage_Namespace_Websocket_Class_Ping(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message, int32_t namespaceId, int32_t classId, int32_t methodId)
+    void Dispatcher::dispatchMessage_Namespace_Websocket_Class_PingPong(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message, int32_t namespaceId, int32_t classId, int32_t methodId)
     {
         try
         {
             // switch based on the methodId
             switch (methodId)
             {
-            case (int32_t)WebSocketPingMethodIds::Ping:
+            case (int32_t)WebSocketPingPongMethodIds::Ping:
                 parser::Ping::parse(message);
                 break;
-            case (int32_t)WebSocketPingMethodIds::Pong:
+            case (int32_t)WebSocketPingPongMethodIds::Pong:
                 parser::Pong::parse(message);
                 break;
             default:
-                std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket_Class_Ping(): no such methodId: " << methodId;
+                std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket_Class_PingPong(): no such methodId: " << methodId;
             }
         }
         catch (const std::exception& e)
         {
-            std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket_Class_Ping(): Exception: " << e.what() << std::endl;
+            std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket_Class_PingPong(): Exception: " << e.what() << std::endl;
         }
     }
 }
