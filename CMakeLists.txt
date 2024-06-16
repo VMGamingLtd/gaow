@@ -103,6 +103,12 @@ add_executable(wsrv
 # Create source groups to maintain directory structure in Visual Studio
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}")
 
+# Set the runtime library to /MTd for debug builds
+if (MSVC)
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /MTd")
+endif()
+
 if(WIN32)
   target_link_libraries(wsrv 
     uWebSocketsLib 
@@ -121,15 +127,10 @@ else()
   message(FATAL_ERROR "unsupported platform")
 endif()
 
+# Note: allways keep cpackages_install_path include before vcpkg_install_path include, 
+#       we want manualy compiled package overide vcpkg installed package provided same include can be found  in both locations, 
 target_include_directories(wsrv PRIVATE 
 	${uWebSocketsLib_includes}
-	${vcpkg_install_path}/include
 	${cpackages_install_path}/include
+	${vcpkg_install_path}/include
 )
-#if(WIN32)
-#	target_include_directories(wsrv PRIVATE ${vcpkg_install_path}/include)
-#endif()
-
-#project(app1)
-#
-#add_executable(app1 app1/main.cpp)
