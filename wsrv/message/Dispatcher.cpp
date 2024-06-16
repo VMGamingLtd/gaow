@@ -1,13 +1,41 @@
 #include "Dispatcher.h"
-#include "./parser/Ping.h"
+#include "./websocket/PingPong.h"
+
+#include <iomanip>
+#include <iostream>
 
 namespace message
 {
-
-    std::istringstream  Dispatcher::wsDataToInputStream(std::string_view data)
+    std::string Dispatcher::toHexString(const std::string_view data)
     {
-        std::istringstream iss(data.data(), data.length());
-        return iss;
+        std::ostringstream oss;
+        for (size_t i = 0; i < data.length(); i++)
+        {
+            oss << std::hex << std::setw(2) << std::setfill('0') << (int)data[i];
+        }
+        return oss.str();
+    }
+    std::string Dispatcher::toHexString(const std::istream& istream)
+    {
+        // clone the istream and it's data
+        std::istream istreamClone(istream.rdbuf());
+
+        std::ostringstream oss;
+        char c;
+        while (istreamClone.get(c))
+        {
+            oss << std::hex << std::setw(2) << std::setfill('0') << (int)c;
+        }
+        return oss.str();
+    }
+    std::string Dispatcher::toHexString(const std::vector<char>& istream)
+    {
+        std::ostringstream oss;
+        for (size_t i = 0; i < istream.size(); i++)
+        {
+            oss << std::hex << std::setw(2) << std::setfill('0') << (int)istream[i];
+        }
+        return oss.str();
     }
 
     uint32_t Dispatcher::toNetworkByteOrder(uint32_t value)
@@ -29,6 +57,13 @@ namespace message
             ((value & 0xFF000000) >> 24);
     }
 
+    std::vector<char> Dispatcher::readBytesOrException(std::istream& istream, uint32_t size)
+    {
+        std::vector<char> v(size);
+        istream.read(v.data(), size);
+        return v;
+    }
+
     void Dispatcher::serializeMessageaObjectSize(std::ostream& ostream, uint32_t size)
     {
         uint32_t networkByteOrderSize = toNetworkByteOrder(size);
@@ -37,8 +72,16 @@ namespace message
 
     uint32_t Dispatcher::parseMessageaObjectSize(std::istream& istream)
     {
+        { //@@@@@@@@@@@@@@@@@@@@@@@@@
+            // print the hex content of the istream
+            //std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 300: istream content: " << toHexString(istream) << std::endl;
+        } // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         uint32_t networkByteOrderSize;
         istream.read(reinterpret_cast<char*>(&networkByteOrderSize), sizeof(networkByteOrderSize));
+        if (istream.fail())
+        {
+            throw std::runtime_error("Dispatcher::parseMessageaObjectSize(): Failed to read message object size");
+        }
         return fromNetworkByteOrder(networkByteOrderSize);
     }
     void Dispatcher::serializeMessageHeader(std::ostream& ostream, const GaoProtobuf::MessageHeader& messageHeader)
@@ -75,7 +118,7 @@ namespace message
     {
         if (opCode == uWS::OpCode::BINARY)
         {
-            std::istringstream iss = wsDataToInputStream(message);
+            std::istringstream iss(std::string{message});
             Dispatcher::dispatchMessage(ws, iss);
         }
         else
@@ -95,6 +138,10 @@ namespace message
             int32_t namespaceId = messageHeader.namespaceid();
             int32_t classId = messageHeader.classid();
             int32_t methodId = messageHeader.methodid();
+
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            std::cout << "Dispatcher::dispatchMessage(): namespaceId: " << namespaceId << ", classId: " << classId << ", methodId: " << methodId << std::endl;
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             // switch based on the namespaceId
             switch (namespaceId)
@@ -126,6 +173,7 @@ namespace message
             {
             case (int32_t)WebSocketClassIds::PingPong:
                 Dispatcher::dispatchMessage_Namespace_Websocket_Class_PingPong(ws, message, namespaceId, classId, methodId);
+                break;
             default:
                 std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket(): no such classId: " << classId;
             }
@@ -145,10 +193,10 @@ namespace message
             switch (methodId)
             {
             case (int32_t)WebSocketPingPongMethodIds::Ping:
-                parser::Ping::parse(message);
+                message::websocket::PingPong::onPing(ws, message);
                 break;
             case (int32_t)WebSocketPingPongMethodIds::Pong:
-                parser::Pong::parse(message);
+                message::websocket::PingPong::onPong(ws, message);
                 break;
             default:
                 std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket_Class_PingPong(): no such methodId: " << methodId;

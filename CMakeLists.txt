@@ -3,6 +3,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(vcpkg_install_path /w1/vcpkg/installed/x64-windows)
+set(cpackages_install_path /w1/cpackages)
 
 add_library(libuv STATIC IMPORTED)
 if(WIN32)
@@ -43,10 +44,10 @@ endif()
 add_library(libprotobuf STATIC IMPORTED)
 if(WIN32)
   set_target_properties(libprotobuf PROPERTIES
-    IMPORTED_LOCATION ${vcpkg_install_path}/lib/libprotobuf.lib 
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotobufd.lib 
   )
   target_include_directories(libprotobuf 
-    INTERFACE ${vcpkg_install_path}/include
+    INTERFACE ${cpackages_install_path}/include
   )
 elseif(UNIX)
 else()
@@ -56,10 +57,10 @@ endif()
 add_library(libprotoc STATIC IMPORTED)
 if(WIN32)
   set_target_properties(libprotoc PROPERTIES
-    IMPORTED_LOCATION ${vcpkg_install_path}/lib/libprotoc.lib 
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotocd.lib 
   )
   target_include_directories(libprotoc 
-    INTERFACE ${vcpkg_install_path}/include
+    INTERFACE ${cpackages_install_path}/include
   )
 elseif(UNIX)
 else()
@@ -94,8 +95,6 @@ add_executable(wsrv
   wsrv/WsSocketContext.h
   wsrv/message/Dispatcher.cpp
   wsrv/message/Dispatcher.h
-  wsrv/message/parser/Ping.cpp
-  wsrv/message/parser/Ping.h
   wsrv/message/websocket/PingPong.cpp
   wsrv/message/websocket/PingPong.h
   ${protobuf_source_files}
@@ -103,23 +102,6 @@ add_executable(wsrv
 
 # Create source groups to maintain directory structure in Visual Studio
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}")
-
-#source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/wsrv" PREFIX "wsrv" FILES
-#  wsrv/main.cpp
-#)
-#source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/wsrv/messages" PREFIX "wsrv/messages" FILES
-#  wsrv/messages/Dispatcher.cpp
-#)
-#source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/wsrv/messages/websocket" PREFIX "wsrv/messages/websocket" FILES
-#  wsrv/messages/websocket/PingPong.cpp
-#)
-## protobuf directories
-#foreach(file IN LISTS protobuf_source_files)
-#  get_filename_component(dir ${file} DIRECTORY)
-#  file(RELATIVE_PATH dir ${CMAKE_CURRENT_SOURCE_DIR} ${dir})
-#  # Create groups based on directory structure for protobuf files
-#  source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" PREFIX "${dir}" FILES "${file}")
-#endforeach()
 
 if(WIN32)
   target_link_libraries(wsrv 
@@ -142,6 +124,7 @@ endif()
 target_include_directories(wsrv PRIVATE 
 	${uWebSocketsLib_includes}
 	${vcpkg_install_path}/include
+	${cpackages_install_path}/include
 )
 #if(WIN32)
 #	target_include_directories(wsrv PRIVATE ${vcpkg_install_path}/include)
