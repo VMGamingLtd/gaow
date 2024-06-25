@@ -177,7 +177,6 @@ class MessageHeader final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMsgFieldNumber = 8,
     kFromIdFieldNumber = 1,
     kToIdFieldNumber = 2,
     kGroupIdFieldNumber = 3,
@@ -186,20 +185,6 @@ class MessageHeader final :
     kClassIdFieldNumber = 6,
     kMethodIdFieldNumber = 7,
   };
-  // string msg = 8;
-  void clear_msg();
-  const std::string& msg() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_msg(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_msg();
-  PROTOBUF_NODISCARD std::string* release_msg();
-  void set_allocated_msg(std::string* msg);
-  private:
-  const std::string& _internal_msg() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_msg(const std::string& value);
-  std::string* _internal_mutable_msg();
-  public:
-
   // int64 fromId = 1;
   void clear_fromid();
   int64_t fromid() const;
@@ -271,7 +256,6 @@ class MessageHeader final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr msg_;
     int64_t fromid_;
     int64_t toid_;
     int64_t groupid_;
@@ -433,56 +417,6 @@ inline void MessageHeader::_internal_set_methodid(int32_t value) {
 inline void MessageHeader::set_methodid(int32_t value) {
   _internal_set_methodid(value);
   // @@protoc_insertion_point(field_set:GaoProtobuf.MessageHeader.methodId)
-}
-
-// string msg = 8;
-inline void MessageHeader::clear_msg() {
-  _impl_.msg_.ClearToEmpty();
-}
-inline const std::string& MessageHeader::msg() const {
-  // @@protoc_insertion_point(field_get:GaoProtobuf.MessageHeader.msg)
-  return _internal_msg();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void MessageHeader::set_msg(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.msg_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:GaoProtobuf.MessageHeader.msg)
-}
-inline std::string* MessageHeader::mutable_msg() {
-  std::string* _s = _internal_mutable_msg();
-  // @@protoc_insertion_point(field_mutable:GaoProtobuf.MessageHeader.msg)
-  return _s;
-}
-inline const std::string& MessageHeader::_internal_msg() const {
-  return _impl_.msg_.Get();
-}
-inline void MessageHeader::_internal_set_msg(const std::string& value) {
-  
-  _impl_.msg_.Set(value, GetArenaForAllocation());
-}
-inline std::string* MessageHeader::_internal_mutable_msg() {
-  
-  return _impl_.msg_.Mutable(GetArenaForAllocation());
-}
-inline std::string* MessageHeader::release_msg() {
-  // @@protoc_insertion_point(field_release:GaoProtobuf.MessageHeader.msg)
-  return _impl_.msg_.Release();
-}
-inline void MessageHeader::set_allocated_msg(std::string* msg) {
-  if (msg != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.msg_.SetAllocated(msg, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.msg_.IsDefault()) {
-    _impl_.msg_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:GaoProtobuf.MessageHeader.msg)
 }
 
 #ifdef __GNUC__

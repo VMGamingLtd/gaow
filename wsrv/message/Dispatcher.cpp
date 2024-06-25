@@ -1,5 +1,6 @@
 #include "Dispatcher.h"
 #include "./websocket/PingPong.h"
+#include "./websocket/Authenticate.h"
 
 #include <iomanip>
 #include <iostream>
@@ -149,6 +150,9 @@ namespace message
             case (int32_t)NamespaceIds::WebSocket:
                 Dispatcher::dispatchMessage_Namespace_Websocket(ws, message, namespaceId, classId, methodId);
                 break;
+            case (int32_t)NamespaceIds::UnityBrowserChannel:
+                Dispatcher::dispatchMessage_Namespace_UnityBrowserChannel(ws, messageHeader, message);
+                break;
             default:
                 std::cerr << "Dispatcher::dispatchMessage(): no such namespaceId: " << namespaceId;
             }
@@ -173,6 +177,9 @@ namespace message
             {
             case (int32_t)WebSocketClassIds::PingPong:
                 Dispatcher::dispatchMessage_Namespace_Websocket_Class_PingPong(ws, message, namespaceId, classId, methodId);
+                break;
+            case (int32_t)WebSocketClassIds::Authenticate:
+                Dispatcher::dispatchMessage_Namespace_Websocket_Class_Authenticate(ws, message, namespaceId, classId, methodId);
                 break;
             default:
                 std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket(): no such classId: " << classId;
@@ -205,6 +212,26 @@ namespace message
         catch (const std::exception& e)
         {
             std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket_Class_PingPong(): Exception: " << e.what() << std::endl;
+        }
+    }
+
+    void Dispatcher::dispatchMessage_Namespace_Websocket_Class_Authenticate(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message, int32_t namespaceId, int32_t classId, int32_t methodId)
+    {
+        try
+        {
+            // switch based on the methodId
+            switch (methodId)
+            {
+            case (int32_t)WebSocketAuthenticateMethodIds::AuthenticateRequest:
+                message::websocket::Authenticate::onAuthenticateRequest(ws, message);
+                break;
+            default:
+                std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket_Class_Authenticate(): no such methodId: " << methodId;
+            }
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket_Class_Authenticate(): Exception: " << e.what() << std::endl;
         }
     }
 }

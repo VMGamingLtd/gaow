@@ -91,12 +91,18 @@ file(GLOB protobuf_source_files "${CMAKE_SOURCE_DIR}/wsrv/protobuf/*.pb.cc"  "${
 
 add_executable(wsrv 
   wsrv/main.cpp
+  wsrv/WsConnection.cpp
+  wsrv/WsConnection.h
   wsrv/WsSocketContext.cpp
   wsrv/WsSocketContext.h
   wsrv/message/Dispatcher.cpp
   wsrv/message/Dispatcher.h
   wsrv/message/websocket/PingPong.cpp
   wsrv/message/websocket/PingPong.h
+  wsrv/message/websocket/Authenticate.cpp
+  wsrv/message/websocket/Authenticate.h
+  wsrv/message/unity_browser_channel/UnityBrowserChannel.cpp
+  wsrv/message/unity_browser_channel/UnityBrowserChannel.h
   ${protobuf_source_files}
 )
 

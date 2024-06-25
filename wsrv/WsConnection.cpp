@@ -1,0 +1,108 @@
+#include "WsConnection.h";
+#include <fstream>;
+#include <iostream>;
+
+#include <jwt-cpp/jwt.h>;
+
+bool WsConnection::gaoCertLoaded = false;
+
+WsConnection::WsConnection(uWS::WebSocket<false, true, SocketContextData>* ws)
+{
+	this->ws = ws;
+	this->authenticated = false;
+}
+
+void WsConnection::addConnection(uWS::WebSocket<false, true, SocketContextData>* ws)
+{
+	WsConnection *connection = new WsConnection(ws);
+	WsConnection::connections[connection->ws] = connection;
+}
+
+void WsConnection::removeConnection(const uWS::WebSocket<false, true, SocketContextData>* ws)
+{
+	WsConnection *connection = WsConnection::findConnection(ws);
+	if (connection != nullptr)
+	{
+		WsConnection::connections.erase(ws);
+		delete connection;
+	}
+}
+
+void WsConnection::loadGaoCert() {
+	try
+	{
+
+		std::ifstream certFile("certs/gao/cert.crt");
+		WsConnection::gaoCert = std::string((std::istreambuf_iterator<char>(certFile)), std::istreambuf_iterator<char>());
+		WsConnection::gaoCertLoaded = true;
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "WsConnection::loadGaoCert(): Error loading GAO certificate: " << e.what();
+		throw std::runtime_error("Error loading GAO certificate");
+	}
+}
+
+WsConnectionAuthenticateResult WsConnection::authenticate(std::string jwt) {
+
+	if (!WsConnection::gaoCertLoaded) {
+		loadGaoCert();
+	}
+
+	try
+	{
+		std::string token = jwt;
+		std::string rsa_pub_key = WsConnection::gaoCert;
+		auto verify = jwt::verify()
+			// We only need an RSA public key to verify tokens
+			.allow_algorithm(jwt::algorithm::rs256(rsa_pub_key, "", "", ""))
+			// We expect token to come from a known authorization server
+			.with_issuer("auth0");
+
+		auto decoded = jwt::decode(token);
+
+		verify.verify(decoded);
+
+		for (auto& e : decoded.get_header_json())
+			std::cout << e.first << " = " << e.second << std::endl;
+		for (auto& e : decoded.get_payload_json())
+			std::cout << e.first << " = " << e.second << std::endl;
+
+		this->authenticated = true;
+		return WsConnectionAuthenticateResult{ true, false, false };
+	}
+	catch (const jwt::error::token_verification_exception& e)
+	{
+		this->authenticated = false;
+		std::cout << "WsConnection::authenticate(): warning: unauthorized" << e.what();
+		return WsConnectionAuthenticateResult{ false, true, false };
+	}
+	catch (const std::exception& e)
+	{
+		this->authenticated = false;
+		std::cout << "WsConnection::authenticate(): error: " << e.what();
+		return WsConnectionAuthenticateResult{ false, false, true };
+	}
+}
+
+WsConnection* WsConnection::findConnection(const uWS::WebSocket<false, true, SocketContextData>* ws)
+{
+	if (WsConnection::connections.find(ws) != WsConnection::connections.end())
+	{
+		return WsConnection::connections[ws];
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
+bool WsConnection::isAuthenticated()
+{
+	return this->authenticated;
+}
+
+int WsConnection::getDeviceId()
+{
+	return this->deviceId;
+}

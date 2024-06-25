@@ -1,5 +1,6 @@
 #include "./PingPong.h"
 #include "../Dispatcher.h"
+#include "../../protobuf/Ping.pb.h"
 
 
 namespace message
@@ -13,9 +14,6 @@ namespace message
 				uint32_t messageSize = message::Dispatcher::parseMessageaObjectSize(message);
 				std::vector<char> messageBytes = message::Dispatcher::readBytesOrException(message, messageSize);
 				GaoProtobuf::Ping ping;
-				// @@@@@@@@@@@@@@@@@@@@@@@
-				std::cout << "@@@@@@@@@@@@@@@ PingPong::onPing(): messageBytes: " << Dispatcher::toHexString(messageBytes) << std::endl;
-				// @@@@@@@@@@@@@@@@@@@@@@@
 				ping.ParseFromArray(messageBytes.data(), messageSize);
 
 				std::cout << "PingPong::onPing(): received ping: " << ping.message() << std::endl;

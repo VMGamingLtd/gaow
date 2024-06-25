@@ -23,8 +23,7 @@ namespace _pbi = _pb::internal;
 namespace GaoProtobuf {
 PROTOBUF_CONSTEXPR MessageHeader::MessageHeader(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.msg_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.fromid_)*/int64_t{0}
+    /*decltype(_impl_.fromid_)*/int64_t{0}
   , /*decltype(_impl_.toid_)*/int64_t{0}
   , /*decltype(_impl_.groupid_)*/int64_t{0}
   , /*decltype(_impl_.typeid__)*/0
@@ -60,7 +59,6 @@ const uint32_t TableStruct_MessageHeader_2eproto::offsets[] PROTOBUF_SECTION_VAR
   PROTOBUF_FIELD_OFFSET(::GaoProtobuf::MessageHeader, _impl_.namespaceid_),
   PROTOBUF_FIELD_OFFSET(::GaoProtobuf::MessageHeader, _impl_.classid_),
   PROTOBUF_FIELD_OFFSET(::GaoProtobuf::MessageHeader, _impl_.methodid_),
-  PROTOBUF_FIELD_OFFSET(::GaoProtobuf::MessageHeader, _impl_.msg_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::GaoProtobuf::MessageHeader)},
@@ -71,16 +69,15 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_MessageHeader_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\023MessageHeader.proto\022\013GaoProtobuf\"\223\001\n\rM"
+  "\n\023MessageHeader.proto\022\013GaoProtobuf\"\206\001\n\rM"
   "essageHeader\022\016\n\006fromId\030\001 \001(\003\022\014\n\004toId\030\002 \001"
   "(\003\022\017\n\007groupId\030\003 \001(\003\022\016\n\006typeId\030\004 \001(\005\022\023\n\013n"
   "amespaceId\030\005 \001(\005\022\017\n\007classId\030\006 \001(\005\022\020\n\010met"
-  "hodId\030\007 \001(\005\022\013\n\003msg\030\010 \001(\tB\016\252\002\013GaoProtobuf"
-  "b\006proto3"
+  "hodId\030\007 \001(\005B\016\252\002\013GaoProtobufb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_MessageHeader_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_MessageHeader_2eproto = {
-    false, false, 208, descriptor_table_protodef_MessageHeader_2eproto,
+    false, false, 195, descriptor_table_protodef_MessageHeader_2eproto,
     "MessageHeader.proto",
     &descriptor_table_MessageHeader_2eproto_once, nullptr, 0, 1,
     schemas, file_default_instances, TableStruct_MessageHeader_2eproto::offsets,
@@ -111,8 +108,7 @@ MessageHeader::MessageHeader(const MessageHeader& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   MessageHeader* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.msg_){}
-    , decltype(_impl_.fromid_){}
+      decltype(_impl_.fromid_){}
     , decltype(_impl_.toid_){}
     , decltype(_impl_.groupid_){}
     , decltype(_impl_.typeid__){}
@@ -122,14 +118,6 @@ MessageHeader::MessageHeader(const MessageHeader& from)
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.msg_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.msg_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_msg().empty()) {
-    _this->_impl_.msg_.Set(from._internal_msg(), 
-      _this->GetArenaForAllocation());
-  }
   ::memcpy(&_impl_.fromid_, &from._impl_.fromid_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.methodid_) -
     reinterpret_cast<char*>(&_impl_.fromid_)) + sizeof(_impl_.methodid_));
@@ -141,8 +129,7 @@ inline void MessageHeader::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.msg_){}
-    , decltype(_impl_.fromid_){int64_t{0}}
+      decltype(_impl_.fromid_){int64_t{0}}
     , decltype(_impl_.toid_){int64_t{0}}
     , decltype(_impl_.groupid_){int64_t{0}}
     , decltype(_impl_.typeid__){0}
@@ -151,10 +138,6 @@ inline void MessageHeader::SharedCtor(
     , decltype(_impl_.methodid_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
-  _impl_.msg_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.msg_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 MessageHeader::~MessageHeader() {
@@ -168,7 +151,6 @@ MessageHeader::~MessageHeader() {
 
 inline void MessageHeader::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.msg_.Destroy();
 }
 
 void MessageHeader::SetCachedSize(int size) const {
@@ -181,7 +163,6 @@ void MessageHeader::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.msg_.ClearToEmpty();
   ::memset(&_impl_.fromid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.methodid_) -
       reinterpret_cast<char*>(&_impl_.fromid_)) + sizeof(_impl_.methodid_));
@@ -247,16 +228,6 @@ const char* MessageHeader::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
           _impl_.methodid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // string msg = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
-          auto str = _internal_mutable_msg();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "GaoProtobuf.MessageHeader.msg"));
         } else
           goto handle_unusual;
         continue;
@@ -331,16 +302,6 @@ uint8_t* MessageHeader::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_methodid(), target);
   }
 
-  // string msg = 8;
-  if (!this->_internal_msg().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_msg().data(), static_cast<int>(this->_internal_msg().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "GaoProtobuf.MessageHeader.msg");
-    target = stream->WriteStringMaybeAliased(
-        8, this->_internal_msg(), target);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -356,13 +317,6 @@ size_t MessageHeader::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // string msg = 8;
-  if (!this->_internal_msg().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_msg());
-  }
 
   // int64 fromId = 1;
   if (this->_internal_fromid() != 0) {
@@ -417,9 +371,6 @@ void MessageHeader::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_msg().empty()) {
-    _this->_internal_set_msg(from._internal_msg());
-  }
   if (from._internal_fromid() != 0) {
     _this->_internal_set_fromid(from._internal_fromid());
   }
@@ -457,13 +408,7 @@ bool MessageHeader::IsInitialized() const {
 
 void MessageHeader::InternalSwap(MessageHeader* other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.msg_, lhs_arena,
-      &other->_impl_.msg_, rhs_arena
-  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(MessageHeader, _impl_.methodid_)
       + sizeof(MessageHeader::_impl_.methodid_)
