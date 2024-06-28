@@ -1,6 +1,7 @@
 #include "Dispatcher.h"
 #include "./websocket/PingPong.h"
 #include "./websocket/Authenticate.h"
+#include "./unity_browser_channel/UnityBrowserChannel.h"
 
 #include <iomanip>
 #include <iostream>
@@ -234,4 +235,10 @@ namespace message
             std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket_Class_Authenticate(): Exception: " << e.what() << std::endl;
         }
     }
+
+    void Dispatcher::dispatchMessage_Namespace_UnityBrowserChannel(uWS::WebSocket<false, true, SocketContextData>* ws, const GaoProtobuf::MessageHeader& messageHeader, std::istream& message)
+    {
+        message::unity_browser_channel::UnityBrowserChannel::relayMessage(ws, messageHeader, message);
+    }
+
 }

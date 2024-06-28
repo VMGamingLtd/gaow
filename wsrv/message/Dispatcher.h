@@ -60,5 +60,7 @@ namespace message
         // Websocket.Authenticate
         static void dispatchMessage_Namespace_Websocket_Class_Authenticate(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message, int32_t namespaceId, int32_t classId, int32_t methodId);
 
+        static void dispatchMessage_Namespace_UnityBrowserChannel(uWS::WebSocket<false, true, SocketContextData>* ws, const GaoProtobuf::MessageHeader& messageHeader,  std::istream& message);
+
     };
 }
