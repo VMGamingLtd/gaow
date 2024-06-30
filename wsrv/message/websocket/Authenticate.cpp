@@ -24,6 +24,7 @@ namespace message
 					std::cout << "Authenticate::onAuthenticateRequest(): Connection not found" << std::endl;
 					GaoProtobuf::AuthenticateResponse response;
 					response.set_result(GaoProtobuf::AuthenticationResult::error);
+					Authenticate::sendAuthenticateResponse(ws, response);
 					return;
 				}
 
@@ -43,6 +44,7 @@ namespace message
 				{
 					response.set_result(GaoProtobuf::AuthenticationResult::error);
 				}
+				Authenticate::sendAuthenticateResponse(ws, response);
 
 
 			}
@@ -71,6 +73,8 @@ namespace message
 				Dispatcher::serializeMessageHeader(ostream, messageHeader);
 
 				// serialize the message
+				uint32_t size = response.ByteSizeLong();
+				message::Dispatcher::serializeMessageaObjectSize(ostream, size);
 				response.SerializeToOstream(&ostream);
 
 				// send the message

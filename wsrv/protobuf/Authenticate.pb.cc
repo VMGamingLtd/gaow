@@ -24,6 +24,7 @@ namespace GaoProtobuf {
 PROTOBUF_CONSTEXPR AuthenticateRequest::AuthenticateRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.requestid_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct AuthenticateRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR AuthenticateRequestDefaultTypeInternal()
@@ -36,7 +37,8 @@ struct AuthenticateRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AuthenticateRequestDefaultTypeInternal _AuthenticateRequest_default_instance_;
 PROTOBUF_CONSTEXPR AuthenticateResponse::AuthenticateResponse(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.result_)*/0
+    /*decltype(_impl_.requestid_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.result_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct AuthenticateResponseDefaultTypeInternal {
   PROTOBUF_CONSTEXPR AuthenticateResponseDefaultTypeInternal()
@@ -60,6 +62,7 @@ const uint32_t TableStruct_Authenticate_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::GaoProtobuf::AuthenticateRequest, _impl_.token_),
+  PROTOBUF_FIELD_OFFSET(::GaoProtobuf::AuthenticateRequest, _impl_.requestid_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::GaoProtobuf::AuthenticateResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -67,10 +70,11 @@ const uint32_t TableStruct_Authenticate_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::GaoProtobuf::AuthenticateResponse, _impl_.result_),
+  PROTOBUF_FIELD_OFFSET(::GaoProtobuf::AuthenticateResponse, _impl_.requestid_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::GaoProtobuf::AuthenticateRequest)},
-  { 7, -1, -1, sizeof(::GaoProtobuf::AuthenticateResponse)},
+  { 8, -1, -1, sizeof(::GaoProtobuf::AuthenticateResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -79,16 +83,17 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_Authenticate_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\022Authenticate.proto\022\013GaoProtobuf\"$\n\023Aut"
-  "henticateRequest\022\r\n\005token\030\001 \001(\t\"I\n\024Authe"
-  "nticateResponse\0221\n\006result\030\001 \001(\0162!.GaoPro"
-  "tobuf.AuthenticationResult*@\n\024Authentica"
-  "tionResult\022\013\n\007success\020\000\022\020\n\014unauthorized\020"
-  "\001\022\t\n\005error\020\002B\016\252\002\013GaoProtobufb\006proto3"
+  "\n\022Authenticate.proto\022\013GaoProtobuf\"7\n\023Aut"
+  "henticateRequest\022\r\n\005token\030\001 \001(\t\022\021\n\treque"
+  "stId\030\002 \001(\t\"\\\n\024AuthenticateResponse\0221\n\006re"
+  "sult\030\001 \001(\0162!.GaoProtobuf.AuthenticationR"
+  "esult\022\021\n\trequestId\030\002 \001(\t*@\n\024Authenticati"
+  "onResult\022\013\n\007success\020\000\022\020\n\014unauthorized\020\001\022"
+  "\t\n\005error\020\002B\016\252\002\013GaoProtobufb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_Authenticate_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Authenticate_2eproto = {
-    false, false, 236, descriptor_table_protodef_Authenticate_2eproto,
+    false, false, 274, descriptor_table_protodef_Authenticate_2eproto,
     "Authenticate.proto",
     &descriptor_table_Authenticate_2eproto_once, nullptr, 0, 2,
     schemas, file_default_instances, TableStruct_Authenticate_2eproto::offsets,
@@ -135,6 +140,7 @@ AuthenticateRequest::AuthenticateRequest(const AuthenticateRequest& from)
   AuthenticateRequest* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.token_){}
+    , decltype(_impl_.requestid_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -146,6 +152,14 @@ AuthenticateRequest::AuthenticateRequest(const AuthenticateRequest& from)
     _this->_impl_.token_.Set(from._internal_token(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.requestid_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.requestid_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_requestid().empty()) {
+    _this->_impl_.requestid_.Set(from._internal_requestid(), 
+      _this->GetArenaForAllocation());
+  }
   // @@protoc_insertion_point(copy_constructor:GaoProtobuf.AuthenticateRequest)
 }
 
@@ -155,11 +169,16 @@ inline void AuthenticateRequest::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.token_){}
+    , decltype(_impl_.requestid_){}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.token_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.requestid_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.requestid_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -175,6 +194,7 @@ AuthenticateRequest::~AuthenticateRequest() {
 inline void AuthenticateRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.token_.Destroy();
+  _impl_.requestid_.Destroy();
 }
 
 void AuthenticateRequest::SetCachedSize(int size) const {
@@ -188,6 +208,7 @@ void AuthenticateRequest::Clear() {
   (void) cached_has_bits;
 
   _impl_.token_.ClearToEmpty();
+  _impl_.requestid_.ClearToEmpty();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -204,6 +225,16 @@ const char* AuthenticateRequest::_InternalParse(const char* ptr, ::_pbi::ParseCo
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "GaoProtobuf.AuthenticateRequest.token"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string requestId = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_requestid();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "GaoProtobuf.AuthenticateRequest.requestId"));
         } else
           goto handle_unusual;
         continue;
@@ -246,6 +277,16 @@ uint8_t* AuthenticateRequest::_InternalSerialize(
         1, this->_internal_token(), target);
   }
 
+  // string requestId = 2;
+  if (!this->_internal_requestid().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_requestid().data(), static_cast<int>(this->_internal_requestid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "GaoProtobuf.AuthenticateRequest.requestId");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_requestid(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -269,6 +310,13 @@ size_t AuthenticateRequest::ByteSizeLong() const {
         this->_internal_token());
   }
 
+  // string requestId = 2;
+  if (!this->_internal_requestid().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_requestid());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -289,6 +337,9 @@ void AuthenticateRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
 
   if (!from._internal_token().empty()) {
     _this->_internal_set_token(from._internal_token());
+  }
+  if (!from._internal_requestid().empty()) {
+    _this->_internal_set_requestid(from._internal_requestid());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -312,6 +363,10 @@ void AuthenticateRequest::InternalSwap(AuthenticateRequest* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.token_, lhs_arena,
       &other->_impl_.token_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.requestid_, lhs_arena,
+      &other->_impl_.requestid_, rhs_arena
   );
 }
 
@@ -337,10 +392,19 @@ AuthenticateResponse::AuthenticateResponse(const AuthenticateResponse& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   AuthenticateResponse* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.result_){}
+      decltype(_impl_.requestid_){}
+    , decltype(_impl_.result_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.requestid_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.requestid_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_requestid().empty()) {
+    _this->_impl_.requestid_.Set(from._internal_requestid(), 
+      _this->GetArenaForAllocation());
+  }
   _this->_impl_.result_ = from._impl_.result_;
   // @@protoc_insertion_point(copy_constructor:GaoProtobuf.AuthenticateResponse)
 }
@@ -350,9 +414,14 @@ inline void AuthenticateResponse::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.result_){0}
+      decltype(_impl_.requestid_){}
+    , decltype(_impl_.result_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.requestid_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.requestid_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 AuthenticateResponse::~AuthenticateResponse() {
@@ -366,6 +435,7 @@ AuthenticateResponse::~AuthenticateResponse() {
 
 inline void AuthenticateResponse::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.requestid_.Destroy();
 }
 
 void AuthenticateResponse::SetCachedSize(int size) const {
@@ -378,6 +448,7 @@ void AuthenticateResponse::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.requestid_.ClearToEmpty();
   _impl_.result_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -394,6 +465,16 @@ const char* AuthenticateResponse::_InternalParse(const char* ptr, ::_pbi::ParseC
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_result(static_cast<::GaoProtobuf::AuthenticationResult>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // string requestId = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_requestid();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "GaoProtobuf.AuthenticateResponse.requestId"));
         } else
           goto handle_unusual;
         continue;
@@ -433,6 +514,16 @@ uint8_t* AuthenticateResponse::_InternalSerialize(
       1, this->_internal_result(), target);
   }
 
+  // string requestId = 2;
+  if (!this->_internal_requestid().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_requestid().data(), static_cast<int>(this->_internal_requestid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "GaoProtobuf.AuthenticateResponse.requestId");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_requestid(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -448,6 +539,13 @@ size_t AuthenticateResponse::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // string requestId = 2;
+  if (!this->_internal_requestid().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_requestid());
+  }
 
   // .GaoProtobuf.AuthenticationResult result = 1;
   if (this->_internal_result() != 0) {
@@ -473,6 +571,9 @@ void AuthenticateResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_requestid().empty()) {
+    _this->_internal_set_requestid(from._internal_requestid());
+  }
   if (from._internal_result() != 0) {
     _this->_internal_set_result(from._internal_result());
   }
@@ -492,7 +593,13 @@ bool AuthenticateResponse::IsInitialized() const {
 
 void AuthenticateResponse::InternalSwap(AuthenticateResponse* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.requestid_, lhs_arena,
+      &other->_impl_.requestid_, rhs_arena
+  );
   swap(_impl_.result_, other->_impl_.result_);
 }
 

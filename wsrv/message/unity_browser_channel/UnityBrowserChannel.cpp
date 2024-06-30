@@ -1,5 +1,6 @@
 #include "./UnityBrowserChannel.h"
 #include "../../WsConnection.h"
+#include "../Dispatcher.h"
 
 namespace message
 {
@@ -37,6 +38,7 @@ namespace message
 					// serailize the message header
 					std::stringstream ostream;
 					messageHeader.SerializeToOstream(&ostream);
+					message:
 
 					// serialize the message
 					ostream << message.rdbuf();

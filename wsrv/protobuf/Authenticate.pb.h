@@ -209,6 +209,7 @@ class AuthenticateRequest final :
 
   enum : int {
     kTokenFieldNumber = 1,
+    kRequestIdFieldNumber = 2,
   };
   // string token = 1;
   void clear_token();
@@ -224,6 +225,20 @@ class AuthenticateRequest final :
   std::string* _internal_mutable_token();
   public:
 
+  // string requestId = 2;
+  void clear_requestid();
+  const std::string& requestid() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_requestid(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_requestid();
+  PROTOBUF_NODISCARD std::string* release_requestid();
+  void set_allocated_requestid(std::string* requestid);
+  private:
+  const std::string& _internal_requestid() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_requestid(const std::string& value);
+  std::string* _internal_mutable_requestid();
+  public:
+
   // @@protoc_insertion_point(class_scope:GaoProtobuf.AuthenticateRequest)
  private:
   class _Internal;
@@ -233,6 +248,7 @@ class AuthenticateRequest final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr requestid_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -361,8 +377,23 @@ class AuthenticateResponse final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kRequestIdFieldNumber = 2,
     kResultFieldNumber = 1,
   };
+  // string requestId = 2;
+  void clear_requestid();
+  const std::string& requestid() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_requestid(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_requestid();
+  PROTOBUF_NODISCARD std::string* release_requestid();
+  void set_allocated_requestid(std::string* requestid);
+  private:
+  const std::string& _internal_requestid() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_requestid(const std::string& value);
+  std::string* _internal_mutable_requestid();
+  public:
+
   // .GaoProtobuf.AuthenticationResult result = 1;
   void clear_result();
   ::GaoProtobuf::AuthenticationResult result() const;
@@ -380,6 +411,7 @@ class AuthenticateResponse final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr requestid_;
     int result_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -447,6 +479,56 @@ inline void AuthenticateRequest::set_allocated_token(std::string* token) {
   // @@protoc_insertion_point(field_set_allocated:GaoProtobuf.AuthenticateRequest.token)
 }
 
+// string requestId = 2;
+inline void AuthenticateRequest::clear_requestid() {
+  _impl_.requestid_.ClearToEmpty();
+}
+inline const std::string& AuthenticateRequest::requestid() const {
+  // @@protoc_insertion_point(field_get:GaoProtobuf.AuthenticateRequest.requestId)
+  return _internal_requestid();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AuthenticateRequest::set_requestid(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.requestid_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:GaoProtobuf.AuthenticateRequest.requestId)
+}
+inline std::string* AuthenticateRequest::mutable_requestid() {
+  std::string* _s = _internal_mutable_requestid();
+  // @@protoc_insertion_point(field_mutable:GaoProtobuf.AuthenticateRequest.requestId)
+  return _s;
+}
+inline const std::string& AuthenticateRequest::_internal_requestid() const {
+  return _impl_.requestid_.Get();
+}
+inline void AuthenticateRequest::_internal_set_requestid(const std::string& value) {
+  
+  _impl_.requestid_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AuthenticateRequest::_internal_mutable_requestid() {
+  
+  return _impl_.requestid_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AuthenticateRequest::release_requestid() {
+  // @@protoc_insertion_point(field_release:GaoProtobuf.AuthenticateRequest.requestId)
+  return _impl_.requestid_.Release();
+}
+inline void AuthenticateRequest::set_allocated_requestid(std::string* requestid) {
+  if (requestid != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.requestid_.SetAllocated(requestid, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.requestid_.IsDefault()) {
+    _impl_.requestid_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:GaoProtobuf.AuthenticateRequest.requestId)
+}
+
 // -------------------------------------------------------------------
 
 // AuthenticateResponse
@@ -469,6 +551,56 @@ inline void AuthenticateResponse::_internal_set_result(::GaoProtobuf::Authentica
 inline void AuthenticateResponse::set_result(::GaoProtobuf::AuthenticationResult value) {
   _internal_set_result(value);
   // @@protoc_insertion_point(field_set:GaoProtobuf.AuthenticateResponse.result)
+}
+
+// string requestId = 2;
+inline void AuthenticateResponse::clear_requestid() {
+  _impl_.requestid_.ClearToEmpty();
+}
+inline const std::string& AuthenticateResponse::requestid() const {
+  // @@protoc_insertion_point(field_get:GaoProtobuf.AuthenticateResponse.requestId)
+  return _internal_requestid();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AuthenticateResponse::set_requestid(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.requestid_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:GaoProtobuf.AuthenticateResponse.requestId)
+}
+inline std::string* AuthenticateResponse::mutable_requestid() {
+  std::string* _s = _internal_mutable_requestid();
+  // @@protoc_insertion_point(field_mutable:GaoProtobuf.AuthenticateResponse.requestId)
+  return _s;
+}
+inline const std::string& AuthenticateResponse::_internal_requestid() const {
+  return _impl_.requestid_.Get();
+}
+inline void AuthenticateResponse::_internal_set_requestid(const std::string& value) {
+  
+  _impl_.requestid_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AuthenticateResponse::_internal_mutable_requestid() {
+  
+  return _impl_.requestid_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AuthenticateResponse::release_requestid() {
+  // @@protoc_insertion_point(field_release:GaoProtobuf.AuthenticateResponse.requestId)
+  return _impl_.requestid_.Release();
+}
+inline void AuthenticateResponse::set_allocated_requestid(std::string* requestid) {
+  if (requestid != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.requestid_.SetAllocated(requestid, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.requestid_.IsDefault()) {
+    _impl_.requestid_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:GaoProtobuf.AuthenticateResponse.requestId)
 }
 
 #ifdef __GNUC__

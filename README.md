@@ -87,5 +87,5 @@ In powershell terminal:
 
 # Visual Studio C++ manual settings (windows only)
 
-To help intelisense to find protobuf includes open `wsrv` project properties, go to `C/C++`, choose `General`, 
-then under the item `Additional Include Directories` add the directory `C:\w1\cpackages\include`.
+Open `wsrv` project properties, go to `C/C++`, choose `General`, 
+then under the item `Additional Include Directories` add directories `C:\w1\cpackages\include` and `C:\w1\vcpkg\installed\x64-windows\include`.
