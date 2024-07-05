@@ -6,7 +6,7 @@
 
 bool WsConnection::gaoCertLoaded = false;
 std::map<std::string, WsConnection*> WsConnection::connections;
-bool WsConnection::gaoCertLoaded;
+std::string WsConnection::gaoCert = "unknown";
 
 WsConnection::WsConnection(uWS::WebSocket<false, true, SocketContextData>* ws)
 {
