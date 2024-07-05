@@ -1,9 +1,20 @@
+# Notes:
+#
+# To debug find_library():
+# cmake -DCMAKE_FIND_DEBUG_MODE=ON ../gaow
+
 cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(vcpkg_install_path /w1/vcpkg/installed/x64-windows)
-set(cpackages_install_path /w1/cpackages)
+if(WIN32)
+  set(vcpkg_install_path /w1/vcpkg/installed/x64-windows)
+  set(cpackages_install_path /w1/cpackages)
+elseif(UNIX)
+  set(cpackages_install_path $ENV{MY_PATH}/w1/cpackages)
+else()
+  message(FATAL_ERROR "unsupported platform")
+endif()
 
 add_library(libuv STATIC IMPORTED)
 if(WIN32)
@@ -50,6 +61,12 @@ if(WIN32)
     INTERFACE ${cpackages_install_path}/include
   )
 elseif(UNIX)
+  set_target_properties(libprotobuf PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotobuf.a
+  )
+  target_include_directories(libprotobuf 
+    INTERFACE ${cpackages_install_path}/include
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -63,6 +80,12 @@ if(WIN32)
     INTERFACE ${cpackages_install_path}/include
   )
 elseif(UNIX)
+  set_target_properties(libprotoc PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotoc.a
+  )
+  target_include_directories(libprotoc 
+    INTERFACE ${cpackages_install_path}/include
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -74,6 +97,9 @@ if(WIN32)
     INTERFACE ${vcpkg_install_path}/include
   )
 elseif(UNIX)
+  target_include_directories(jwt-cpp 
+    INTERFACE ${cpackages_install_path}/include
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -87,6 +113,11 @@ if(WIN32)
     INTERFACE ${vcpkg_install_path}/include
   )
 elseif(UNIX)
+  find_library(SSL_LIBRARY NAMES ssl 
+    PATHS /usr/lib
+    PATH_SUFFIXES x86_64-linux-gnu
+    REQUIRED
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -100,6 +131,11 @@ if(WIN32)
     INTERFACE ${vcpkg_install_path}/include
   )
 elseif(UNIX)
+  find_library(CRYPTO_LIBRARY NAMES crypto
+    PATHS /usr/lib
+    PATH_SUFFIXES x86_64-linux-gnu
+    REQUIRED
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -170,15 +206,28 @@ elseif(UNIX)
     uWebSocketsLib 
     ${UV_LIBRARY}
     ${ZLIB_LIBRARY}
+    libprotobuf
+    libprotoc
+    ${SSL_LIBRARY}
+    ${CRYPTO_LIBRARY}
   )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
 
-# Note: allways keep cpackages_install_path include before vcpkg_install_path include, 
-#       we want manualy compiled package overide vcpkg installed package provided same include can be found  in both locations, 
-target_include_directories(wsrv PRIVATE 
-	${uWebSocketsLib_includes}
-	${cpackages_install_path}/include
-	${vcpkg_install_path}/include
-)
+if(WIN32)
+  # Note: allways keep cpackages_install_path include before vcpkg_install_path include, 
+  #       we want manualy compiled package overide vcpkg installed package provided same include can be found  in both locations, 
+  target_include_directories(wsrv PRIVATE 
+    ${uWebSocketsLib_includes}
+    ${cpackages_install_path}/include
+    ${vcpkg_install_path}/include
+  )
+elseif(UNIX)
+  target_include_directories(wsrv PRIVATE 
+    ${uWebSocketsLib_includes}
+    ${cpackages_install_path}/include
+  )
+else()
+  message(FATAL_ERROR "unsupported platform")
+endif()

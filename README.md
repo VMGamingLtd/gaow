@@ -43,7 +43,7 @@ Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside th
 
 
 ```
-> cd /c/w2/gaow
+> cd /c/w1/gaow
 > git clone --recursive https://github.com/uNetworking/uWebSockets.git
 ```
 
@@ -57,22 +57,27 @@ Open  'x64 tools command prompt' terminal which was installed as part of visual 
 
 ```
 
-### Build On Linux
+### Build on linux
 
 Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside the project root.
 
 
 ```
-~/w2/avocado> git clone --recursive https://github.com/uNetworking/uWebSockets.git
+> mkdir ~/w1
+> mkdir ~/w1/gaow
+> cd ~/w1/gaow
+> git clone --recursive https://github.com/uNetworking/uWebSockets.git
 ```
 
 Build uWebSockets:
 
 ```
-~/w2/avocado> cd uWebSockets
-~/w2/avocado/uWebSockets> make
+> apt install build-essential
+> cd ~/w1/gaow/uWebSockets
+> make
 ```
-# Build project (windows only)
+
+# Build gaow project (windows only)
 
 We build project using [clang platform toolset](https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/tools-pc/visualstudio/gr-vs-clang),
 [also see CMAKE_GENERATOR_TOOLSET](https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2017%202022.html).
@@ -91,3 +96,74 @@ In powershell terminal:
 
 Open `wsrv` project properties, go to `C/C++`, choose `General`, 
 then under the item `Additional Include Directories` add directories `C:\w1\cpackages\include` and `C:\w1\vcpkg\installed\x64-windows\include`.
+
+# Build gaow project on linux
+
+## Build jwt-cpp (on linux)
+
+Install dependencies:
+
+```
+> apt install libssl-dev
+> apt install libuv1-dev
+> apt install libz-dev
+> apt install cmake
+```
+
+Build `jwt-cpp`:
+
+```
+> mkdir ~/w1/cpackages
+> mkdir ~/w1/build
+> cd ~/w1/build
+> git clone https://github.com/Thalhammer/jwt-cpp.git
+> mkdir jwt-cpp_build
+> cd jwt-cpp_build
+> cmake ../jwt-cpp
+> cmake --build .
+> cmake --install . --prefix ~/w1/cpackages
+```
+
+Build `abseil`:
+
+
+```
+> mkdir ~/w1/cpackages
+> cd ~/w1/build
+> git clone https://github.com/abseil/abseil-cpp.git
+> cd abseil-cpp
+> git checkout 20240116.2
+> cd ..
+> mkdir abseil-cpp_build
+> cd abseil-cpp_build
+> cmake ../abseil-cpp -DCMAKE_INSTALL_PREFIX=~/w1/cpackages -DABSL_PROPAGATE_CXX_STD=ON
+> cmake --build . --config Debug
+> cmake --install . --config Debug --prefix ~/w1/cpackages
+
+```
+
+Build and install `protobuf`:
+
+```
+> cd ~/w1/build
+> git clone https://github.com/protocolbuffers/protobuf.git
+> cd protobuf
+> git checkout v3.21.12
+> git submodule update --init --recursive
+> cd ..
+> mkdir protobuf_build
+> cd protobuf_build
+> cmake ../protobuf -DCMAKE_CXX_STANDARD=14 -DCMAKE_INSTALL_PREFIX=~/w1/cpackages 
+> cmake --build . --config Debug
+> cmake --install . --config Debug --prefix ~/w1/cpackages
+```
+
+
+## Buiild
+
+```
+> cd w1
+> mkdir gaow_build
+> cd gaow_build
+> cmake ../gaow
+```
