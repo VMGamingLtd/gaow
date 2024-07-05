@@ -22,6 +22,8 @@ In git-bash terminalC run:
 ```
 > /c/w1/vcpkg/vcpkg install libuv:x64-windows
 > /c/w1/vcpkg/vcpkg install zlib:x64-windows
+> /c/w1/vcpkg/vcpkg install jwt-cpp:x64-windows
+> /c/w1/vcpkg/vcpkg install openssl:x64-windows
 ```
 
 ### Install MS Visual Studio Community and ensure it has clang compiler installed (windows only)

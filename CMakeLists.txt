@@ -67,6 +67,44 @@ else()
   message(FATAL_ERROR "unsupported platform")
 endif()
 
+# Note: jwt-cpp is header only library
+add_library(jwt-cpp STATIC IMPORTED)
+if(WIN32)
+  target_include_directories(jwt-cpp 
+    INTERFACE ${vcpkg_install_path}/include
+  )
+elseif(UNIX)
+else()
+  message(FATAL_ERROR "unsupported platform")
+endif()
+
+add_library(libssl STATIC IMPORTED)
+if(WIN32)
+  set_target_properties(libssl PROPERTIES
+    IMPORTED_LOCATION ${vcpkg_install_path}/lib/libssl.lib 
+  )
+  target_include_directories(libssl 
+    INTERFACE ${vcpkg_install_path}/include
+  )
+elseif(UNIX)
+else()
+  message(FATAL_ERROR "unsupported platform")
+endif()
+
+add_library(libcrypto STATIC IMPORTED)
+if(WIN32)
+  set_target_properties(libcrypto PROPERTIES
+    IMPORTED_LOCATION ${vcpkg_install_path}/lib/libcrypto.lib 
+  )
+  target_include_directories(libcrypto 
+    INTERFACE ${vcpkg_install_path}/include
+  )
+elseif(UNIX)
+else()
+  message(FATAL_ERROR "unsupported platform")
+endif()
+
+
 
 add_library(uWebSocketsLib OBJECT IMPORTED)
 file(GLOB uWebSocketsLib_obj_files "${CMAKE_SOURCE_DIR}/uWebSockets/uSockets/*.o")
@@ -95,6 +133,8 @@ add_executable(wsrv
   wsrv/WsConnection.h
   wsrv/WsSocketContext.cpp
   wsrv/WsSocketContext.h
+  wsrv/uuid.cpp
+  wsrv/uuid.h
   wsrv/message/Dispatcher.cpp
   wsrv/message/Dispatcher.h
   wsrv/message/websocket/PingPong.cpp
@@ -122,6 +162,8 @@ if(WIN32)
     libz
 	libprotobuf
 	libprotoc
+	libssl
+	libcrypto
   )
 elseif(UNIX)
   target_link_libraries(wsrv 

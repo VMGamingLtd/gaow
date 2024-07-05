@@ -5,6 +5,8 @@
 #include <jwt-cpp/jwt.h>;
 
 bool WsConnection::gaoCertLoaded = false;
+std::map<std::string, WsConnection*> WsConnection::connections;
+bool WsConnection::gaoCertLoaded;
 
 WsConnection::WsConnection(uWS::WebSocket<false, true, SocketContextData>* ws)
 {
@@ -15,15 +17,15 @@ WsConnection::WsConnection(uWS::WebSocket<false, true, SocketContextData>* ws)
 void WsConnection::addConnection(uWS::WebSocket<false, true, SocketContextData>* ws)
 {
 	WsConnection *connection = new WsConnection(ws);
-	WsConnection::connections[connection->ws] = connection;
+	WsConnection::connections[connection->getId()] = connection;
 }
 
-void WsConnection::removeConnection(const uWS::WebSocket<false, true, SocketContextData>* ws)
+void WsConnection::removeConnection(uWS::WebSocket<false, true, SocketContextData>* ws)
 {
 	WsConnection *connection = WsConnection::findConnection(ws);
 	if (connection != nullptr)
 	{
-		WsConnection::connections.erase(ws);
+		WsConnection::connections.erase(connection->getId());
 		delete connection;
 	}
 }
@@ -85,11 +87,11 @@ WsConnectionAuthenticateResult WsConnection::authenticate(std::string jwt) {
 	}
 }
 
-WsConnection* WsConnection::findConnection(const uWS::WebSocket<false, true, SocketContextData>* ws)
+WsConnection* WsConnection::findConnection(uWS::WebSocket<false, true, SocketContextData>* ws)
 {
-	if (WsConnection::connections.find(ws) != WsConnection::connections.end())
+	if (WsConnection::connections.find(ws->getUserData()->uid) != WsConnection::connections.end())
 	{
-		return WsConnection::connections[ws];
+		return WsConnection::connections[ws->getUserData()->uid];
 	}
 	else
 	{

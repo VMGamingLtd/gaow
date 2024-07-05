@@ -30,16 +30,21 @@ private:
 
 public:
 	uWS::WebSocket<false, true, SocketContextData>* ws;
-	static std::map<const uWS::WebSocket<false, true, SocketContextData>* , WsConnection*> connections;
+	static std::map<std::string, WsConnection*> connections;
 
 	WsConnection(uWS::WebSocket<false, true, SocketContextData>* ws);
 	WsConnectionAuthenticateResult authenticate(std::string jwt);
 
 	static void addConnection(uWS::WebSocket<false, true, SocketContextData>* ws);
-	static void removeConnection(const uWS::WebSocket<false, true, SocketContextData>* ws);
-	static WsConnection* findConnection(const uWS::WebSocket<false, true, SocketContextData>* ws);
+	static void removeConnection(uWS::WebSocket<false, true, SocketContextData>* ws);
+	static WsConnection* findConnection(uWS::WebSocket<false, true, SocketContextData>* ws);
 
 	bool isAuthenticated();
 
 	int getDeviceId();
+
+	std::string getId()
+	{
+		return this->ws->getUserData()->uid;
+	}
 };
