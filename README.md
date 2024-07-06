@@ -45,6 +45,8 @@ Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside th
 ```
 > cd /c/w1/gaow
 > git clone --recursive https://github.com/uNetworking/uWebSockets.git
+> cd uWebSockets
+> git checkout 01058d90e9d092c2d6551956d7e0785e0e94ff21
 ```
 
 Open  'x64 tools command prompt' terminal which was installed as part of visual studio installation and run:
@@ -56,6 +58,7 @@ Open  'x64 tools command prompt' terminal which was installed as part of visual 
 > ..\scripts\uWebSockets_build.ps1
 
 ```
+
 
 ### Build on linux
 
@@ -89,6 +92,9 @@ In powershell terminal:
 > cd /w1/gaow_build
 > cmake -T clangcl ../gaow
 > cmake --build .
+> cd \w1\gaow_build\Debug
+> cp \w1\vcpkg\installed\x64-windows\bin\uv.dll .
+> .\wsrv.exe
 ```
 
 
@@ -117,6 +123,9 @@ Build `jwt-cpp`:
 > mkdir ~/w1/build
 > cd ~/w1/build
 > git clone https://github.com/Thalhammer/jwt-cpp.git
+> cd jwt-cpp
+> git checkout a6927cb8140858c34e05d1a954626b9849fbcdfc
+> cd ..
 > mkdir jwt-cpp_build
 > cd jwt-cpp_build
 > cmake ../jwt-cpp
@@ -159,7 +168,7 @@ Build and install `protobuf`:
 ```
 
 
-## Buiild
+## Buiild gaow (linux ony)
 
 ```
 > cd ~/w1

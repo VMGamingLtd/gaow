@@ -36,7 +36,6 @@ void WsConnection::loadGaoCert() {
 
 		std::ifstream certFile("certs/gao/cert.crt");
 		WsConnection::gaoCert = std::string((std::istreambuf_iterator<char>(certFile)), std::istreambuf_iterator<char>());
-		WsConnection::gaoCertLoaded = true;
 	}
 	catch (const std::exception& e)
 	{
@@ -49,6 +48,7 @@ WsConnectionAuthenticateResult WsConnection::authenticate(std::string jwt) {
 
 	if (!WsConnection::gaoCertLoaded) {
 		loadGaoCert();
+		WsConnection::gaoCertLoaded = true;
 	}
 
 	try
