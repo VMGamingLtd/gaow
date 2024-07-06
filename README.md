@@ -132,13 +132,13 @@ Build `abseil`:
 > cd ~/w1/build
 > git clone https://github.com/abseil/abseil-cpp.git
 > cd abseil-cpp
-> git checkout 20240116.2
+> git checkout f04e489056d9be93072bb633d9818b1e2add6316
 > cd ..
 > mkdir abseil-cpp_build
 > cd abseil-cpp_build
 > cmake ../abseil-cpp -DCMAKE_INSTALL_PREFIX=~/w1/cpackages -DABSL_PROPAGATE_CXX_STD=ON
-> cmake --build . --config Debug
-> cmake --install . --config Debug --prefix ~/w1/cpackages
+> cmake --build . --config Release
+> cmake --install . --config Release --prefix ~/w1/cpackages
 
 ```
 
@@ -154,16 +154,17 @@ Build and install `protobuf`:
 > mkdir protobuf_build
 > cd protobuf_build
 > cmake ../protobuf -DCMAKE_CXX_STANDARD=14 -DCMAKE_INSTALL_PREFIX=~/w1/cpackages 
-> cmake --build . --config Debug
-> cmake --install . --config Debug --prefix ~/w1/cpackages
+> cmake --build . --config Release
+> cmake --install . --config Release --prefix ~/w1/cpackages
 ```
 
 
 ## Buiild
 
 ```
-> cd w1
+> cd ~/w1
 > mkdir gaow_build
 > cd gaow_build
 > cmake ../gaow
+> cmake --build . --config Release
 ```
