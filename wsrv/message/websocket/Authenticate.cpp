@@ -32,6 +32,7 @@ namespace message
 				WsConnectionAuthenticateResult authResult = connection->authenticate(request.token());
 				
 				GaoProtobuf::AuthenticateResponse response;
+				response.set_requestid(request.requestid());
 				if (authResult.isAuthenticated)
 				{
 					response.set_result(GaoProtobuf::AuthenticationResult::success);

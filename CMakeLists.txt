@@ -171,6 +171,9 @@ add_executable(wsrv
   wsrv/WsSocketContext.h
   wsrv/uuid.cpp
   wsrv/uuid.h
+  wsrv/Utils.cpp
+  wsrv/Utils.h
+  wsrv/config.h
   wsrv/message/Dispatcher.cpp
   wsrv/message/Dispatcher.h
   wsrv/message/websocket/PingPong.cpp

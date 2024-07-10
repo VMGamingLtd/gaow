@@ -1,11 +1,14 @@
-#include "WsConnection.h";
-#include <fstream>;
-#include <iostream>;
+#include "./WsConnection.h"
+#include "./config.h"
+#include "./Utils.h"
 
-#include <jwt-cpp/jwt.h>;
+#include <fstream>
+#include <iostream>
+#include <jwt-cpp/jwt.h>
+
+std::map<std::string, WsConnection*> WsConnection::connections;
 
 bool WsConnection::gaoCertLoaded = false;
-std::map<std::string, WsConnection*> WsConnection::connections;
 std::string WsConnection::gaoCert = "unknown";
 
 WsConnection::WsConnection(uWS::WebSocket<false, true, SocketContextData>* ws)
@@ -34,12 +37,11 @@ void WsConnection::loadGaoCert() {
 	try
 	{
 
-		std::ifstream certFile("certs/gao/cert.crt");
-		WsConnection::gaoCert = std::string((std::istreambuf_iterator<char>(certFile)), std::istreambuf_iterator<char>());
+		WsConnection::gaoCert = Utils::readFileContents(VERIFY_TOKEN_PUB_CERT_FILE_PATH);
 	}
 	catch (const std::exception& e)
 	{
-		std::cerr << "WsConnection::loadGaoCert(): Error loading GAO certificate: " << e.what();
+		std::cerr << "WsConnection::loadGaoCert(): Error loading GAO certificate: " << e.what() << std::endl;
 		throw std::runtime_error("Error loading GAO certificate");
 	}
 }
@@ -57,18 +59,18 @@ WsConnectionAuthenticateResult WsConnection::authenticate(std::string jwt) {
 		std::string rsa_pub_key = WsConnection::gaoCert;
 		auto verify = jwt::verify()
 			// We only need an RSA public key to verify tokens
-			.allow_algorithm(jwt::algorithm::rs256(rsa_pub_key, "", "", ""))
-			// We expect token to come from a known authorization server
-			.with_issuer("auth0");
+			.allow_algorithm(jwt::algorithm::rs256(rsa_pub_key, "", "", ""));
 
 		auto decoded = jwt::decode(token);
 
 		verify.verify(decoded);
 
-		for (auto& e : decoded.get_header_json())
-			std::cout << e.first << " = " << e.second << std::endl;
-		for (auto& e : decoded.get_payload_json())
-			std::cout << e.first << " = " << e.second << std::endl;
+		if (IS_DEBUG) {
+			for (auto& e : decoded.get_header_json())
+				std::cout << e.first << " = " << e.second << std::endl;
+			for (auto& e : decoded.get_payload_json())
+				std::cout << e.first << " = " << e.second << std::endl;
+		}
 
 		this->authenticated = true;
 		return WsConnectionAuthenticateResult{ true, false, false };
@@ -76,13 +78,13 @@ WsConnectionAuthenticateResult WsConnection::authenticate(std::string jwt) {
 	catch (const jwt::error::token_verification_exception& e)
 	{
 		this->authenticated = false;
-		std::cout << "WsConnection::authenticate(): warning: unauthorized" << e.what();
+		std::cout << "WsConnection::authenticate(): warning: unauthorized" << e.what() << std::endl;
 		return WsConnectionAuthenticateResult{ false, true, false };
 	}
 	catch (const std::exception& e)
 	{
 		this->authenticated = false;
-		std::cout << "WsConnection::authenticate(): error: " << e.what();
+		std::cout << "WsConnection::authenticate(): error: " << e.what() << std::endl;
 		return WsConnectionAuthenticateResult{ false, false, true };
 	}
 }

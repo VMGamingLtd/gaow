@@ -1,9 +1,57 @@
+#include "./config.h"
 #include "./WsSocketContext.h"
 #include "./message/Dispatcher.h"
 #include "./WsConnection.h"
+#include "./Utils.h"
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <jwt-cpp/jwt.h>
+
+
+void verifyToken(std::string jwt) {
+    try
+    {
+        std::cout << "jwt:" << std::endl;
+        std::cout << jwt << std::endl;
+
+        std::string token = jwt;
+
+        std::string rsa_pub_key = Utils::readFileContents(VERIFY_TOKEN_PUB_CERT_FILE_PATH);
+        std::cout << "rsa_pub_key:" << std::endl;
+        std::cout << rsa_pub_key << std::endl;
+
+        auto verify = jwt::verify()
+            // We only need an RSA public key to verify tokens
+            .allow_algorithm(jwt::algorithm::rs256(rsa_pub_key, "", "", ""));
+            // We expect token to come from a known authorization server
+            //.with_issuer("auth0");
+
+        auto decoded = jwt::decode(token);
+
+        verify.verify(decoded);
+
+        for (auto& e : decoded.get_header_json())
+            std::cout << e.first << " = " << e.second << std::endl;
+        for (auto& e : decoded.get_payload_json())
+            std::cout << e.first << " = " << e.second << std::endl;
+    }
+	catch (const jwt::error::token_verification_exception& e)
+	{
+		std::cout << "verifyToken(): warning: unauthorized" << e.what() << std::endl;
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << "verifyToken(): error: " << e.what() << std::endl;
+	}
+}
+
+int main_1()
+{
+    std::string token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJCcm9vZDkyODMwIiwiZXhwIjo0ODc0MTg4MTE0LCJ1c2VyX2lkIjo3NiwidXNlcl90eXBlIjoiR3Vlc3RVc2VyIiwiZGV2aWNlX2lkIjoxfQ.Zte9sXrjX5_yDrR73U7pt3uFbxiuZrx4W2WiJqYlkTublY0f2_MJZUjqhk9ENuy1UiZq5sroEY8jfPfvLG7saNS0Crv0E0Ed2eTmRN3I-ytuVVYsiiZYHjY1G8PUOux-qJjWUdl2uTG2nGZG-wAluRvoUpKoGiaFxuI4nb8N5V9vzZGrtaSJcDepoK6YSn_25BS_tHzw0Hy4arTPowW_xQ-Tke_O9DlHS8YxoJsbU7Tnur5_XwMvdfFEHO1YMyGf4GEzeTFQ6-EqMX5fenPRa61-5dDFQto8wDGPxEgnDJSjrt00kva3GT4SCAwQWWytxF1TnYBvZV1fMJba5WXJetcygibhnk4zwma642FCVp0547syPeJUjsh9zRKbpe0drIDKzScoO8kHW9hf1koWrxrOeChNAC1YZQGLBtW3PEDfa0MZnZMgaWKWlgQMz4OKNgSyMvcm2SDUmqGw24RVR2_RPj3n1tMUVrv0fOQFac3jIRAwK6ckt8j8INujHXmItlKFoh5pXadj5Lz82E-3vJGimb1wkldb8awsyr2a5Njr9gYmb4HD3BM7K2RLEUlyyVES_07OBsnLc0-xhLamMHrHPNhe01jwNrMDSslThekvgHfq45kC-YTWNn29_0nqsJKXpeXl0i5sB0orxiL6-Qssb9_3Ctdz1_-31HBl_Ic";
+    verifyToken(token);
+}
+
 /*
 #include <iostream>
 
@@ -57,7 +105,7 @@ int main() {
             //ws->send(message, opCode, message.length() < 16 * 1024);
 
             // print message in hex
-            std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp100: data: " << message::Dispatcher::toHexString(message) << std::endl;
+            //std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp100: data: " << message::Dispatcher::toHexString(message) << std::endl;
 
             message::Dispatcher::handleMessage(ws, message, opCode); 
         },

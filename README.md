@@ -92,9 +92,18 @@ In powershell terminal:
 > cd /w1/gaow_build
 > cmake -T clangcl ../gaow
 > cmake --build .
-> cd \w1\gaow_build\Debug
-> cp \w1\vcpkg\installed\x64-windows\bin\uv.dll .
-> .\wsrv.exe
+```
+
+In `git-bash` terminal:
+```
+> cp /w1/vcpkg/installed/x64-windows/bin/*.dll /c/w1/gaow_build/Debug
+```
+
+In powershell terminal run server `wsrv.exe`:
+```
+> cd /w1/gaow_build/Debug
+> ./wsrv.exe
+Listening on port 9001
 ```
 
 

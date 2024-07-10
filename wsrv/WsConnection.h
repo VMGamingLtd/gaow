@@ -33,12 +33,13 @@ public:
 	static std::map<std::string, WsConnection*> connections;
 
 	WsConnection(uWS::WebSocket<false, true, SocketContextData>* ws);
-	WsConnectionAuthenticateResult authenticate(std::string jwt);
+
 
 	static void addConnection(uWS::WebSocket<false, true, SocketContextData>* ws);
 	static void removeConnection(uWS::WebSocket<false, true, SocketContextData>* ws);
 	static WsConnection* findConnection(uWS::WebSocket<false, true, SocketContextData>* ws);
 
+	WsConnectionAuthenticateResult authenticate(std::string jwt);
 	bool isAuthenticated();
 
 	int getDeviceId();
