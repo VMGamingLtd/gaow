@@ -21,7 +21,7 @@ namespace message
 				return;
 			}
 
-			int deviceId = connection->getDeviceId();
+			double deviceId = connection->getDeviceId();
 			bool wasRelayed = false;
 			// Iterate through all connections and send the message to all connections with the same device id
 			for (auto& pair : WsConnection::connections)
@@ -35,12 +35,12 @@ namespace message
 				{
 					// relay the message
 
-					// serailize the message header
 					std::stringstream ostream;
-					messageHeader.SerializeToOstream(&ostream);
-					message:
 
-					// serialize the message
+					// write message header
+					Dispatcher::serializeMessageHeader(ostream, messageHeader);
+
+					// write the message
 					ostream << message.rdbuf();
 
 					// send the message

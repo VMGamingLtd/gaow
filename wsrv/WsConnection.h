@@ -13,19 +13,30 @@ struct WsConnectionAuthenticateResult
 	bool isError;
 };
 
+enum class UserType
+{
+	RegisteredUser,
+	GuestUser,
+};
+
 
 class WsConnection
 {
 private:
-	int deviceId;
+	double deviceId;
 	int userId;
 	int groupId;
+	UserType userType;
 
 	bool authenticated;
 
 	static std::string gaoCert;
 	static bool gaoCertLoaded;
 	static void loadGaoCert();
+
+	double getDeviceIdFromToken(auto& token);
+	int getUserIdFromToken(auto& token);
+	UserType getUserTypeFromToken(auto& token);
 
 
 public:
@@ -42,7 +53,7 @@ public:
 	WsConnectionAuthenticateResult authenticate(std::string jwt);
 	bool isAuthenticated();
 
-	int getDeviceId();
+	double getDeviceId();
 
 	std::string getId()
 	{

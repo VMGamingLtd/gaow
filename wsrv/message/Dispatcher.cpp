@@ -42,6 +42,7 @@ namespace message
 
     uint32_t Dispatcher::toNetworkByteOrder(uint32_t value)
     {
+        // to big endian
         return ((value & 0x000000FF) << 24) |
             ((value & 0x0000FF00) << 8) |
             ((value & 0x00FF0000) >> 8) |
@@ -53,6 +54,7 @@ namespace message
         // Note that this function is the same as toNetworkByteOrder becasuse bot operations
         // are actually only reversing the byte order of the value.
 
+        // from big endian
         return ((value & 0x000000FF) << 24) |
             ((value & 0x0000FF00) << 8) |
             ((value & 0x00FF0000) >> 8) |

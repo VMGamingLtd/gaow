@@ -46,6 +46,59 @@ void WsConnection::loadGaoCert() {
 	}
 }
 
+double WsConnection::getDeviceIdFromToken(auto& token)
+{
+	if (token.find("device_id") != token.end())
+	{
+		double id = token["device_id"].template get<double>();
+		return id;
+	}
+	else
+	{
+		std::cerr << "WsConnection::getDeviceIdFromToken(): device_id not found in token" << std::endl;
+		throw std::runtime_error("device_id not found in token");
+	}
+}
+
+int WsConnection::getUserIdFromToken(auto& token)
+{
+	if (token.find("user_id") != token.end())
+	{
+		double id = token["user_id"].template get<double>();
+		return static_cast<int>(id);
+	}
+	else
+	{
+		std::cerr << "WsConnection::getDeviceIdFromToken(): user_id not found in token" << std::endl;
+		throw std::runtime_error("user_id not found in token");
+	}
+}
+UserType WsConnection::getUserTypeFromToken(auto& token)
+{
+	if (token.find("user_type") != token.end())
+	{
+		std::string userType = token["user_type"].template get<std::string>();
+		if (userType == "RegisteredUser")
+		{
+			return UserType::RegisteredUser;
+		}
+		else if (userType == "GuestUser")
+		{
+			return UserType::GuestUser;
+		}
+		else
+		{
+			std::cout << "WsConnection::getUserTypeFromToken(): user_type not recognized in token" << std::endl;
+			throw std::runtime_error("user_type not recognized in token");
+		}
+	}
+	else
+	{
+		std::cerr << "WsConnection::getUserTypeFromToken(): user_type not found in token" << std::endl;
+		throw std::runtime_error("user_type not found in token");
+	}
+}
+
 WsConnectionAuthenticateResult WsConnection::authenticate(std::string jwt) {
 
 	if (!WsConnection::gaoCertLoaded) {
@@ -71,8 +124,13 @@ WsConnectionAuthenticateResult WsConnection::authenticate(std::string jwt) {
 			for (auto& e : decoded.get_payload_json())
 				std::cout << e.first << " = " << e.second << std::endl;
 		}
-
 		this->authenticated = true;
+
+		auto payload = decoded.get_payload_json();
+		this->userId = WsConnection::getUserIdFromToken(payload);
+		this->userType = WsConnection::getUserTypeFromToken(payload);
+		this->deviceId = WsConnection::getDeviceIdFromToken(payload);
+
 		return WsConnectionAuthenticateResult{ true, false, false };
 	}
 	catch (const jwt::error::token_verification_exception& e)
@@ -106,7 +164,7 @@ bool WsConnection::isAuthenticated()
 	return this->authenticated;
 }
 
-int WsConnection::getDeviceId()
+double WsConnection::getDeviceId()
 {
 	return this->deviceId;
 }
