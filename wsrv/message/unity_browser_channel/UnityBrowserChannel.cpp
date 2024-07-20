@@ -1,6 +1,7 @@
 #include "./UnityBrowserChannel.h"
 #include "../../WsConnection.h"
 #include "../Dispatcher.h"
+#include "../../config.h"
 
 namespace message
 {
@@ -45,7 +46,10 @@ namespace message
 
 					// send the message
 					pair.second->ws->send(ostream.str(), uWS::OpCode::BINARY);
-					std::cout << "UnityBrowserChannel::relayMessage(): message was realyed" << std::endl;
+					if (IS_DEBUG)
+					{
+						std::cout << "UnityBrowserChannel::relayMessage(): message was realyed" << std::endl;
+					}
 
 					wasRelayed = true;
 

@@ -1,6 +1,7 @@
 #include "./WsConnection.h"
 #include "./config.h"
 #include "./Utils.h"
+#include "./groups/Groups.h"
 
 #include <fstream>
 #include <iostream>
@@ -28,6 +29,7 @@ void WsConnection::removeConnection(uWS::WebSocket<false, true, SocketContextDat
 	WsConnection *connection = WsConnection::findConnection(ws);
 	if (connection != nullptr)
 	{
+		Groups::removeConnectionFromGroups(connection->getId());
 		WsConnection::connections.erase(connection->getId());
 		delete connection;
 	}
@@ -168,3 +170,31 @@ double WsConnection::getDeviceId()
 {
 	return this->deviceId;
 }
+
+int WsConnection::getUserId()
+{
+	return this->userId;
+}
+
+std::string WsConnection::getId()
+{
+	return this->ws->getUserData()->uid;
+}
+
+void WsConnection::setUserGroups(const std::vector<int>& groups)
+{
+	userGroups = groups;
+}
+bool WsConnection::connectionUserIsMemberOfGroup(int groupId)
+{
+	for (int group : userGroups)
+	{
+		if (group == groupId)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+

@@ -14,6 +14,7 @@ namespace message
     enum class NamespaceIds {
         WebSocket = 1,
         UnityBrowserChannel = 2,
+        Group = 3,
     };
 
     enum class WebSocketClassIds {
@@ -30,6 +31,10 @@ namespace message
         AuthenticateRequest = 1,
         AuthenticateResponse = 2,
     };
+
+    enum class GroupClassIds {
+		Broadcast = 1,
+	};
 
 
     class Dispatcher {
@@ -60,7 +65,13 @@ namespace message
         // Websocket.Authenticate
         static void dispatchMessage_Namespace_Websocket_Class_Authenticate(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message, int32_t namespaceId, int32_t classId, int32_t methodId);
 
+        // UnityBrowserChannel
         static void dispatchMessage_Namespace_UnityBrowserChannel(uWS::WebSocket<false, true, SocketContextData>* ws, const GaoProtobuf::MessageHeader& messageHeader,  std::istream& message);
+
+        // Group
+        static void dispatchMessage_Namespace_Group(uWS::WebSocket<false, true, SocketContextData>* ws, const GaoProtobuf::MessageHeader& messageHeader,  std::istream& message);
+        // Group.Broadcast
+        static void dispatchMessage_Namespace_Group_Class_Broadcast(uWS::WebSocket<false, true, SocketContextData>* ws, const GaoProtobuf::MessageHeader& messageHeader,  std::istream& message);
 
     };
 }

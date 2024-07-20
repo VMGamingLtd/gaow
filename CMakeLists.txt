@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(WIN32)
   set(vcpkg_install_path /w1/vcpkg/installed/x64-windows)
   set(cpackages_install_path /w1/cpackages)
+  set(mariadb_connector_install_path "/Program Files/MariaDB/MariaDB C++ Connector 64-bit")
 elseif(UNIX)
   set(cpackages_install_path $ENV{MY_PATH}/w1/cpackages)
 else()
@@ -140,6 +141,20 @@ else()
   message(FATAL_ERROR "unsupported platform")
 endif()
 
+add_library(libmariadbcpp STATIC IMPORTED)
+if(WIN32)
+  set_target_properties(libmariadbcpp PROPERTIES
+    IMPORTED_LOCATION ${mariadb_connector_install_path}/mariadbcpp.lib
+  )
+  target_include_directories(libmariadbcpp 
+    INTERFACE ${mariadb_connector_install_path}/include
+  )
+elseif(UNIX)
+	message(FATAL_ERROR "todo: add mariadbcpp lib on linux")
+else()
+  message(FATAL_ERROR "unsupported platform")
+endif()
+
 
 
 add_library(uWebSocketsLib OBJECT IMPORTED)
@@ -173,7 +188,6 @@ add_executable(wsrv
   wsrv/uuid.h
   wsrv/Utils.cpp
   wsrv/Utils.h
-  wsrv/config.h
   wsrv/message/Dispatcher.cpp
   wsrv/message/Dispatcher.h
   wsrv/message/websocket/PingPong.cpp
@@ -182,6 +196,17 @@ add_executable(wsrv
   wsrv/message/websocket/Authenticate.h
   wsrv/message/unity_browser_channel/UnityBrowserChannel.cpp
   wsrv/message/unity_browser_channel/UnityBrowserChannel.h
+  wsrv/message/group/GroupBroadcast.cpp
+  wsrv/message/group/GroupBroadcast.h
+  wsrv/groups/Groups.cpp
+  wsrv/groups/Groups.h
+  wsrv/caching/ExpiringCache.cpp
+  wsrv/caching/ExpiringCache.h
+  wsrv/caching/GroupUsersCache.cpp
+  wsrv/caching/GroupUsersCache.h
+  wsrv/DbConnection.cpp
+  wsrv/DbConnection.h
+  wsrv/config.h
   ${protobuf_source_files}
 )
 
@@ -203,6 +228,7 @@ if(WIN32)
 	libprotoc
 	libssl
 	libcrypto
+	libmariadbcpp
   )
 elseif(UNIX)
   target_link_libraries(wsrv 

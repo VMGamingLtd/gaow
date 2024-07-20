@@ -1,7 +1,9 @@
-#include "Dispatcher.h"
+#include "./Dispatcher.h"
 #include "./websocket/PingPong.h"
 #include "./websocket/Authenticate.h"
 #include "./unity_browser_channel/UnityBrowserChannel.h"
+#include "./group/GroupBroadcast.h"
+#include "../WsConnection.h"
 
 #include <iomanip>
 #include <iostream>
@@ -156,6 +158,9 @@ namespace message
             case (int32_t)NamespaceIds::UnityBrowserChannel:
                 Dispatcher::dispatchMessage_Namespace_UnityBrowserChannel(ws, messageHeader, message);
                 break;
+            case (int32_t)NamespaceIds::Group:
+				dispatchMessage_Namespace_Group(ws, messageHeader, message);
+				break;
             default:
                 std::cerr << "Dispatcher::dispatchMessage(): no such namespaceId: " << namespaceId;
             }
@@ -209,7 +214,7 @@ namespace message
                 message::websocket::PingPong::onPong(ws, message);
                 break;
             default:
-                std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket_Class_PingPong(): no such methodId: " << methodId;
+                std::cerr << "Dispatcher::dispatchMessage_Namespace_Websocket_Class_PingPong(): no such methodId: " << methodId << std::endl;
             }
         }
         catch (const std::exception& e)
@@ -242,5 +247,42 @@ namespace message
     {
         message::unity_browser_channel::UnityBrowserChannel::relayMessage(ws, messageHeader, message);
     }
+
+    void Dispatcher::dispatchMessage_Namespace_Group(uWS::WebSocket<false, true, SocketContextData>* ws, const GaoProtobuf::MessageHeader& messageHeader, std::istream& message)
+    {
+        try
+        {
+			WsConnection* connection = WsConnection::findConnection(ws);
+			if (connection == nullptr)
+			{
+				std::cout << "Dispatcher::dispatchMessage_Namespace_Group(): warning: Connection not found" << std::endl;
+				return;
+			}
+			if (connection->isAuthenticated() == false)
+			{
+				std::cout << "Dispatcher::dispatchMessage_Namespace_Group(): warning: Connection not authenticated" << std::endl;
+				return;
+			}
+
+			// switch based on the classId
+			switch (messageHeader.classid())
+			{
+			case (int32_t)GroupClassIds::Broadcast:
+				dispatchMessage_Namespace_Group_Class_Broadcast(ws, messageHeader, message);
+				break;
+			default:
+				std::cerr << "Dispatcher::dispatchMessage_Namespace_Group(): no such classId: " << messageHeader.classid();
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << "Dispatcher::dispatchMessage_Namespace_Group(): Exception: " << e.what() << std::endl;
+		}
+    }
+
+    void Dispatcher::dispatchMessage_Namespace_Group_Class_Broadcast(uWS::WebSocket<false, true, SocketContextData>* ws, const GaoProtobuf::MessageHeader& messageHeader, std::istream& message)
+	{
+		message::group::GroupBroadcast::relayMessage(ws, messageHeader, message);
+	}
 
 }

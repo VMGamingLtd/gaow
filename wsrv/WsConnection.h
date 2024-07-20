@@ -30,6 +30,8 @@ private:
 
 	bool authenticated;
 
+	std::vector<int> userGroups;
+
 	static std::string gaoCert;
 	static bool gaoCertLoaded;
 	static void loadGaoCert();
@@ -54,9 +56,11 @@ public:
 	bool isAuthenticated();
 
 	double getDeviceId();
+	int getUserId();
 
-	std::string getId()
-	{
-		return this->ws->getUserData()->uid;
-	}
+	std::string getId(); // unique it of this connection
+
+	void setUserGroups(const std::vector<int>& groups);
+
+	bool connectionUserIsMemberOfGroup(int groupId);
 };

@@ -25,6 +25,9 @@ In git-bash terminalC run:
 > /c/w1/vcpkg/vcpkg install jwt-cpp:x64-windows
 > /c/w1/vcpkg/vcpkg install openssl:x64-windows
 ```
+### Install mariadb connector
+
+Im windows follow instructions on this [link](https://mariadb.com/downloads/connectors/connectors-data-access/cpp-connector/)
 
 ### Install MS Visual Studio Community and ensure it has clang compiler installed (windows only)
 
@@ -110,7 +113,8 @@ Listening on port 9001
 # Visual Studio C++ manual settings (windows only)
 
 Open `wsrv` project properties, go to `C/C++`, choose `General`, 
-then under the item `Additional Include Directories` add directories `C:\w1\cpackages\include` and `C:\w1\vcpkg\installed\x64-windows\include`.
+then under the item `Additional Include Directories` add directories `C:\w1\cpackages\include` and `C:\w1\vcpkg\installed\x64-windows\include`
+and `C:\Program Files\MariaDB\MariaDB C++ Connector 64-bit\include`.
 
 # Build gaow project on linux
 

@@ -9,9 +9,9 @@
 
 namespace message
 {
-	namespace unity_browser_channel
+	namespace group
 	{
-		class UnityBrowserChannel
+		class GroupBroadcast
 		{
 		private:
 		public:

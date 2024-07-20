@@ -2,6 +2,7 @@
 #include "../Dispatcher.h"
 #include "../../protobuf/Authenticate.pb.h"
 #include "../../WsConnection.h"
+#include "../../groups/Groups.h"
 
 
 namespace message
@@ -36,6 +37,10 @@ namespace message
 				if (authResult.isAuthenticated)
 				{
 					response.set_result(GaoProtobuf::AuthenticationResult::success);
+
+					std::vector<int> userGroups = Groups::getUserGroups(connection->getUserId());
+					connection->setUserGroups(userGroups);
+					Groups::addUserConnectionToGroups(userGroups, connection->getId());
 				}
 				else if (authResult.isUnauthorized)
 				{
