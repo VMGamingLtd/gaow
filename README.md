@@ -99,7 +99,8 @@ In powershell terminal:
 
 In `git-bash` terminal:
 ```
-> cp /w1/vcpkg/installed/x64-windows/bin/*.dll /c/w1/gaow_build/Debug
+> cp /c/w1/vcpkg/installed/x64-windows/bin/*.dll /c/w1/gaow_build/Debug
+> cp /c/'Program Files'/MariaDB/'MariaDB C++ Connector 64-bit'/mariadbcpp.dll /c/w1/gaow_build/Debug
 ```
 
 In powershell terminal run server `wsrv.exe`:
