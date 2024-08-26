@@ -1,14 +1,14 @@
 #include "./ExpiringCache.h"
 
 template<typename K, typename T>
-void ExpiringCache<typename K, typename T>::put(const K& key, const T& value) {
+void ExpiringCache<K, T>::put(const K& key, const T& value) {
 	std::lock_guard<std::mutex> lock(cacheMutex);
 	auto now = std::chrono::steady_clock::now();
 	cache[key] = {value, now};
 }
 
 template<typename K, typename T>
-bool ExpiringCache<typename K, typename T>::get(const K& key, T& value) {
+bool ExpiringCache<K, T>::get(const K& key, T& value) {
 	std::lock_guard<std::mutex> lock(cacheMutex);
 	auto it = cache.find(key);
 	if (it != cache.end()) {
@@ -24,7 +24,7 @@ bool ExpiringCache<typename K, typename T>::get(const K& key, T& value) {
 }
 
 template<typename K, typename T>
-void ExpiringCache<typename K, typename T>::clean() {
+void ExpiringCache<K, T>::clean() {
 	std::lock_guard<std::mutex> lock(cacheMutex);
 	auto now = std::chrono::steady_clock::now();
 	for (auto it = cache.begin(); it != cache.end(); ) {
@@ -37,4 +37,3 @@ void ExpiringCache<typename K, typename T>::clean() {
 }
 
 template class ExpiringCache<int, std::vector<int>>;
-

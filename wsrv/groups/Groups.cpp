@@ -18,7 +18,9 @@ std::vector<int> Groups::getUserGroups(int userId)
 	if (cache.get(userId, groups))
 	{
 		return groups;
-	} else {
+	} 
+	else 
+	{
 		// get from db
 		DbConnection* db = DbConnection::wsrvDbConnection;
 		if (db == nullptr)
@@ -29,8 +31,30 @@ std::vector<int> Groups::getUserGroups(int userId)
 
 		groups = db->getUserGroups(userId);
 
+		// This user is not a direct member of any group.
+		// Group owner as such is normally never a member of the group of which he is owner.
+		// This user might still be the owner of a group with some members and thus indirectly (by the virtue of ownership) be the member of that group. 
+		auto ownerGroups = db->getOwnerGroups(userId);
+
+		for (int groupId : ownerGroups)
+		{
+			int count = db->getGroupMembersCount(groupId);
+			if (count > 1)
+			{
+				groups.push_back(groupId);
+			}
+		}
+
+		// to be on the safe side, remove duplicates
+		std::sort(groups.begin(), groups.end());
+		groups.erase(std::unique(groups.begin(), groups.end()), groups.end());
+
+
 		// put in cache
-		cache.put(userId, groups);
+		if (groups.size() > 0)
+		{
+			cache.put(userId, groups);
+		}
 	}
 
 
