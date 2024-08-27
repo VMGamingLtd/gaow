@@ -6,13 +6,69 @@ DbConnection* DbConnection::wsrvDbConnection = nullptr;
 
 DbConnection::DbConnection()
 {
-	 connection = nullptr;
+	connection = nullptr;
 
-	ppStmtStr_getUserGroups = "select Id from chatroom where OwnerId = ?";
+	ppStmtStr_getUserGroups = 
+
+"select\n"
+"  g.Id as GroupId\n"	
+"from\n"
+"  Groupp g\n"
+"join GroupMember gm on g.Id = gm.GroupId\n"
+"where\n"
+"  gm.UserId = ?\n"
+"\n"
+"-- ensuure idempotency\n"
+"-- so that limit 1  always yields same GroupId or none\n"
+"order by GroupId\n"
+"-- when creating the group there's a constraint that user cannot be member of more then one group,\n"
+"-- also for every user there exists one and only one group such the user is owner of that group\n"
+"limit 1\n"
+";\n"
+
+
+	;
+
+
 	ppStmt_getUserGroups = nullptr;
 
-	ppStmtStr_getGroupMembers = "select chm.UserId from chatroom chr join chatroommember chm on chr.Id = chm.ChatRoomId where chr.Id = 5";
+	ppStmtStr_getGroupMembers = 
+"select\n"
+"  gm.UserId\n"
+"from\n"
+"  GroupMember gm\n"
+"where\n"
+"  gm.GroupId = ?\n"
+";\n"
+	;
+
 	ppStmt_getGroupMembers = nullptr;
+
+	ppStmtStr_getGroupMembersCount =
+"select\n"
+"  count(*) as cnt"
+"from\n"
+"  GroupMember gm\n"
+"where\n"
+"  gm.GroupId = ?\n"
+";\n"
+		;
+	ppStmt_getGroupMembersCount = nullptr;
+
+	ppStmtStr_getOwnerGroups =
+"select\n"
+"  g.Id as GroupId\n"
+"from\n"
+"  Groupp as g\n"
+" where\n"
+"  g.OwnerId = ?\n"
+"order by g.Id\n"
+"limit 1\n"
+";\n"
+;
+	ppStmt_getOwnerGroups = nullptr;
+
+
 }
 
 DbConnection::~DbConnection()
@@ -163,5 +219,105 @@ std::vector<int> DbConnection::getGroupMembers(int groupId)
 	delete rs;
 
 	return members;
+}
+
+int DbConnection::getGroupMembersCount(int groupId)
+{
+	int membersCount = 0;
+
+	if (connection == nullptr)
+	{
+		connect();
+		if (connection == nullptr)
+		{
+			std::cerr << "DbConnection::getGroupMembersCount(): connection failed" << std::endl;
+			return membersCount;
+		}
+	}
+
+	if (ppStmt_getGroupMembersCount == nullptr)
+	{
+		try
+		{
+			ppStmt_getGroupMembersCount = this->connection->prepareStatement(ppStmtStr_getGroupMembersCount);
+		}
+		catch (sql::SQLException& e)
+		{
+			std::cerr << "DbConnection::getGroupMembersCount(): prepareStatement failed: " << e.what() << std::endl;
+			disconnect();
+			return membersCount;
+		}
+	}
+	ppStmt_getGroupMembersCount->setInt(1, groupId);
+	sql::ResultSet* rs;
+	try
+	{
+		rs = ppStmt_getGroupMembersCount->executeQuery();
+	}
+	catch (sql::SQLException& e)
+	{
+		std::cerr << "DbConnection::getGroupMembersCount(): executeQuery failed: " << e.what() << std::endl;
+		delete ppStmt_getGroupMembersCount;
+		ppStmt_getGroupMembersCount = nullptr;
+		disconnect();
+		return membersCount;
+	}
+	while (rs->next())
+	{
+		membersCount = rs->getInt(1);
+		break;
+	}
+	delete rs;
+
+	return membersCount;
+}
+std::vector<int> DbConnection::getOwnerGroups(int userId)
+{
+	std::vector<int> groups;
+
+	if (connection == nullptr)
+	{
+		connect();
+		if (connection == nullptr)
+		{
+			std::cerr << "DbConnection::getOwnerGroups(): connection failed" << std::endl;
+			return groups;
+		}
+	}
+
+	if (ppStmt_getOwnerGroups == nullptr)
+	{
+		try
+		{
+			ppStmt_getOwnerGroups = this->connection->prepareStatement(ppStmtStr_getOwnerGroups);
+		}
+		catch (sql::SQLException& e)
+		{
+			std::cerr << "DbConnection::getOwnerGroups(): prepareStatement failed: " << e.what() << std::endl;
+			disconnect();
+			return groups;
+		}
+	}
+	ppStmt_getOwnerGroups->setInt(1, userId);
+	sql::ResultSet* rs;
+	try
+	{
+		rs = ppStmt_getOwnerGroups->executeQuery();
+	}
+	catch (sql::SQLException& e)
+	{
+		std::cerr << "DbConnection::getOwnerGroups(): executeQuery failed: " << e.what() << std::endl;
+		delete ppStmt_getOwnerGroups;
+		ppStmt_getOwnerGroups = nullptr;
+		disconnect();
+		return groups;
+	}
+	while (rs->next())
+	{
+		groups.push_back(rs->getInt(1));
+	}
+	delete rs;
+
+	return groups;
 }
 
