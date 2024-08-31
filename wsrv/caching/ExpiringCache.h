@@ -5,6 +5,7 @@
 #include <chrono>
 #include <thread>
 #include <mutex>
+#include <vector>
 
 template<typename K, typename T>
 class ExpiringCache {

@@ -150,7 +150,11 @@ if(WIN32)
     INTERFACE ${mariadb_connector_install_path}/include
   )
 elseif(UNIX)
-	message(FATAL_ERROR "todo: add mariadbcpp lib on linux")
+  find_library(MARIADB_CPP_LIBRARY NAMES mariadbcpp 
+    PATHS /usr/lib
+    PATH_SUFFIXES x86_64-linux-gnu
+    REQUIRED
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -239,7 +243,7 @@ elseif(UNIX)
     libprotoc
     ${SSL_LIBRARY}
     ${CRYPTO_LIBRARY}
-	libmariadbcpp
+	  ${MARIADB_CPP_LIBRARY}
   )
 else()
   message(FATAL_ERROR "unsupported platform")
