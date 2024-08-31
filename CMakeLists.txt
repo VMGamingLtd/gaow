@@ -239,6 +239,7 @@ elseif(UNIX)
     libprotoc
     ${SSL_LIBRARY}
     ${CRYPTO_LIBRARY}
+	libmariadbcpp
   )
 else()
   message(FATAL_ERROR "unsupported platform")
