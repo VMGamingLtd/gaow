@@ -131,7 +131,7 @@ int main() {
             std::cout << "A client disconnected" << std::endl; //@@@@@@@@@@@@@@@@@@
             WsConnection::removeConnection(ws);
         }
-    }).listen(9001, [](auto *listen_socket) {
+    }).listen("127.0.0.1", 9001, [](auto *listen_socket) {
         if (listen_socket) {
             std::cout << "Listening on port " << 9001 << std::endl;
         }
