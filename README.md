@@ -126,6 +126,10 @@ Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside th
 
 Im windows follow instructions on this [link](https://mariadb.com/downloads/connectors/connectors-data-access/cpp-connector/)
 
+```
+> dopkg -i mariadb-connector-cpp_1.1.5-1+maria~jammy_amd64.deb
+```
+
 ### Build jwt-cpp (linux only)
 
 Install dependencies:
