@@ -27,14 +27,13 @@ namespace message
 				return;
 			}
 
-			auto it = Groups::groupConnections.find(groupId);
-			if (it == Groups::groupConnections.end())
+
+			const std::vector<std::string> connectionIds = Groups::getGroupConnections(groupId);
+			if (connectionIds.size() == 0)
 			{
-				std::cerr << "GroupBroadcast::relayMessage(): warning: group not found" << std::endl;
+				std::cerr << "GroupBroadcast::relayMessage(): warning: no connections found in the group" << std::endl;
 				return;
 			}
-
-			const std::vector<std::string>& connectionIds = it->second;
 			for (const std::string& connectionId : connectionIds)
 			{
 				auto it = WsConnection::connections.find(connectionId);

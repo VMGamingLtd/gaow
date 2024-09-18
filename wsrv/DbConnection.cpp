@@ -118,6 +118,18 @@ void DbConnection::disconnect()
 			delete ppStmt_getGroupMembers;
 			ppStmt_getGroupMembers = nullptr;
 		}
+
+		if (ppStmt_getGroupMembersCount != nullptr)
+		{
+			delete ppStmt_getGroupMembersCount;
+			ppStmt_getGroupMembersCount = nullptr;
+		}
+
+		if (ppStmt_getOwnerGroups != nullptr)
+		{
+			delete ppStmt_getOwnerGroups;
+			ppStmt_getOwnerGroups = nullptr;
+		}
 	}
 }
 
@@ -157,8 +169,6 @@ std::vector<int> DbConnection::getUserGroups(int userId)
 	catch (sql::SQLException& e)
 	{
 		std::cerr << "DbConnection::getUserGroups(): executeQuery failed: " << e.what() << std::endl;
-		delete ppStmt_getUserGroups;
-		ppStmt_getUserGroups = nullptr;
 		disconnect();
 		return groups;
 	}
@@ -207,8 +217,6 @@ std::vector<int> DbConnection::getGroupMembers(int groupId)
 	catch (sql::SQLException& e)
 	{
 		std::cerr << "DbConnection::getGroupMembers(): executeQuery failed: " << e.what() << std::endl;
-		delete ppStmt_getGroupMembers;
-		ppStmt_getGroupMembers = nullptr;
 		disconnect();
 		return members;
 	}
@@ -257,8 +265,6 @@ int DbConnection::getGroupMembersCount(int groupId)
 	catch (sql::SQLException& e)
 	{
 		std::cerr << "DbConnection::getGroupMembersCount(): executeQuery failed: " << e.what() << std::endl;
-		delete ppStmt_getGroupMembersCount;
-		ppStmt_getGroupMembersCount = nullptr;
 		disconnect();
 		return membersCount;
 	}
@@ -307,8 +313,6 @@ std::vector<int> DbConnection::getOwnerGroups(int userId)
 	catch (sql::SQLException& e)
 	{
 		std::cerr << "DbConnection::getOwnerGroups(): executeQuery failed: " << e.what() << std::endl;
-		delete ppStmt_getOwnerGroups;
-		ppStmt_getOwnerGroups = nullptr;
 		disconnect();
 		return groups;
 	}

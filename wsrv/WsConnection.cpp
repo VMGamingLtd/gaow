@@ -29,7 +29,7 @@ void WsConnection::removeConnection(uWS::WebSocket<false, true, SocketContextDat
 	WsConnection *connection = WsConnection::findConnection(ws);
 	if (connection != nullptr)
 	{
-		Groups::removeConnectionFromGroups(connection->getId());
+		Groups::removeUserConnectionFromUserGroups(connection->getId());
 		WsConnection::connections.erase(connection->getId());
 		delete connection;
 	}

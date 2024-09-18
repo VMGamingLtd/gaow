@@ -40,7 +40,7 @@ namespace message
 
 					std::vector<int> userGroups = Groups::getUserGroups(connection->getUserId());
 					connection->setUserGroups(userGroups);
-					Groups::addUserConnectionToGroups(userGroups, connection->getId());
+					Groups::assignUserConnectionToUserGroups(connection->getId(), userGroups);
 				}
 				else if (authResult.isUnauthorized)
 				{
