@@ -202,6 +202,8 @@ add_executable(wsrv
   wsrv/message/unity_browser_channel/UnityBrowserChannel.h
   wsrv/message/group/GroupBroadcast.cpp
   wsrv/message/group/GroupBroadcast.h
+  wsrv/message/gaos/GaosBroadcast.cpp
+  wsrv/message/gaos/GaosBroadcast.h
   wsrv/groups/Groups.cpp
   wsrv/groups/Groups.h
   wsrv/caching/ExpiringCache.cpp
@@ -211,6 +213,8 @@ add_executable(wsrv
   wsrv/DbConnection.cpp
   wsrv/DbConnection.h
   wsrv/config.h
+  wsrv/gaos/gaos.cpp
+  wsrv/gaos/gaos.h
   ${protobuf_source_files}
 )
 

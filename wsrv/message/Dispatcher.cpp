@@ -3,6 +3,7 @@
 #include "./websocket/Authenticate.h"
 #include "./unity_browser_channel/UnityBrowserChannel.h"
 #include "./group/GroupBroadcast.h"
+#include "./gaos/GaosBroadcast.h"
 #include "../WsConnection.h"
 
 #include <iomanip>
@@ -284,5 +285,45 @@ namespace message
 	{
 		message::group::GroupBroadcast::relayMessage(ws, messageHeader, message);
 	}
+
+    void Dispatcher::dispatchMessage_Namespace_Gaos(struct us_socket_t *s, const GaoProtobuf::MessageHeader& messageHeader, std::istream& message)
+    {
+        try
+        {
+			// switch based on the classId
+			switch (messageHeader.classid())
+			{
+			case (int32_t)GaosClassIds::Broadcast:
+				dispatchMessage_Namespace_Gaos_Class_Broadcast(s, messageHeader, message);
+				break;
+			default:
+				std::cerr << "Dispatcher::dispatchMessage_Namespace_Gaos(): no such classId: " << messageHeader.classid();
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << "Dispatcher::dispatchMessage_Namespace_Gaos(): Exception: " << e.what() << std::endl;
+		}
+    }
+
+    void Dispatcher::dispatchMessage_Namespace_Gaos_Class_Broadcast(struct us_socket_t *s, const GaoProtobuf::MessageHeader& messageHeader, std::istream& message)
+    {
+        try
+        {
+			// switch based on the classId
+			switch (messageHeader.methodid())
+			{
+            case (int32_t)GaosBroadcastMethodIds::GroupCreditsChange:
+				message::gaos::GaosBroadcast::groupCreditsChange(s, messageHeader, message);
+				break;
+			default:
+				std::cerr << "Dispatcher::dispatchMessage_Namespace_Gaos_Class_Broadcast(): no such classId: " << messageHeader.classid();
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << "Dispatcher::dispatchMessage_Namespace_Gaos_Class_Broadcast(): Exception: " << e.what() << std::endl;
+		}
+    }
 
 }
