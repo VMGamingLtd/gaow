@@ -180,7 +180,12 @@ endif()
 
 project(WebsocketServer)
 
-file(GLOB protobuf_source_files "${CMAKE_SOURCE_DIR}/wsrv/protobuf/*.pb.cc"  "${CMAKE_SOURCE_DIR}/wsrv/protobuf/*.pb.h")
+file(GLOB protobuf_source_files 
+	"${CMAKE_SOURCE_DIR}/wsrv/protobuf/*.pb.cc"  
+	"${CMAKE_SOURCE_DIR}/wsrv/protobuf/*.pb.h"
+	"${CMAKE_SOURCE_DIR}/wsrv/protobuf/gaos/*.pb.cc"  
+	"${CMAKE_SOURCE_DIR}/wsrv/protobuf/gaos/*.pb.h"
+)
 
 add_executable(wsrv 
   wsrv/main.cpp
@@ -247,7 +252,7 @@ elseif(UNIX)
     libprotoc
     ${SSL_LIBRARY}
     ${CRYPTO_LIBRARY}
-	  ${MARIADB_CPP_LIBRARY}
+	${MARIADB_CPP_LIBRARY}
   )
 else()
   message(FATAL_ERROR "unsupported platform")
@@ -260,11 +265,13 @@ if(WIN32)
     ${uWebSocketsLib_includes}
     ${cpackages_install_path}/include
     ${vcpkg_install_path}/include
+	${CMAKE_SOURCE_DIR}/wsrv/protobuf
   )
 elseif(UNIX)
   target_include_directories(wsrv PRIVATE 
     ${uWebSocketsLib_includes}
     ${cpackages_install_path}/include
+	${CMAKE_SOURCE_DIR}/wsrv/protobuf
   )
 else()
   message(FATAL_ERROR "unsupported platform")

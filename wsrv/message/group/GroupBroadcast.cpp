@@ -49,6 +49,11 @@ namespace message
 					// skip the current connection
 					continue;
 				}
+				if (!peerConnection->isAuthenticated())
+				{
+					// skip unauthenticated connections
+					continue;
+				}
 
 				std::stringstream ostream;
 
