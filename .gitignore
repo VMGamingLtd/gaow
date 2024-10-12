@@ -2,3 +2,5 @@ uWebSockets/
 wsrv/proto
 *.swp
 *.swo
+.vscode/
+build/
