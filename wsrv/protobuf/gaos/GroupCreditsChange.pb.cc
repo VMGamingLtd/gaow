@@ -81,7 +81,7 @@ const char descriptor_table_protodef_gaos_2fGroupCreditsChange_2eproto[] ABSL_AT
     protodesc_cold) = {
     "\n\035gaos/GroupCreditsChange.proto\022\020GaoProt"
     "obuf.gaos\"%\n\022GroupCreditsChange\022\017\n\007credi"
-    "ts\030\001 \001(\005B\023\252\002\020GaoProtobuf.gaosb\006proto3"
+    "ts\030\001 \001(\002B\023\252\002\020GaoProtobuf.gaosb\006proto3"
 };
 static ::absl::once_flag descriptor_table_gaos_2fGroupCreditsChange_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_gaos_2fGroupCreditsChange_2eproto = {
@@ -188,15 +188,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> GroupCreditsChange::_table_ = {
     ::_pbi::TcParser::GetTable<::GaoProtobuf::gaos::GroupCreditsChange>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // int32 credits = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(GroupCreditsChange, _impl_.credits_), 63>(),
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(GroupCreditsChange, _impl_.credits_)}},
+    // float credits = 1;
+    {::_pbi::TcParser::FastF32S1,
+     {13, 63, 0, PROTOBUF_FIELD_OFFSET(GroupCreditsChange, _impl_.credits_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // int32 credits = 1;
+    // float credits = 1;
     {PROTOBUF_FIELD_OFFSET(GroupCreditsChange, _impl_.credits_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
   }},
   // no aux_entries
   {{
@@ -229,11 +229,11 @@ PROTOBUF_NOINLINE void GroupCreditsChange::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int32 credits = 1;
-          if (this_._internal_credits() != 0) {
-            target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt32ToArrayWithField<1>(
-                    stream, this_._internal_credits(), target);
+          // float credits = 1;
+          if (::absl::bit_cast<::uint32_t>(this_._internal_credits()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                1, this_._internal_credits(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -260,10 +260,9 @@ PROTOBUF_NOINLINE void GroupCreditsChange::Clear() {
           (void)cached_has_bits;
 
            {
-            // int32 credits = 1;
-            if (this_._internal_credits() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-                  this_._internal_credits());
+            // float credits = 1;
+            if (::absl::bit_cast<::uint32_t>(this_._internal_credits()) != 0) {
+              total_size += 5;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -278,7 +277,7 @@ void GroupCreditsChange::MergeImpl(::google::protobuf::MessageLite& to_msg, cons
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_credits() != 0) {
+  if (::absl::bit_cast<::uint32_t>(from._internal_credits()) != 0) {
     _this->_impl_.credits_ = from._impl_.credits_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);

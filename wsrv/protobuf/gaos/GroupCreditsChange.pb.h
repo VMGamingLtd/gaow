@@ -212,14 +212,14 @@ class GroupCreditsChange final : public ::google::protobuf::Message
   enum : int {
     kCreditsFieldNumber = 1,
   };
-  // int32 credits = 1;
+  // float credits = 1;
   void clear_credits() ;
-  ::int32_t credits() const;
-  void set_credits(::int32_t value);
+  float credits() const;
+  void set_credits(float value);
 
   private:
-  ::int32_t _internal_credits() const;
-  void _internal_set_credits(::int32_t value);
+  float _internal_credits() const;
+  void _internal_set_credits(float value);
 
   public:
   // @@protoc_insertion_point(class_scope:GaoProtobuf.gaos.GroupCreditsChange)
@@ -248,7 +248,7 @@ class GroupCreditsChange final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const GroupCreditsChange& from_msg);
-    ::int32_t credits_;
+    float credits_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -272,24 +272,24 @@ class GroupCreditsChange final : public ::google::protobuf::Message
 
 // GroupCreditsChange
 
-// int32 credits = 1;
+// float credits = 1;
 inline void GroupCreditsChange::clear_credits() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.credits_ = 0;
 }
-inline ::int32_t GroupCreditsChange::credits() const {
+inline float GroupCreditsChange::credits() const {
   // @@protoc_insertion_point(field_get:GaoProtobuf.gaos.GroupCreditsChange.credits)
   return _internal_credits();
 }
-inline void GroupCreditsChange::set_credits(::int32_t value) {
+inline void GroupCreditsChange::set_credits(float value) {
   _internal_set_credits(value);
   // @@protoc_insertion_point(field_set:GaoProtobuf.gaos.GroupCreditsChange.credits)
 }
-inline ::int32_t GroupCreditsChange::_internal_credits() const {
+inline float GroupCreditsChange::_internal_credits() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.credits_;
 }
-inline void GroupCreditsChange::_internal_set_credits(::int32_t value) {
+inline void GroupCreditsChange::_internal_set_credits(float value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.credits_ = value;
 }

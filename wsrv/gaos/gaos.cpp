@@ -31,7 +31,7 @@ namespace gaos
 
 	struct us_socket_t *GaosServer::on_socket_close(struct us_socket_t *s, int code, void *reason) 
 	{
-		printf("Client disconnected\n");
+		printf("GaosServer::on_socket_close() client disconnected\n");
 		return s;
 	}
 
@@ -152,7 +152,7 @@ namespace gaos
 
 	struct us_socket_t *GaosServer::on_socket_open(struct us_socket_t *s, int is_client, char *ip, int ip_length) {
 
-		printf("Client connected\n");
+		printf("GaosServer::on_socket_open(): client connected\n");
 		return s;
 	}
 
@@ -175,7 +175,7 @@ namespace gaos
 		struct us_socket_context_t *socket_context = us_create_socket_context(0, loop, 0, options);
 
 		if (!socket_context) {
-			std::cerr << "Could not create socket context" << std::endl;
+			std::cerr << "GaosServer::run(): Could not create socket context" << std::endl;
 			exit(0);
 		}
 
