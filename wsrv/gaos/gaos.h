@@ -33,6 +33,7 @@ namespace gaos
 
 	public:
 		static void run();
+		static void runInThread();
 	};
 
 }

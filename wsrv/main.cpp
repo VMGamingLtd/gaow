@@ -5,6 +5,7 @@
 #include "./Utils.h"
 #include "./DbConnection.h"
 #include "./groups/Groups.h"
+#include "./gaos/gaos.h"
 
 #include <sstream>
 #include <iostream>
@@ -75,6 +76,12 @@ int main() {
     };
     */
 
+	gaos::GaosServer::runInThread();
+    // sleep for 1s
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    Groups::startCacheCleaningThread();
+
     /* Keep in mind that uWS::SSLApp({options}) is the same as uWS::App() when compiled without SSL support.
      * You may swap to using uWS:App() if you don't need SSL */
     DbConnection::wsrvDbConnection = new DbConnection();
@@ -137,7 +144,7 @@ int main() {
         }
     }).run();
 
-    Groups::startCacheCleaningThread();
+
 
     return 0;
 }

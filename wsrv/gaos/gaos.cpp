@@ -120,8 +120,12 @@ namespace gaos
 					length -= messageSize;
 					receivedLength += messageSize;
 
-					std::istringstream iss(std::string{ receiveBuffer + 4, messageSize });
-					message::Dispatcher::dispatchMessage(nullptr, iss);
+					// put the message dispatch in a lambda
+					uWS::Loop::get()->defer([s, rb = std::string{receiveBuffer, (size_t)receivedLength}]() mutable {
+						// create a string stream from the buffer
+						std::istringstream iss(rb);
+						message::Dispatcher::dispatchMessage_s(s, iss);
+                    });
 
 					receiveState = RECEIVE_STATE__NONE;
 					receivedLength = 0;
@@ -188,5 +192,22 @@ namespace gaos
 		us_socket_context_on_end(0, socket_context, GaosServer::on_socket_end);
 
 		struct us_listen_socket_t *listen_socket = us_socket_context_listen(0, socket_context, 0, 3000, 0, 0);
+		if (listen_socket) 
+		{
+			std::cerr << "GaosServer::run(): Listening on port 3000" << std::endl;
+			us_loop_run(loop);
+		} 
+		else 
+		{
+			printf("Failed to listen!\n");
+			std::cerr << "GaosServer::run(): Failed to listen!" << std::endl;
+			std::exit(1);
+		}
+	}
+
+	void GaosServer::runInThread()
+	{
+		std::thread t(run);
+		t.detach();
 	}
 }

@@ -147,7 +147,7 @@ namespace message
             int32_t methodId = messageHeader.methodid();
 
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            std::cout << "Dispatcher::dispatchMessage(): namespaceId: " << namespaceId << ", classId: " << classId << ", methodId: " << methodId << std::endl;
+            std::cout << "Dispatcher::dispatchMessage(ws): namespaceId: " << namespaceId << ", classId: " << classId << ", methodId: " << methodId << std::endl;
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             // switch based on the namespaceId
@@ -163,17 +163,54 @@ namespace message
 				dispatchMessage_Namespace_Group(ws, messageHeader, message);
 				break;
             default:
-                std::cerr << "Dispatcher::dispatchMessage(): no such namespaceId: " << namespaceId;
+                std::cerr << "Dispatcher::dispatchMessage(ws): no such namespaceId: " << namespaceId;
             }
 
         }
         catch (const std::exception& e)
         {
-            std::cerr << "Dispatcher::dispatchMessage(): Exception: " << e.what() << std::endl;
+            std::cerr << "Dispatcher::dispatchMessage(ws): Exception: " << e.what() << std::endl;
         }
         catch (...)
         {
-            std::cerr << "Dispatcher::dispatchMessage(): Unknown exception" << std::endl;
+            std::cerr << "Dispatcher::dispatchMessage(ws): Unknown exception" << std::endl;
+        }
+    }
+
+    void Dispatcher::dispatchMessage_s(struct us_socket_t *s, std::istream& message)
+    {
+        try
+        {
+            // parse the message header
+            GaoProtobuf::MessageHeader messageHeader = parseMessageHeader(message);
+
+            // dispatch the message
+            int32_t namespaceId = messageHeader.namespaceid();
+            int32_t classId = messageHeader.classid();
+            int32_t methodId = messageHeader.methodid();
+
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            std::cout << "Dispatcher::dispatchMessage(s): namespaceId: " << namespaceId << ", classId: " << classId << ", methodId: " << methodId << std::endl;
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+            // switch based on the namespaceId
+            switch (namespaceId)
+            {
+            case (int32_t)NamespaceIds::Gaos:
+				dispatchMessage_Namespace_Gaos(s, messageHeader, message);
+				break;
+            default:
+                std::cerr << "Dispatcher::dispatchMessage(s): no such namespaceId: " << namespaceId;
+            }
+
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Dispatcher::dispatchMessage(s): Exception: " << e.what() << std::endl;
+        }
+        catch (...)
+        {
+            std::cerr << "Dispatcher::dispatchMessage(s): Unknown exception" << std::endl;
         }
     }
 

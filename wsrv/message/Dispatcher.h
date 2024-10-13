@@ -66,6 +66,7 @@ namespace message
 
         static void handleMessage(uWS::WebSocket<false, true, SocketContextData>* ws, std::string_view message, uWS::OpCode opCode);
         static void dispatchMessage(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message);
+        static void dispatchMessage_s(struct us_socket_t* s, std::istream& message);
 
         // Websocket 
         static void dispatchMessage_Namespace_Websocket(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message, int32_t namespaceId, int32_t classId, int32_t methodId);
