@@ -27,9 +27,9 @@ namespace GaoProtobuf {
 
 inline constexpr MessageHeader::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : fromid_{::int64_t{0}},
-        toid_{::int64_t{0}},
-        groupid_{::int64_t{0}},
+      : fromid_{0},
+        toid_{0},
+        groupid_{0},
         typeid__{0},
         namespaceid_{0},
         classid_{0},
@@ -90,8 +90,8 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_MessageHeader_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\023MessageHeader.proto\022\013GaoProtobuf\"\206\001\n\rM"
-    "essageHeader\022\016\n\006fromId\030\001 \001(\003\022\014\n\004toId\030\002 \001"
-    "(\003\022\017\n\007groupId\030\003 \001(\003\022\016\n\006typeId\030\004 \001(\005\022\023\n\013n"
+    "essageHeader\022\016\n\006fromId\030\001 \001(\005\022\014\n\004toId\030\002 \001"
+    "(\005\022\017\n\007groupId\030\003 \001(\005\022\016\n\006typeId\030\004 \001(\005\022\023\n\013n"
     "amespaceId\030\005 \001(\005\022\017\n\007classId\030\006 \001(\005\022\020\n\010met"
     "hodId\030\007 \001(\005B\016\252\002\013GaoProtobufb\006proto3"
 };
@@ -205,14 +205,14 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> MessageHeader::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // int64 fromId = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(MessageHeader, _impl_.fromid_), 63>(),
+    // int32 fromId = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(MessageHeader, _impl_.fromid_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(MessageHeader, _impl_.fromid_)}},
-    // int64 toId = 2;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(MessageHeader, _impl_.toid_), 63>(),
+    // int32 toId = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(MessageHeader, _impl_.toid_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(MessageHeader, _impl_.toid_)}},
-    // int64 groupId = 3;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(MessageHeader, _impl_.groupid_), 63>(),
+    // int32 groupId = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(MessageHeader, _impl_.groupid_), 63>(),
      {24, 63, 0, PROTOBUF_FIELD_OFFSET(MessageHeader, _impl_.groupid_)}},
     // int32 typeId = 4;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(MessageHeader, _impl_.typeid__), 63>(),
@@ -229,15 +229,15 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> MessageHeader::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // int64 fromId = 1;
+    // int32 fromId = 1;
     {PROTOBUF_FIELD_OFFSET(MessageHeader, _impl_.fromid_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
-    // int64 toId = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // int32 toId = 2;
     {PROTOBUF_FIELD_OFFSET(MessageHeader, _impl_.toid_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
-    // int64 groupId = 3;
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // int32 groupId = 3;
     {PROTOBUF_FIELD_OFFSET(MessageHeader, _impl_.groupid_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
     // int32 typeId = 4;
     {PROTOBUF_FIELD_OFFSET(MessageHeader, _impl_.typeid__), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
@@ -284,24 +284,24 @@ PROTOBUF_NOINLINE void MessageHeader::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int64 fromId = 1;
+          // int32 fromId = 1;
           if (this_._internal_fromid() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt64ToArrayWithField<1>(
+                WriteInt32ToArrayWithField<1>(
                     stream, this_._internal_fromid(), target);
           }
 
-          // int64 toId = 2;
+          // int32 toId = 2;
           if (this_._internal_toid() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt64ToArrayWithField<2>(
+                WriteInt32ToArrayWithField<2>(
                     stream, this_._internal_toid(), target);
           }
 
-          // int64 groupId = 3;
+          // int32 groupId = 3;
           if (this_._internal_groupid() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt64ToArrayWithField<3>(
+                WriteInt32ToArrayWithField<3>(
                     stream, this_._internal_groupid(), target);
           }
 
@@ -358,19 +358,19 @@ PROTOBUF_NOINLINE void MessageHeader::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // int64 fromId = 1;
+            // int32 fromId = 1;
             if (this_._internal_fromid() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_fromid());
             }
-            // int64 toId = 2;
+            // int32 toId = 2;
             if (this_._internal_toid() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_toid());
             }
-            // int64 groupId = 3;
+            // int32 groupId = 3;
             if (this_._internal_groupid() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_groupid());
             }
             // int32 typeId = 4;

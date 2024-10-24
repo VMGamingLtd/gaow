@@ -9,21 +9,26 @@ namespace message
 	{
 		void GaosBroadcast::groupCreditsChange(struct us_socket_t* s, const GaoProtobuf::MessageHeader& messageHeader, std::istream& message)
 		{
+			if (IS_DEBUG)
+			{
+				std::cout << "gaos::GaosBroadcast::groupCreditsChange(): " << std::endl;
+			}
 			// get the target group id
 			int groupId = messageHeader.groupid();
 
 			const std::vector<std::string> connectionIds = Groups::getGroupConnections(groupId);
-			if (connectionIds.size() == 0)
+			if (IS_DEBUG)
 			{
-				std::cerr << "GroupBroadcast::relayMessage(): warning: no connections found in the group" << std::endl;
-				return;
+				std::cout << "GroupBroadcast::groupCreditsChange(): " << connectionIds.size() << "connections found in the group" << std::endl;
 			}
+
 			for (const std::string& connectionId : connectionIds)
 			{
+
 				auto it = WsConnection::connections.find(connectionId);
 				if (it == WsConnection::connections.end())
 				{
-					std::cerr << "GroupBroadcast::relayMessage(): warning: connection not found" << std::endl;
+					std::cerr << "GroupBroadcast::groupCreditsChange(): warning: connection not found" << std::endl;
 					continue;
 				}
 

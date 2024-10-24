@@ -33,7 +33,7 @@ std::vector<int> Groups::getUserGroups(int userId) // static
 		{
 			endTime = std::chrono::high_resolution_clock::now();
 			duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
-			std::cout << "Groups::getUserGroups():" << "Execution time: " << duration.count() << " microseconds (from cache)" << std::endl;
+			std::cout << "Groups::getUserGroups(): DEBUG:" << "Execution time: " << duration.count() << " microseconds (from cache)" << std::endl;
 		}
 		return groups;
 	} 

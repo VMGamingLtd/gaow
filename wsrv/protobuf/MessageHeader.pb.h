@@ -215,34 +215,34 @@ class MessageHeader final : public ::google::protobuf::Message
     kClassIdFieldNumber = 6,
     kMethodIdFieldNumber = 7,
   };
-  // int64 fromId = 1;
+  // int32 fromId = 1;
   void clear_fromid() ;
-  ::int64_t fromid() const;
-  void set_fromid(::int64_t value);
+  ::int32_t fromid() const;
+  void set_fromid(::int32_t value);
 
   private:
-  ::int64_t _internal_fromid() const;
-  void _internal_set_fromid(::int64_t value);
+  ::int32_t _internal_fromid() const;
+  void _internal_set_fromid(::int32_t value);
 
   public:
-  // int64 toId = 2;
+  // int32 toId = 2;
   void clear_toid() ;
-  ::int64_t toid() const;
-  void set_toid(::int64_t value);
+  ::int32_t toid() const;
+  void set_toid(::int32_t value);
 
   private:
-  ::int64_t _internal_toid() const;
-  void _internal_set_toid(::int64_t value);
+  ::int32_t _internal_toid() const;
+  void _internal_set_toid(::int32_t value);
 
   public:
-  // int64 groupId = 3;
+  // int32 groupId = 3;
   void clear_groupid() ;
-  ::int64_t groupid() const;
-  void set_groupid(::int64_t value);
+  ::int32_t groupid() const;
+  void set_groupid(::int32_t value);
 
   private:
-  ::int64_t _internal_groupid() const;
-  void _internal_set_groupid(::int64_t value);
+  ::int32_t _internal_groupid() const;
+  void _internal_set_groupid(::int32_t value);
 
   public:
   // int32 typeId = 4;
@@ -311,9 +311,9 @@ class MessageHeader final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const MessageHeader& from_msg);
-    ::int64_t fromid_;
-    ::int64_t toid_;
-    ::int64_t groupid_;
+    ::int32_t fromid_;
+    ::int32_t toid_;
+    ::int32_t groupid_;
     ::int32_t typeid__;
     ::int32_t namespaceid_;
     ::int32_t classid_;
@@ -341,68 +341,68 @@ class MessageHeader final : public ::google::protobuf::Message
 
 // MessageHeader
 
-// int64 fromId = 1;
+// int32 fromId = 1;
 inline void MessageHeader::clear_fromid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.fromid_ = ::int64_t{0};
+  _impl_.fromid_ = 0;
 }
-inline ::int64_t MessageHeader::fromid() const {
+inline ::int32_t MessageHeader::fromid() const {
   // @@protoc_insertion_point(field_get:GaoProtobuf.MessageHeader.fromId)
   return _internal_fromid();
 }
-inline void MessageHeader::set_fromid(::int64_t value) {
+inline void MessageHeader::set_fromid(::int32_t value) {
   _internal_set_fromid(value);
   // @@protoc_insertion_point(field_set:GaoProtobuf.MessageHeader.fromId)
 }
-inline ::int64_t MessageHeader::_internal_fromid() const {
+inline ::int32_t MessageHeader::_internal_fromid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.fromid_;
 }
-inline void MessageHeader::_internal_set_fromid(::int64_t value) {
+inline void MessageHeader::_internal_set_fromid(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.fromid_ = value;
 }
 
-// int64 toId = 2;
+// int32 toId = 2;
 inline void MessageHeader::clear_toid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.toid_ = ::int64_t{0};
+  _impl_.toid_ = 0;
 }
-inline ::int64_t MessageHeader::toid() const {
+inline ::int32_t MessageHeader::toid() const {
   // @@protoc_insertion_point(field_get:GaoProtobuf.MessageHeader.toId)
   return _internal_toid();
 }
-inline void MessageHeader::set_toid(::int64_t value) {
+inline void MessageHeader::set_toid(::int32_t value) {
   _internal_set_toid(value);
   // @@protoc_insertion_point(field_set:GaoProtobuf.MessageHeader.toId)
 }
-inline ::int64_t MessageHeader::_internal_toid() const {
+inline ::int32_t MessageHeader::_internal_toid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.toid_;
 }
-inline void MessageHeader::_internal_set_toid(::int64_t value) {
+inline void MessageHeader::_internal_set_toid(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.toid_ = value;
 }
 
-// int64 groupId = 3;
+// int32 groupId = 3;
 inline void MessageHeader::clear_groupid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.groupid_ = ::int64_t{0};
+  _impl_.groupid_ = 0;
 }
-inline ::int64_t MessageHeader::groupid() const {
+inline ::int32_t MessageHeader::groupid() const {
   // @@protoc_insertion_point(field_get:GaoProtobuf.MessageHeader.groupId)
   return _internal_groupid();
 }
-inline void MessageHeader::set_groupid(::int64_t value) {
+inline void MessageHeader::set_groupid(::int32_t value) {
   _internal_set_groupid(value);
   // @@protoc_insertion_point(field_set:GaoProtobuf.MessageHeader.groupId)
 }
-inline ::int64_t MessageHeader::_internal_groupid() const {
+inline ::int32_t MessageHeader::_internal_groupid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.groupid_;
 }
-inline void MessageHeader::_internal_set_groupid(::int64_t value) {
+inline void MessageHeader::_internal_set_groupid(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.groupid_ = value;
 }

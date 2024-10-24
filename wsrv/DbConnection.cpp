@@ -46,7 +46,7 @@ DbConnection::DbConnection()
 
 	ppStmtStr_getGroupMembersCount =
 "select\n"
-"  count(*) as cnt"
+"  count(*) as cnt\n"
 "from\n"
 "  GroupMember gm\n"
 "where\n"
@@ -94,7 +94,7 @@ void DbConnection::connect()
 		connection = driver->connect(url, properties);
 		if (connection == nullptr)
 		{
-			std::cerr << "DbConnection::connect(): connection failed: " << connStr << std::endl;
+			std::cerr << "DbConnection::connect(): ERROR: connection failed: " << connStr << std::endl;
 		}
 	}
 }
@@ -142,7 +142,7 @@ std::vector<int> DbConnection::getUserGroups(int userId)
 		connect();
 		if (connection == nullptr)
 		{
-			std::cerr << "DbConnection::getUserGroups(): connection failed" << std::endl;
+			std::cerr << "DbConnection::getUserGroups(): ERROR: connection failed" << std::endl;
 			return groups;
 		}
 	}
@@ -155,7 +155,7 @@ std::vector<int> DbConnection::getUserGroups(int userId)
 		}
 		catch (sql::SQLException& e)
 		{
-			std::cerr << "DbConnection::getUserGroups(): prepareStatement failed: " << e.what() << std::endl;
+			std::cerr << "DbConnection::getUserGroups(): ERROR: prepareStatement failed: " << e.what() << std::endl;
 			disconnect();
 			return groups;
 		}
@@ -168,7 +168,7 @@ std::vector<int> DbConnection::getUserGroups(int userId)
 	}
 	catch (sql::SQLException& e)
 	{
-		std::cerr << "DbConnection::getUserGroups(): executeQuery failed: " << e.what() << std::endl;
+		std::cerr << "DbConnection::getUserGroups(): ERROR: executeQuery failed: " << e.what() << std::endl;
 		disconnect();
 		return groups;
 	}
@@ -190,7 +190,7 @@ std::vector<int> DbConnection::getGroupMembers(int groupId)
 		connect();
 		if (connection == nullptr)
 		{
-			std::cerr << "DbConnection::getGroupMembers(): connection failed" << std::endl;
+			std::cerr << "DbConnection::getGroupMembers(): ERROR: connection failed" << std::endl;
 			return members;
 		}
 	}
@@ -203,7 +203,7 @@ std::vector<int> DbConnection::getGroupMembers(int groupId)
 		}
 		catch (sql::SQLException& e)
 		{
-			std::cerr << "DbConnection::getGroupMembers(): prepareStatement failed: " << e.what() << std::endl;
+			std::cerr << "DbConnection::getGroupMembers(): ERROR: prepareStatement failed: " << e.what() << std::endl;
 			disconnect();
 			return members;
 		}
@@ -216,7 +216,7 @@ std::vector<int> DbConnection::getGroupMembers(int groupId)
 	}
 	catch (sql::SQLException& e)
 	{
-		std::cerr << "DbConnection::getGroupMembers(): executeQuery failed: " << e.what() << std::endl;
+		std::cerr << "DbConnection::getGroupMembers(): ERROR: executeQuery failed: " << e.what() << std::endl;
 		disconnect();
 		return members;
 	}
@@ -238,7 +238,7 @@ int DbConnection::getGroupMembersCount(int groupId)
 		connect();
 		if (connection == nullptr)
 		{
-			std::cerr << "DbConnection::getGroupMembersCount(): connection failed" << std::endl;
+			std::cerr << "DbConnection::getGroupMembersCount(): ERROR: connection failed" << std::endl;
 			return membersCount;
 		}
 	}
@@ -251,7 +251,7 @@ int DbConnection::getGroupMembersCount(int groupId)
 		}
 		catch (sql::SQLException& e)
 		{
-			std::cerr << "DbConnection::getGroupMembersCount(): prepareStatement failed: " << e.what() << std::endl;
+			std::cerr << "DbConnection::getGroupMembersCount(): ERROR: prepareStatement failed: " << e.what() << std::endl;
 			disconnect();
 			return membersCount;
 		}
@@ -264,7 +264,7 @@ int DbConnection::getGroupMembersCount(int groupId)
 	}
 	catch (sql::SQLException& e)
 	{
-		std::cerr << "DbConnection::getGroupMembersCount(): executeQuery failed: " << e.what() << std::endl;
+		std::cerr << "DbConnection::getGroupMembersCount(): ERROR: executeQuery failed: " << e.what() << std::endl;
 		disconnect();
 		return membersCount;
 	}
@@ -286,7 +286,7 @@ std::vector<int> DbConnection::getOwnerGroups(int userId)
 		connect();
 		if (connection == nullptr)
 		{
-			std::cerr << "DbConnection::getOwnerGroups(): connection failed" << std::endl;
+			std::cerr << "DbConnection::getOwnerGroups(): ERROR: connection failed" << std::endl;
 			return groups;
 		}
 	}
@@ -299,7 +299,7 @@ std::vector<int> DbConnection::getOwnerGroups(int userId)
 		}
 		catch (sql::SQLException& e)
 		{
-			std::cerr << "DbConnection::getOwnerGroups(): prepareStatement failed: " << e.what() << std::endl;
+			std::cerr << "DbConnection::getOwnerGroups(): ERROR: prepareStatement failed: " << e.what() << std::endl;
 			disconnect();
 			return groups;
 		}
@@ -312,7 +312,7 @@ std::vector<int> DbConnection::getOwnerGroups(int userId)
 	}
 	catch (sql::SQLException& e)
 	{
-		std::cerr << "DbConnection::getOwnerGroups(): executeQuery failed: " << e.what() << std::endl;
+		std::cerr << "DbConnection::getOwnerGroups(): ERROR: executeQuery failed: " << e.what() << std::endl;
 		disconnect();
 		return groups;
 	}
