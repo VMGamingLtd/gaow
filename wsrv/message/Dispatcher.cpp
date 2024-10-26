@@ -200,7 +200,7 @@ namespace message
 				dispatchMessage_Namespace_Gaos(s, messageHeader, message);
 				break;
             default:
-                std::cerr << "Dispatcher::dispatchMessage(s): no such namespaceId: " << namespaceId;
+                std::cerr << "Dispatcher::dispatchMessage(s): no such namespaceId: " << namespaceId << std::endl;
             }
 
         }

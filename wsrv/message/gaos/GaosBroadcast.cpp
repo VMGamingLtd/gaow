@@ -19,7 +19,7 @@ namespace message
 			const std::vector<std::string> connectionIds = Groups::getGroupConnections(groupId);
 			if (IS_DEBUG)
 			{
-				std::cout << "GroupBroadcast::groupCreditsChange(): " << connectionIds.size() << "connections found in the group" << std::endl;
+				std::cout << "GroupBroadcast::groupCreditsChange(): DEBUG: " << connectionIds.size() << " connections found in the group" << std::endl;
 			}
 
 			for (const std::string& connectionId : connectionIds)
@@ -28,7 +28,7 @@ namespace message
 				auto it = WsConnection::connections.find(connectionId);
 				if (it == WsConnection::connections.end())
 				{
-					std::cerr << "GroupBroadcast::groupCreditsChange(): warning: connection not found" << std::endl;
+					std::cerr << "GroupBroadcast::groupCreditsChange(): WARNING: connection not found" << std::endl;
 					continue;
 				}
 
@@ -56,7 +56,7 @@ namespace message
 				peerConnection->ws->send(ostream.str(), uWS::OpCode::BINARY);
 				if (IS_DEBUG)
 				{
-					std::cout << "gaos::GaosBroadcast::groupCreditsChange(): message was realyed to connection: " << peerConnection->getId() << std::endl;
+					std::cout << "gaos::GaosBroadcast::groupCreditsChange(): DEBUG: message was realyed to connection: " << peerConnection->getId() << std::endl;
 				}
 			}
 		}

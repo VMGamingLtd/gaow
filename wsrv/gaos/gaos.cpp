@@ -361,7 +361,7 @@ namespace gaos
 		else 
 		{
 			printf("Failed to listen!\n");
-			std::cerr << "GaosServer::run(): Failed to listen!" << std::endl;
+			std::cerr << "GaosServer::run(): Failed to listen on port 3000!" << std::endl;
 			std::exit(1);
 		}
 	}
