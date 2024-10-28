@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <libusockets.h>
 
 namespace message
 {
@@ -15,6 +16,7 @@ namespace message
         WebSocket = 1,
         UnityBrowserChannel = 2,
         Group = 3,
+		Gaos = 4,
     };
 
     enum class WebSocketClassIds {
@@ -34,6 +36,14 @@ namespace message
 
     enum class GroupClassIds {
 		Broadcast = 1,
+	};
+
+    enum class GaosClassIds {
+        Broadcast = 1,
+    };
+
+	enum class GaosBroadcastMethodIds {
+		GroupCreditsChange = 1,
 	};
 
 
@@ -56,6 +66,7 @@ namespace message
 
         static void handleMessage(uWS::WebSocket<false, true, SocketContextData>* ws, std::string_view message, uWS::OpCode opCode);
         static void dispatchMessage(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message);
+        static void dispatchMessage_s(struct us_socket_t* s, std::istream& message);
 
         // Websocket 
         static void dispatchMessage_Namespace_Websocket(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message, int32_t namespaceId, int32_t classId, int32_t methodId);
@@ -72,6 +83,11 @@ namespace message
         static void dispatchMessage_Namespace_Group(uWS::WebSocket<false, true, SocketContextData>* ws, const GaoProtobuf::MessageHeader& messageHeader,  std::istream& message);
         // Group.Broadcast
         static void dispatchMessage_Namespace_Group_Class_Broadcast(uWS::WebSocket<false, true, SocketContextData>* ws, const GaoProtobuf::MessageHeader& messageHeader,  std::istream& message);
+
+		// Gaos
+        static void dispatchMessage_Namespace_Gaos(struct us_socket_t *s, const GaoProtobuf::MessageHeader& messageHeader,  std::istream& message);
+		// Gaos.Broadcast
+        static void dispatchMessage_Namespace_Gaos_Class_Broadcast(struct us_socket_t *s, const GaoProtobuf::MessageHeader& messageHeader,  std::istream& message);
 
     };
 }

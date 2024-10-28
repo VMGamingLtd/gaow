@@ -3,6 +3,7 @@
 #include "./websocket/Authenticate.h"
 #include "./unity_browser_channel/UnityBrowserChannel.h"
 #include "./group/GroupBroadcast.h"
+#include "./gaos/GaosBroadcast.h"
 #include "../WsConnection.h"
 
 #include <iomanip>
@@ -146,7 +147,7 @@ namespace message
             int32_t methodId = messageHeader.methodid();
 
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            std::cout << "Dispatcher::dispatchMessage(): namespaceId: " << namespaceId << ", classId: " << classId << ", methodId: " << methodId << std::endl;
+            std::cout << "Dispatcher::dispatchMessage(ws): namespaceId: " << namespaceId << ", classId: " << classId << ", methodId: " << methodId << std::endl;
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             // switch based on the namespaceId
@@ -162,17 +163,54 @@ namespace message
 				dispatchMessage_Namespace_Group(ws, messageHeader, message);
 				break;
             default:
-                std::cerr << "Dispatcher::dispatchMessage(): no such namespaceId: " << namespaceId;
+                std::cerr << "Dispatcher::dispatchMessage(ws): no such namespaceId: " << namespaceId;
             }
 
         }
         catch (const std::exception& e)
         {
-            std::cerr << "Dispatcher::dispatchMessage(): Exception: " << e.what() << std::endl;
+            std::cerr << "Dispatcher::dispatchMessage(ws): Exception: " << e.what() << std::endl;
         }
         catch (...)
         {
-            std::cerr << "Dispatcher::dispatchMessage(): Unknown exception" << std::endl;
+            std::cerr << "Dispatcher::dispatchMessage(ws): Unknown exception" << std::endl;
+        }
+    }
+
+    void Dispatcher::dispatchMessage_s(struct us_socket_t *s, std::istream& message)
+    {
+        try
+        {
+            // parse the message header
+            GaoProtobuf::MessageHeader messageHeader = parseMessageHeader(message);
+
+            // dispatch the message
+            int32_t namespaceId = messageHeader.namespaceid();
+            int32_t classId = messageHeader.classid();
+            int32_t methodId = messageHeader.methodid();
+
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            std::cout << "Dispatcher::dispatchMessage(s): namespaceId: " << namespaceId << ", classId: " << classId << ", methodId: " << methodId << std::endl;
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+            // switch based on the namespaceId
+            switch (namespaceId)
+            {
+            case (int32_t)NamespaceIds::Gaos:
+				dispatchMessage_Namespace_Gaos(s, messageHeader, message);
+				break;
+            default:
+                std::cerr << "Dispatcher::dispatchMessage(s): no such namespaceId: " << namespaceId << std::endl;
+            }
+
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Dispatcher::dispatchMessage(s): Exception: " << e.what() << std::endl;
+        }
+        catch (...)
+        {
+            std::cerr << "Dispatcher::dispatchMessage(s): Unknown exception" << std::endl;
         }
     }
 
@@ -284,5 +322,45 @@ namespace message
 	{
 		message::group::GroupBroadcast::relayMessage(ws, messageHeader, message);
 	}
+
+    void Dispatcher::dispatchMessage_Namespace_Gaos(struct us_socket_t *s, const GaoProtobuf::MessageHeader& messageHeader, std::istream& message)
+    {
+        try
+        {
+			// switch based on the classId
+			switch (messageHeader.classid())
+			{
+			case (int32_t)GaosClassIds::Broadcast:
+				dispatchMessage_Namespace_Gaos_Class_Broadcast(s, messageHeader, message);
+				break;
+			default:
+				std::cerr << "Dispatcher::dispatchMessage_Namespace_Gaos(): no such classId: " << messageHeader.classid();
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << "Dispatcher::dispatchMessage_Namespace_Gaos(): Exception: " << e.what() << std::endl;
+		}
+    }
+
+    void Dispatcher::dispatchMessage_Namespace_Gaos_Class_Broadcast(struct us_socket_t *s, const GaoProtobuf::MessageHeader& messageHeader, std::istream& message)
+    {
+        try
+        {
+			// switch based on the classId
+			switch (messageHeader.methodid())
+			{
+            case (int32_t)GaosBroadcastMethodIds::GroupCreditsChange:
+				message::gaos::GaosBroadcast::groupCreditsChange(s, messageHeader, message);
+				break;
+			default:
+				std::cerr << "Dispatcher::dispatchMessage_Namespace_Gaos_Class_Broadcast(): no such classId: " << messageHeader.classid();
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << "Dispatcher::dispatchMessage_Namespace_Gaos_Class_Broadcast(): Exception: " << e.what() << std::endl;
+		}
+    }
 
 }

@@ -3,6 +3,7 @@
 #include "../../protobuf/Authenticate.pb.h"
 #include "../../WsConnection.h"
 #include "../../groups/Groups.h"
+#include "..\..\config.h"
 
 
 namespace message
@@ -22,7 +23,7 @@ namespace message
 				WsConnection* connection = WsConnection::WsConnection::findConnection(ws);
 				if (connection == nullptr)
 				{
-					std::cout << "Authenticate::onAuthenticateRequest(): Connection not found" << std::endl;
+					std::cout << "Authenticate::onAuthenticateRequest(): WARN: Connection not found" << std::endl;
 					GaoProtobuf::AuthenticateResponse response;
 					response.set_result(GaoProtobuf::AuthenticationResult::error);
 					Authenticate::sendAuthenticateResponse(ws, response);
@@ -39,8 +40,17 @@ namespace message
 					response.set_result(GaoProtobuf::AuthenticationResult::success);
 
 					std::vector<int> userGroups = Groups::getUserGroups(connection->getUserId());
+					if (IS_DEBUG)
+					{
+						std::cout << "Authenticate::onAuthenticateRequest(): DEBUG: userGroups: " << std::endl;
+						// iterate over the user groups
+						for (int group : userGroups)
+						{
+							std::cout << group << std::endl;
+						}
+					}
 					connection->setUserGroups(userGroups);
-					Groups::addUserConnectionToGroups(userGroups, connection->getId());
+					Groups::assignUserConnectionToUserGroups(connection->getId(), userGroups);
 				}
 				else if (authResult.isUnauthorized)
 				{
@@ -56,11 +66,11 @@ namespace message
 			}
 			catch (const std::exception& e)
 			{
-				std::cerr << "Authenticate::onAuthenticateRequest(): Exception: " << e.what() << std::endl;
+				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR: Exception: " << e.what() << std::endl;
 			}
 			catch (...)
 			{
-				std::cerr << "Authenticate::onAuthenticateRequest(): Unknown exception" << std::endl;
+				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR: Unknown exception" << std::endl;
 			}
 		}
 

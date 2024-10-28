@@ -1,0 +1,15 @@
+[Unit]
+Description=gao websocket server
+
+[Service]
+WorkingDirectory=/opt/wsrv
+ExecStart=/opt/wsrv/wsrv
+Restart=always
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=log.wsrv
+User=wsrv
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

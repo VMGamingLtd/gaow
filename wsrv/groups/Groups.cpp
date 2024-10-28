@@ -1,22 +1,40 @@
 #include "./Groups.h"
 #include "../config.h"
 #include "../DbConnection.h"
+#include "../config.h"
 
 #include <mariadb/conncpp.hpp>
 #include <thread>
+#include <iostream>
+#include <chrono>
 
 #define GROUPS_CACHE_EXPIRATION_SECONDS 15
 
 GroupUsersCache Groups::cache = GroupUsersCache(std::chrono::seconds(GROUPS_CACHE_EXPIRATION_SECONDS));
-std::map<int, std::vector<std::string>> Groups::groupConnections{};
+std::map<int, std::vector<std::string>> Groups::groupToConnectionsMap{};
 
-std::vector<int> Groups::getUserGroups(int userId)
+std::vector<int> Groups::getUserGroups(int userId) // static
 {
 	std::vector<int> groups;
+	std::chrono::steady_clock::time_point startTime, endTime;
+	std::chrono::microseconds duration;
+
+	if (IS_DEBUG)
+	{
+		startTime = std::chrono::high_resolution_clock::now();
+	}
 
 	// check cache
-	if (cache.get(userId, groups))
+	//if (cache.get(userId, groups))
+	if (false)
 	{
+
+		if (IS_DEBUG)
+		{
+			endTime = std::chrono::high_resolution_clock::now();
+			duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+			std::cout << "Groups::getUserGroups(): DEBUG:" << "Execution time: " << duration.count() << " microseconds (from cache)" << std::endl;
+		}
 		return groups;
 	} 
 	else 
@@ -31,7 +49,6 @@ std::vector<int> Groups::getUserGroups(int userId)
 
 		groups = db->getUserGroups(userId);
 
-		// This user is not a direct member of any group.
 		// Group owner as such is normally never a member of the group of which he is owner.
 		// This user might still be the owner of a group with some members and thus indirectly (by the virtue of ownership) be the member of that group. 
 		auto ownerGroups = db->getOwnerGroups(userId);
@@ -39,7 +56,7 @@ std::vector<int> Groups::getUserGroups(int userId)
 		for (int groupId : ownerGroups)
 		{
 			int count = db->getGroupMembersCount(groupId);
-			if (count > 1)
+			if (count > 1) // ignore groups without members
 			{
 				groups.push_back(groupId);
 			}
@@ -55,30 +72,37 @@ std::vector<int> Groups::getUserGroups(int userId)
 		{
 			cache.put(userId, groups);
 		}
+
+		if (IS_DEBUG)
+		{
+			endTime = std::chrono::high_resolution_clock::now();
+			duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+			std::cout << "Groups::getUserGroups():" << "Execution time: " << duration.count() << " microseconds" << std::endl;
+		}
 	}
 
 
 	return groups;
 }
 
-void Groups::addUserConnectionToGroups(std::vector<int> groups, std::string connectionId)
+void Groups::assignUserConnectionToUserGroups(std::string connectionId, std::vector<int> groups) // static
 {
 	//std::vector<int> groups = Groups::getUserGroups(userId);
 	for (int groupId : groups)
 	{
-		std::vector<std::string> connections = Groups::groupConnections[groupId];
+		std::vector<std::string> connections = Groups::groupToConnectionsMap[groupId];
 		auto it = std::find(connections.begin(), connections.end(), connectionId);
 		if (it == connections.end())
 		{
 			connections.push_back(connectionId);
-			Groups::groupConnections[groupId] = connections;
+			Groups::groupToConnectionsMap[groupId] = connections;
 		}
 	}
 }
 
-void Groups::removeConnectionFromGroups(std::string connectionId)
+void Groups::removeUserConnectionFromUserGroups(std::string connectionId) // static
 {
-	for (auto it = groupConnections.begin(); it != groupConnections.end(); )
+	for (auto it = groupToConnectionsMap.begin(); it != groupToConnectionsMap.end(); )
 	{
 		int groupId = it->first;
 		std::vector<std::string>& connections = it->second;
@@ -86,7 +110,7 @@ void Groups::removeConnectionFromGroups(std::string connectionId)
 
 		if (connections.size() == 0)
 		{
-			it = groupConnections.erase(it);
+			it = groupToConnectionsMap.erase(it);
 		}
 		else
 		{
@@ -95,12 +119,12 @@ void Groups::removeConnectionFromGroups(std::string connectionId)
 	}
 }
 
-void Groups::cleanCache()
+void Groups::cleanCache() // static
 {
 	cache.clean();
 }
 
-void Groups::startCacheCleaningThread()
+void Groups::startCacheCleaningThread() // static
 {
 	std::thread t([]() {
 		while (true)
@@ -111,4 +135,13 @@ void Groups::startCacheCleaningThread()
 	});
 
 	t.detach();
+}
+
+std::vector<std::string> Groups::getGroupConnections(int groupId)
+{
+	if (groupToConnectionsMap.find(groupId) == groupToConnectionsMap.end())
+	{
+		return std::vector<std::string>();
+	}
+	return groupToConnectionsMap[groupId];
 }

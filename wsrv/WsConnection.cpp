@@ -29,7 +29,7 @@ void WsConnection::removeConnection(uWS::WebSocket<false, true, SocketContextDat
 	WsConnection *connection = WsConnection::findConnection(ws);
 	if (connection != nullptr)
 	{
-		Groups::removeConnectionFromGroups(connection->getId());
+		Groups::removeUserConnectionFromUserGroups(connection->getId());
 		WsConnection::connections.erase(connection->getId());
 		delete connection;
 	}
@@ -121,6 +121,7 @@ WsConnectionAuthenticateResult WsConnection::authenticate(std::string jwt) {
 		verify.verify(decoded);
 
 		if (IS_DEBUG) {
+			std::cout << "WsConnection::authenticate(): DEBUG: token verified, displaying token:" << std::endl;
 			for (auto& e : decoded.get_header_json())
 				std::cout << e.first << " = " << e.second << std::endl;
 			for (auto& e : decoded.get_payload_json())
@@ -138,13 +139,13 @@ WsConnectionAuthenticateResult WsConnection::authenticate(std::string jwt) {
 	catch (const jwt::error::token_verification_exception& e)
 	{
 		this->authenticated = false;
-		std::cout << "WsConnection::authenticate(): warning: unauthorized" << e.what() << std::endl;
+		std::cout << "WsConnection::authenticate(): WARN: unauthorized" << e.what() << std::endl;
 		return WsConnectionAuthenticateResult{ false, true, false };
 	}
 	catch (const std::exception& e)
 	{
 		this->authenticated = false;
-		std::cout << "WsConnection::authenticate(): error: " << e.what() << std::endl;
+		std::cout << "WsConnection::authenticate(): ERROR: " << e.what() << std::endl;
 		return WsConnectionAuthenticateResult{ false, false, true };
 	}
 }
