@@ -1646,7 +1646,6 @@ libabsl_crc32c
 libabsl_crc_cord_state
 libabsl_crc_cpu_detect
 libabsl_crc_internal
-libabsl_debugging_internal
 libabsl_demangle_internal
 libabsl_die_if_null
 libabsl_examine_stack
@@ -1728,6 +1727,7 @@ libabsl_time
 libabsl_time_internal_test_util
 libabsl_time_zone
 libabsl_vlog_config_internal
+libabsl_debugging_internal
 # abseil end
 # protobuf_other_libs begin
 lib_gmock
