@@ -1292,6 +1292,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/gmock.lib
   )
 elseif(UNIX)
+  set_target_properties(lib_gmock PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libgmock.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1301,6 +1304,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotobufd.lib
   )
 elseif(UNIX)
+  set_target_properties(libprotobufd PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotobuf.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1310,6 +1316,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotocd.lib
   )
 elseif(UNIX)
+  set_target_properties(libprotocd PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotoc.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1319,6 +1328,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/libupbd.lib
   )
 elseif(UNIX)
+  set_target_properties(libupbd PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libupb.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1328,6 +1340,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/utf8_range.lib
   )
 elseif(UNIX)
+  set_target_properties(utf8_range PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libutf8_range.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1337,6 +1352,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/utf8_validity.lib
   )
 elseif(UNIX)
+  set_target_properties(utf8_validity PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libutf8_validity.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
