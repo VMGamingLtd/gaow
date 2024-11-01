@@ -16,7 +16,8 @@ std::map<int, std::vector<std::string>> Groups::groupToConnectionsMap{};
 std::vector<int> Groups::getUserGroups(int userId) // static
 {
 	std::vector<int> groups;
-	std::chrono::steady_clock::time_point startTime, endTime;
+	//std::chrono::steady_clock::time_point startTime, endTime;
+	std::chrono::high_resolution_clock::time_point startTime, endTime;
 	std::chrono::microseconds duration;
 
 	if (IS_DEBUG)
