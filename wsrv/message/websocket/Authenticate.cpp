@@ -3,7 +3,7 @@
 #include "../../protobuf/Authenticate.pb.h"
 #include "../../WsConnection.h"
 #include "../../groups/Groups.h"
-#include "..\..\config.h"
+#include "../../config.h"
 
 
 namespace message
