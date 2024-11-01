@@ -1729,7 +1729,15 @@ libabsl_time_internal_test_util
 libabsl_time_zone
 libabsl_vlog_config_internal
 # abseil end
-    ${SSL_LIBRARY}
+# protobuf_other_libs begin
+lib_gmock
+libprotobufd
+libprotocd
+libupbd
+utf8_range
+utf8_validity
+# protobuf_other_libs end
+	${SSL_LIBRARY}
 	${CRYPTO_LIBRARY}
 	${MARIADB_CPP_LIBRARY}
   )
