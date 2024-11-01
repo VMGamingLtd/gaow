@@ -1629,6 +1629,7 @@ elseif(UNIX)
     libprotobuf
     libprotoc
 # abseil beign
+# note: for linux we had to move libabsl_debugging_internal and libabsl_demangle_internal to the end of list to prevent linker uresolved symbols
 libabsl_atomic_hook_test_helper
 libabsl_bad_any_cast_impl
 libabsl_bad_optional_access
