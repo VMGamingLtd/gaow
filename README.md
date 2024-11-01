@@ -170,7 +170,6 @@ Build `jwt-cpp`:
 > cd ..
 > mkdir protobuf_build
 > cd protobuf_build
-> cd ~/w1/build/protobuf_build
 > cmake ../protobuf -DCMAKE_CXX_STANDARD=20 -DCMAKE_INSTALL_PREFIX=/w1/cpackages -Dprotobuf_ABSL_PROVIDER=module -DABSL_PROPAGATE_CXX_STD=ON -DABSL_BUILD_TESTING=ON 
 > cmake --build . --config Release
 > cmake --install . --config Release --prefix ~/w1/cpackages
