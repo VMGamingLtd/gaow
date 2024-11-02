@@ -64,7 +64,7 @@ Open  'x64 tools command prompt' terminal which was installed as part of visual 
 To build and install `protobuf` follow instrusction in `README.md` in `gaob` project.
 
 ## Build gaow project (windows only)
-
+cmake -T clangcl ../gaow
 We build project using [clang platform toolset](https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/tools-pc/visualstudio/gr-vs-clang),
 [also see CMAKE_GENERATOR_TOOLSET](https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2017%202022.html).
 
@@ -77,7 +77,7 @@ In powershell terminal:
 > cmake --build .
 ```
 
-In `git-bash` terminal:
+To avaoid library not found errors when running `wsrv` project in debug mode  in Visual Studio Community do following in `git-bash` terminal:
 ```
 > cp /c/w1/vcpkg/installed/x64-windows/bin/*.dll /c/w1/gaow_build/Debug
 > cp /c/'Program Files'/MariaDB/'MariaDB C++ Connector 64-bit'/mariadbcpp.dll /c/w1/gaow_build/Debug
