@@ -77,7 +77,7 @@ In powershell terminal:
 > cmake --build .
 ```
 
-To avaoid library not found errors when running `wsrv` project in debug mode  in Visual Studio Community do following in `git-bash` terminal:
+To avaoid library not found errors  do following in `git-bash` terminal:
 ```
 > cp /c/w1/vcpkg/installed/x64-windows/bin/*.dll /c/w1/gaow_build/Debug
 > cp /c/'Program Files'/MariaDB/'MariaDB C++ Connector 64-bit'/mariadbcpp.dll /c/w1/gaow_build/Debug
