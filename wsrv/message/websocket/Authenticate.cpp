@@ -67,15 +67,14 @@ namespace message
 			}
 			catch (const std::exception& e)
 			{
-				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR:1: Exception: " << e.what() << std::endl;
+				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR: Exception: " << e.what() << std::endl;
 				GaoProtobuf::AuthenticateResponse response;
 				response.set_result(GaoProtobuf::AuthenticationResult::error);
-				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR:1: @@@@@@@@@@@@@@@@@@@@@@@@@@@@ sending error response" << std::endl;
 				Authenticate::sendAuthenticateResponse(ws, response);
 			}
 			catch (...)
 			{
-				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR:2: Unknown exception" << std::endl;
+				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR: Unknown exception" << std::endl;
 				GaoProtobuf::AuthenticateResponse response;
 				response.set_result(GaoProtobuf::AuthenticationResult::error);
 				Authenticate::sendAuthenticateResponse(ws, response);
@@ -103,12 +102,6 @@ namespace message
 				message::Dispatcher::serializeMessageaObjectSize(ostream, size);
 				response.SerializeToOstream(&ostream);
 
-				{ // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-					// send the message
-					// print message to stdout in hexa
-					std::cout << "Authenticate::sendAuthenticateResponse(): INFO: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ message: " << std::endl;
-					std::cout << message::Dispatcher::toHexString(ostream.str()) << std::endl;
-				} // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 				ws->send(ostream.str(), uWS::OpCode::BINARY);
 			}
 			catch (const std::exception& e)
