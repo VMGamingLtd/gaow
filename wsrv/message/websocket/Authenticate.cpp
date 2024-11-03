@@ -103,7 +103,12 @@ namespace message
 				message::Dispatcher::serializeMessageaObjectSize(ostream, size);
 				response.SerializeToOstream(&ostream);
 
-				// send the message
+				{ // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					// send the message
+					// print message to stdout in hexa
+					std::cout << "Authenticate::sendAuthenticateResponse(): INFO: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ message: " << std::endl;
+					std::cout << message::Dispatcher::toHexString(ostream.str()) << std::endl;
+				} // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 				ws->send(ostream.str(), uWS::OpCode::BINARY);
 			}
 			catch (const std::exception& e)
