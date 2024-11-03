@@ -14,6 +14,7 @@ namespace message
 		{
 			try
 			{
+				std::cerr << "Authenticate::onAuthenticateRequest(): @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 100" << std::endl;
 				uint32_t messageSize = message::Dispatcher::parseMessageaObjectSize(message);
 				std::vector<char> messageBytes = message::Dispatcher::readBytesOrException(message, messageSize);
 				GaoProtobuf::AuthenticateRequest request;
@@ -66,11 +67,18 @@ namespace message
 			}
 			catch (const std::exception& e)
 			{
-				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR: Exception: " << e.what() << std::endl;
+				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR:1: Exception: " << e.what() << std::endl;
+				GaoProtobuf::AuthenticateResponse response;
+				response.set_result(GaoProtobuf::AuthenticationResult::error);
+				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR:1: @@@@@@@@@@@@@@@@@@@@@@@@@@@@ sending error response" << std::endl;
+				Authenticate::sendAuthenticateResponse(ws, response);
 			}
 			catch (...)
 			{
-				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR: Unknown exception" << std::endl;
+				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR:2: Unknown exception" << std::endl;
+				GaoProtobuf::AuthenticateResponse response;
+				response.set_result(GaoProtobuf::AuthenticationResult::error);
+				Authenticate::sendAuthenticateResponse(ws, response);
 			}
 		}
 
@@ -78,6 +86,8 @@ namespace message
 		{
 			try
 			{
+				std::cout << "Authenticate::sendAuthenticateResponse(): INFO: @@@@@@@@@@@@@@@@@@@@@@@@@@@ Sending authenticate response" << std::endl;
+				std::cout << "Authenticate::sendAuthenticateResponse(): INFO: response.result(): " << response.result() << std::endl;
 				std::ostringstream ostream;
 
 				GaoProtobuf::MessageHeader messageHeader;

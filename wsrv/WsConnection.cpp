@@ -43,7 +43,7 @@ void WsConnection::loadGaoCert() {
 	}
 	catch (const std::exception& e)
 	{
-		std::cerr << "WsConnection::loadGaoCert(): Error loading GAO certificate: " << e.what() << std::endl;
+		std::cerr << "WsConnection::loadGaoCert(): ERROR: Error loading GAO certificate: " << e.what() << std::endl;
 		throw std::runtime_error("Error loading GAO certificate");
 	}
 }
@@ -103,13 +103,14 @@ UserType WsConnection::getUserTypeFromToken(auto& token)
 
 WsConnectionAuthenticateResult WsConnection::authenticate(std::string jwt) {
 
-	if (!WsConnection::gaoCertLoaded) {
-		loadGaoCert();
-		WsConnection::gaoCertLoaded = true;
-	}
 
 	try
 	{
+		if (!WsConnection::gaoCertLoaded) {
+			loadGaoCert();
+			WsConnection::gaoCertLoaded = true;
+		}
+
 		std::string token = jwt;
 		std::string rsa_pub_key = WsConnection::gaoCert;
 		auto verify = jwt::verify()
