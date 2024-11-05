@@ -106,10 +106,6 @@ int main() {
 			std::cout << "A client connected" << std::endl; //@@@@@@@@@@@@@@@@@@
 			WsConnection::addConnection(ws);
 
-			uWS::Loop::get()->defer([]() {
-				std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 4000: loop defer";
-			});
-
 		},
 		.message = [](auto* ws, std::string_view message, uWS::OpCode opCode) {
 			/* This is the opposite of what you probably want; compress if message is LARGER than 16 kb
