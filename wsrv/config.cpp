@@ -64,19 +64,24 @@ std::string Config::get__DB_DATABASE_NAME()
 std::string Config::get__DB_USER_NAME()
 {
 	const char* environment = std::getenv(ENVORONMENT_VAR_NAME);
+	std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 100" << std::endl;
 	if (environment != nullptr && std::string(environment) == "Test")
 	{
+		std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 110" << std::endl;
 		char* val = std::getenv("DB_USER_NAME");
 		if (val != nullptr)
 		{
+			std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 120: " << val << std::endl;
 			return std::string(val);
 		}
 		else
 		{
+			std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 130" << std::endl;
 			std::cerr << "Environment variable DB_USER_NAME is not set." << std::endl;
 			return "";
 		}
 	}
+	std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 140" << std::endl;
 	return std::string(DB_USER_NAME);
 }
 
