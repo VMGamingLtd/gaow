@@ -12,6 +12,7 @@ namespace message
 	{
 		void Authenticate::onAuthenticateRequest(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message)
 		{
+			GaoProtobuf::AuthenticateResponse response;
 			try
 			{
 				std::cerr << "Authenticate::onAuthenticateRequest(): @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 100" << std::endl;
@@ -19,6 +20,8 @@ namespace message
 				std::vector<char> messageBytes = message::Dispatcher::readBytesOrException(message, messageSize);
 				GaoProtobuf::AuthenticateRequest request;
 				request.ParseFromArray(messageBytes.data(), messageSize);
+
+				response.set_requestid(request.requestid());
 
 				// find the connection
 				WsConnection* connection = WsConnection::WsConnection::findConnection(ws);
@@ -34,8 +37,6 @@ namespace message
 				// authenticate the connection
 				WsConnectionAuthenticateResult authResult = connection->authenticate(request.token());
 				
-				GaoProtobuf::AuthenticateResponse response;
-				response.set_requestid(request.requestid());
 				if (authResult.isAuthenticated)
 				{
 					response.set_result(GaoProtobuf::AuthenticationResult::success);
