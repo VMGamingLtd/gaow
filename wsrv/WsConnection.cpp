@@ -39,7 +39,7 @@ void WsConnection::loadGaoCert() {
 	try
 	{
 
-		WsConnection::gaoCert = Utils::readFileContents(VERIFY_TOKEN_PUB_CERT_FILE_PATH);
+		WsConnection::gaoCert = Utils::readFileContents(Config::get__VERIFY_TOKEN_PUB_CERT_FILE_PATH());
 	}
 	catch (const std::exception& e)
 	{

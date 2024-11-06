@@ -1,5 +1,6 @@
 #include "./DbConnection.h"
 #include "./config.h"
+
 #include <iostream>
 
 DbConnection* DbConnection::wsrvDbConnection = nullptr;
@@ -79,7 +80,7 @@ DbConnection::~DbConnection()
 std::string DbConnection::getDBconnectionString()
 {
 	std::string url = "";
-	return url + "jdbc:mariadb://" + DB_HOST + "/" + DB_DATABASE_NAME;
+	return url + "jdbc:mariadb://" + Config::get__DB_HOST() + "/" + Config::get__DB_DATABASE_NAME();
 }
 
 void DbConnection::connect()
@@ -87,7 +88,7 @@ void DbConnection::connect()
 	sql::Driver* driver = sql::mariadb::get_driver_instance();
 	std::string connStr = getDBconnectionString();
 	sql::SQLString url(connStr);
-	sql::Properties properties({{"user", DB_USER_NAME}, {"password", DB_PASSWORD}});
+	sql::Properties properties({{"user", Config::get__DB_USER_NAME()}, {"password", Config::get__DB_PASSWORD()}});
 
 	if (connection == nullptr)
 	{

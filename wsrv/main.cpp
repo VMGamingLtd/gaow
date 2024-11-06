@@ -12,6 +12,8 @@
 #include <fstream>
 #include <jwt-cpp/jwt.h>
 
+#include "./config.h"
+
 
 void verifyToken(std::string jwt) {
     try
@@ -21,7 +23,7 @@ void verifyToken(std::string jwt) {
 
         std::string token = jwt;
 
-        std::string rsa_pub_key = Utils::readFileContents(VERIFY_TOKEN_PUB_CERT_FILE_PATH);
+        std::string rsa_pub_key = Utils::readFileContents(Config::get__VERIFY_TOKEN_PUB_CERT_FILE_PATH());
         std::cout << "rsa_pub_key:" << std::endl;
         std::cout << rsa_pub_key << std::endl;
 

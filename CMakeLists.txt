@@ -1487,6 +1487,7 @@ add_executable(wsrv
   wsrv/DbConnection.cpp
   wsrv/DbConnection.h
   wsrv/config.h
+  wsrv/config.cpp
   wsrv/gaos/gaos.cpp
   wsrv/gaos/gaos.h
   ${protobuf_source_files}
