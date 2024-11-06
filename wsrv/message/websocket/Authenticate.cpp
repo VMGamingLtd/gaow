@@ -69,14 +69,12 @@ namespace message
 			catch (const std::exception& e)
 			{
 				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR: Exception: " << e.what() << std::endl;
-				GaoProtobuf::AuthenticateResponse response;
 				response.set_result(GaoProtobuf::AuthenticationResult::error);
 				Authenticate::sendAuthenticateResponse(ws, response);
 			}
 			catch (...)
 			{
 				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR: Unknown exception" << std::endl;
-				GaoProtobuf::AuthenticateResponse response;
 				response.set_result(GaoProtobuf::AuthenticationResult::error);
 				Authenticate::sendAuthenticateResponse(ws, response);
 			}
