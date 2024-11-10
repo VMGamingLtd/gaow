@@ -352,7 +352,7 @@ namespace gaos
 		us_socket_context_on_timeout(0, socket_context, GaosServer::on_socket_timeout);
 		us_socket_context_on_end(0, socket_context, GaosServer::on_socket_end);
 
-		struct us_listen_socket_t *listen_socket = us_socket_context_listen(0, socket_context, "localhost", 3000, 0, sizeof(struct SocketContext));
+		struct us_listen_socket_t *listen_socket = us_socket_context_listen(0, socket_context, "127.0.0.1", 3000, 0, sizeof(struct SocketContext));
 		if (listen_socket) 
 		{
 			std::cerr << "GaosServer::run(): INFO: Listening on port 3000" << std::endl;
