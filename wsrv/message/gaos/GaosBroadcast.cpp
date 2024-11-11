@@ -61,7 +61,7 @@ namespace message
 						for (unsigned char c : data) {
 							hex_stream << std::hex << std::setw(2) << std::setfill('0') << (int)c;
 						}
-						std::cerr << "gaos::GaosBroadcast::groupCreditsChange(): relaying message" << hex_stream.str() << std::endl;
+						std::cerr << "gaos::GaosBroadcast::groupCreditsChange(): relaying message: " << hex_stream.str() << std::endl;
 				}
 
 				// send the message
