@@ -56,9 +56,9 @@ namespace message
 					    std::string data = ostream.str();
 						// Print each byte in hexadecimal
 						for (unsigned char c : data) {
-							std::cout << "gaos::GaosBroadcast::groupCreditsChange(): relaying message" << std::hex << std::setw(2) << std::setfill('0') << (int)c << ' ';
+							std::cerr << "gaos::GaosBroadcast::groupCreditsChange(): relaying message" << std::hex << std::setw(2) << std::setfill('0') << (int)c << ' ';
 						}
-						std::cout << std::endl;
+						std::cerr << std::endl;
 				}
 
 				// send the message
