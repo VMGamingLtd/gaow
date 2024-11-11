@@ -61,6 +61,20 @@ namespace message
 						std::cerr << "gaos::GaosBroadcast::groupCreditsChange(): relaying message 0: " << hex_stream.str() << std::endl;
 				}
 
+				{
+						std::stringstream ostream_1;
+						ostream_1 << message.rdbuf();
+					    std::string data = ostream_1.str();
+						// Print each byte in hexadecimal
+
+						std::stringstream hex_stream;
+
+						for (unsigned char c : data) {
+							hex_stream << std::hex << std::setw(2) << std::setfill('0') << (int)c;
+						}
+						std::cerr << "gaos::GaosBroadcast::groupCreditsChange(): message.rdbuf() - before: " << hex_stream.str() << std::endl;
+				}
+
 				// write the message
 				ostream << message.rdbuf();
 
