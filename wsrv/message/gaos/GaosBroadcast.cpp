@@ -65,7 +65,8 @@ namespace message
 				}
 
 				// send the message
-				peerConnection->ws->send(ostream.str(), uWS::OpCode::BINARY);
+				int result = peerConnection->ws->send(ostream.str(), uWS::OpCode::BINARY);
+				std::cerr << "gaos::GaosBroadcast::groupCreditsChange(): send result: " << result << std::endl; //@@@@@@@@@@@@@@@@@@@@
 				if (IS_DEBUG)
 				{
 					std::cout << "gaos::GaosBroadcast::groupCreditsChange(): DEBUG: message was realyed to connection: " << peerConnection->getId() << std::endl;
