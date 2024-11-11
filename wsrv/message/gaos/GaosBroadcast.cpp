@@ -22,6 +22,15 @@ namespace message
 				std::cout << "GroupBroadcast::groupCreditsChange(): DEBUG: " << connectionIds.size() << " connections found in the group" << std::endl;
 			}
 
+			if (connectionIds.size() == 0)
+			{
+				return;
+			}
+
+			std::stringstream ostream;
+			Dispatcher::serializeMessageHeader(ostream, messageHeader);
+			ostream << message.rdbuf();
+
 			for (const std::string& connectionId : connectionIds)
 			{
 
@@ -43,56 +52,6 @@ namespace message
 					// skip the user who updated credits
 					continue;
 				}
-
-				std::stringstream ostream;
-
-				// write message header
-				Dispatcher::serializeMessageHeader(ostream, messageHeader);
-
-				{
-					    std::string data = ostream.str();
-						// Print each byte in hexadecimal
-
-						std::stringstream hex_stream;
-
-						for (unsigned char c : data) {
-							hex_stream << std::hex << std::setw(2) << std::setfill('0') << (int)c;
-						}
-						std::cerr << "gaos::GaosBroadcast::groupCreditsChange(): relaying message 0: " << hex_stream.str() << std::endl;
-				}
-
-				{
-						std::stringstream ostream_1;
-						ostream_1 << message.rdbuf();
-					    std::string data = ostream_1.str();
-						// Print each byte in hexadecimal
-
-						std::stringstream hex_stream;
-
-						for (unsigned char c : data) {
-							hex_stream << std::hex << std::setw(2) << std::setfill('0') << (int)c;
-						}
-						std::cerr << "gaos::GaosBroadcast::groupCreditsChange(): message.rdbuf() - before: " << hex_stream.str() << std::endl;
-				}
-
-				// write the message
-				ostream << message.rdbuf();
-
-				{
-						std::stringstream ostream_1;
-						ostream_1 << message.rdbuf();
-					    std::string data = ostream_1.str();
-						// Print each byte in hexadecimal
-
-						std::stringstream hex_stream;
-
-						for (unsigned char c : data) {
-							hex_stream << std::hex << std::setw(2) << std::setfill('0') << (int)c;
-						}
-						std::cerr << "gaos::GaosBroadcast::groupCreditsChange(): message.rdbuf(): " << hex_stream.str() << std::endl;
-				}
-
-
 
 				{
 					    std::string data = ostream.str();
