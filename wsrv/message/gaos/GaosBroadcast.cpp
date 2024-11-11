@@ -52,6 +52,15 @@ namespace message
 				// write the message
 				ostream << message.rdbuf();
 
+				{
+					    std::string data = ostream.str();
+						// Print each byte in hexadecimal
+						for (unsigned char c : data) {
+							std::cout << "gaos::GaosBroadcast::groupCreditsChange(): relaying message" << std::hex << std::setw(2) << std::setfill('0') << (int)c << ' ';
+						}
+						std::cout << std::endl;
+				}
+
 				// send the message
 				peerConnection->ws->send(ostream.str(), uWS::OpCode::BINARY);
 				if (IS_DEBUG)
