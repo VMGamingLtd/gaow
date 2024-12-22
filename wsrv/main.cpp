@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <jwt-cpp/jwt.h>
+#include <cstdlib>
 
 #include "./config.h"
 
@@ -84,6 +85,25 @@ int main() {
 
     Groups::startCacheCleaningThread();
 
+	 const char* env_port = std::getenv("PORT");
+	 // conver port to int
+	 int port;
+	 if (env_port == nullptr)
+	 {
+		 port = 9001;
+	 }
+	 else
+	 {
+		 try
+		 {
+			 port = std::stoi(env_port);
+		 }
+		 catch (const std::exception& e)
+		 {
+			 std::cerr << "main(): ERROR: failed to convert environment variable PORT to int" << std::endl;
+		 }
+	 }
+
     /* Keep in mind that uWS::SSLApp({options}) is the same as uWS::App() when compiled without SSL support.
      * You may swap to using uWS:App() if you don't need SSL */
     DbConnection::wsrvDbConnection = new DbConnection();
@@ -140,14 +160,32 @@ int main() {
 			std::cout << "A client disconnected" << std::endl; //@@@@@@@@@@@@@@@@@@
 			WsConnection::removeConnection(ws);
 		}
-	}).listen("127.0.0.1", 9001, [](auto* listen_socket) {
+	}).listen("127.0.0.1", port, [port](auto* listen_socket) {
 		if (listen_socket) {
-			std::cout << "Listening on port " << 9001 << std::endl;
+			std::cout << "Listening on port " << port << std::endl;
 		}
 	});//.run();
 
 
-	gaos::GaosServer::create(uWS::Loop::get());
+	 const char* env_port_gaos = std::getenv("PORT_GAOS");
+	 // conver port to int
+	 int port_gaos;
+	 if (env_port_gaos == nullptr)
+	 {
+		 port_gaos = 3010;
+	 }
+	 else
+	 {
+		 try
+		 {
+			 port_gaos = std::stoi(env_port_gaos);
+		 }
+		 catch (const std::exception& e)
+		 {
+			 std::cerr << "main(): ERROR: failed to convert environment variable PORT_GAOS to int" << std::endl;
+		 }
+	 }
+	gaos::GaosServer::create(uWS::Loop::get(), port_gaos);
 
 	app.run();
 
