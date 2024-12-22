@@ -103,6 +103,10 @@ int main() {
 			 std::cerr << "main(): ERROR: failed to convert environment variable PORT to int" << std::endl;
 		 }
 	 }
+	 const char* ip = std::getenv("IP");
+	 if (ip == nullptr) {
+		 ip = "127.0.0.1";
+	 }
 
     /* Keep in mind that uWS::SSLApp({options}) is the same as uWS::App() when compiled without SSL support.
      * You may swap to using uWS:App() if you don't need SSL */
@@ -160,9 +164,9 @@ int main() {
 			std::cout << "A client disconnected" << std::endl; //@@@@@@@@@@@@@@@@@@
 			WsConnection::removeConnection(ws);
 		}
-	}).listen("127.0.0.1", port, [port](auto* listen_socket) {
+	}).listen(ip, port, [port, ip](auto* listen_socket) {
 		if (listen_socket) {
-			std::cout << "Listening on port " << port << std::endl;
+			std::cout << "Listening on port " << port << ", ip " << ip << std::endl;
 		}
 	});//.run();
 
@@ -184,10 +188,13 @@ int main() {
 		 {
 			 std::cerr << "main(): ERROR: failed to convert environment variable PORT_GAOS to int" << std::endl;
 		 }
+		 const char* ip_gaos = std::getenv("IP_GAOS");
+		 if (ip_gaos == nullptr) {
+			 ip_gaos = "127.0.0.1";
 	 }
-	gaos::GaosServer::create(uWS::Loop::get(), port_gaos);
+	 gaos::GaosServer::create(uWS::Loop::get(), ip_gaos, port_gaos);
 
-	app.run();
+	 app.run();
 
 
 

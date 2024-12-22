@@ -326,7 +326,7 @@ namespace gaos
 		return s;
 	}
 
-	void GaosServer::create(uWS::Loop* loop, int port)
+	void GaosServer::create(uWS::Loop* loop, const char* ip, int port)
 	{
 		/* Create the event loop */
 		//struct us_loop_t *loop = us_create_loop(0, GaosServer::on_wakeup, GaosServer::on_pre, GaosServer::on_post, 0);
@@ -352,16 +352,16 @@ namespace gaos
 		us_socket_context_on_timeout(0, socket_context, GaosServer::on_socket_timeout);
 		us_socket_context_on_end(0, socket_context, GaosServer::on_socket_end);
 
-		struct us_listen_socket_t *listen_socket = us_socket_context_listen(0, socket_context, "127.0.0.1", port, 0, sizeof(struct SocketContext));
+		struct us_listen_socket_t *listen_socket = us_socket_context_listen(0, socket_context, ip, port, 0, sizeof(struct SocketContext));
 		if (listen_socket) 
 		{
-			std::cerr << "GaosServer::run(): INFO: Listening on port " << port << std::endl;
+			std::cerr << "GaosServer::run(): INFO: Listening on port " << port << ", ip " << ip  << std::endl;
 			//us_loop_run(loop);
 		} 
 		else 
 		{
 			printf("Failed to listen!\n");
-			std::cerr << "GaosServer::run(): ERROR: Failed to listen on port 3010!" << std::endl;
+			std::cerr << "GaosServer::run(): ERROR: Failed to listen on port " << port << ", ip " << ip << std::endl;
 			std::exit(1);
 		}
 	}

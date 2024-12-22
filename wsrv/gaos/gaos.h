@@ -69,7 +69,7 @@ namespace gaos
 		static SocketContext* getSocketContext(struct us_socket_t* s);
 
 	public:
-		static void create(uWS::Loop *loop, int port);
+		static void create(uWS::Loop *loop, const char* ip, int port);
 
 	};
 
