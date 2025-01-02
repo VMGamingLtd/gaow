@@ -188,16 +188,15 @@ int main() {
 		 {
 			 std::cerr << "main(): ERROR: failed to convert environment variable PORT_GAOS to int" << std::endl;
 		 }
-		 const char* ip_gaos = std::getenv("IP_GAOS");
-		 if (ip_gaos == nullptr) {
-			 ip_gaos = "127.0.0.1";
-		 }
-		 gaos::GaosServer::create(uWS::Loop::get(), ip_gaos, port_gaos);
 
-		 app.run();
-
-
-
-		 return 0;
 	 }
+
+	 const char* ip_gaos = std::getenv("IP_GAOS");
+	 if (ip_gaos == nullptr) {
+		 ip_gaos = "127.0.0.1";
+	 }
+
+	 gaos::GaosServer::create(uWS::Loop::get(), ip_gaos, port_gaos);
+	 app.run();
+	 return 0;
 }
