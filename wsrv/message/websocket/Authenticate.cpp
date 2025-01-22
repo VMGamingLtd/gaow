@@ -3,7 +3,7 @@
 #include "../../protobuf/Authenticate.pb.h"
 #include "../../WsConnection.h"
 #include "../../groups/Groups.h"
-#include "..\..\config.h"
+#include "../../config.h"
 
 
 namespace message
@@ -12,12 +12,16 @@ namespace message
 	{
 		void Authenticate::onAuthenticateRequest(uWS::WebSocket<false, true, SocketContextData>* ws, std::istream& message)
 		{
+			GaoProtobuf::AuthenticateResponse response;
 			try
 			{
+				std::cerr << "Authenticate::onAuthenticateRequest(): @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 100" << std::endl;
 				uint32_t messageSize = message::Dispatcher::parseMessageaObjectSize(message);
 				std::vector<char> messageBytes = message::Dispatcher::readBytesOrException(message, messageSize);
 				GaoProtobuf::AuthenticateRequest request;
 				request.ParseFromArray(messageBytes.data(), messageSize);
+
+				response.set_requestid(request.requestid());
 
 				// find the connection
 				WsConnection* connection = WsConnection::WsConnection::findConnection(ws);
@@ -33,8 +37,6 @@ namespace message
 				// authenticate the connection
 				WsConnectionAuthenticateResult authResult = connection->authenticate(request.token());
 				
-				GaoProtobuf::AuthenticateResponse response;
-				response.set_requestid(request.requestid());
 				if (authResult.isAuthenticated)
 				{
 					response.set_result(GaoProtobuf::AuthenticationResult::success);
@@ -67,10 +69,14 @@ namespace message
 			catch (const std::exception& e)
 			{
 				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR: Exception: " << e.what() << std::endl;
+				response.set_result(GaoProtobuf::AuthenticationResult::error);
+				Authenticate::sendAuthenticateResponse(ws, response);
 			}
 			catch (...)
 			{
 				std::cerr << "Authenticate::onAuthenticateRequest(): ERROR: Unknown exception" << std::endl;
+				response.set_result(GaoProtobuf::AuthenticationResult::error);
+				Authenticate::sendAuthenticateResponse(ws, response);
 			}
 		}
 
@@ -78,6 +84,8 @@ namespace message
 		{
 			try
 			{
+				std::cout << "Authenticate::sendAuthenticateResponse(): INFO: @@@@@@@@@@@@@@@@@@@@@@@@@@@ Sending authenticate response" << std::endl;
+				std::cout << "Authenticate::sendAuthenticateResponse(): INFO: response.result(): " << response.result() << std::endl;
 				std::ostringstream ostream;
 
 				GaoProtobuf::MessageHeader messageHeader;
@@ -93,7 +101,6 @@ namespace message
 				message::Dispatcher::serializeMessageaObjectSize(ostream, size);
 				response.SerializeToOstream(&ostream);
 
-				// send the message
 				ws->send(ostream.str(), uWS::OpCode::BINARY);
 			}
 			catch (const std::exception& e)

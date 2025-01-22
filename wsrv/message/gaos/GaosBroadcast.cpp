@@ -22,6 +22,15 @@ namespace message
 				std::cout << "GroupBroadcast::groupCreditsChange(): DEBUG: " << connectionIds.size() << " connections found in the group" << std::endl;
 			}
 
+			if (connectionIds.size() == 0)
+			{
+				return;
+			}
+
+			std::stringstream ostream;
+			Dispatcher::serializeMessageHeader(ostream, messageHeader);
+			ostream << message.rdbuf();
+
 			for (const std::string& connectionId : connectionIds)
 			{
 
@@ -44,16 +53,21 @@ namespace message
 					continue;
 				}
 
-				std::stringstream ostream;
+				{
+					    std::string data = ostream.str();
+						// Print each byte in hexadecimal
 
-				// write message header
-				Dispatcher::serializeMessageHeader(ostream, messageHeader);
+						std::stringstream hex_stream;
 
-				// write the message
-				ostream << message.rdbuf();
+						for (unsigned char c : data) {
+							hex_stream << std::hex << std::setw(2) << std::setfill('0') << (int)c;
+						}
+						std::cerr << "gaos::GaosBroadcast::groupCreditsChange(): relaying message: " << hex_stream.str() << std::endl;
+				}
 
 				// send the message
-				peerConnection->ws->send(ostream.str(), uWS::OpCode::BINARY);
+				int result = peerConnection->ws->send(ostream.str(), uWS::OpCode::BINARY);
+				std::cerr << "gaos::GaosBroadcast::groupCreditsChange(): send result: " << result << std::endl; //@@@@@@@@@@@@@@@@@@@@
 				if (IS_DEBUG)
 				{
 					std::cout << "gaos::GaosBroadcast::groupCreditsChange(): DEBUG: message was realyed to connection: " << peerConnection->getId() << std::endl;

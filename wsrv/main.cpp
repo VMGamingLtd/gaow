@@ -11,6 +11,9 @@
 #include <iostream>
 #include <fstream>
 #include <jwt-cpp/jwt.h>
+#include <cstdlib>
+
+#include "./config.h"
 
 
 void verifyToken(std::string jwt) {
@@ -21,7 +24,7 @@ void verifyToken(std::string jwt) {
 
         std::string token = jwt;
 
-        std::string rsa_pub_key = Utils::readFileContents(VERIFY_TOKEN_PUB_CERT_FILE_PATH);
+        std::string rsa_pub_key = Utils::readFileContents(Config::get__VERIFY_TOKEN_PUB_CERT_FILE_PATH());
         std::cout << "rsa_pub_key:" << std::endl;
         std::cout << rsa_pub_key << std::endl;
 
@@ -82,6 +85,29 @@ int main() {
 
     Groups::startCacheCleaningThread();
 
+	 const char* env_port = std::getenv("PORT");
+	 // conver port to int
+	 int port;
+	 if (env_port == nullptr)
+	 {
+		 port = 9001;
+	 }
+	 else
+	 {
+		 try
+		 {
+			 port = std::stoi(env_port);
+		 }
+		 catch (const std::exception& e)
+		 {
+			 std::cerr << "main(): ERROR: failed to convert environment variable PORT to int" << std::endl;
+		 }
+	 }
+	 const char* ip = std::getenv("IP");
+	 if (ip == nullptr) {
+		 ip = "127.0.0.1";
+	 }
+
     /* Keep in mind that uWS::SSLApp({options}) is the same as uWS::App() when compiled without SSL support.
      * You may swap to using uWS:App() if you don't need SSL */
     DbConnection::wsrvDbConnection = new DbConnection();
@@ -105,10 +131,6 @@ int main() {
 			/* Open event here, you may access ws->getUserData() which points to a PerSocketData struct */
 			std::cout << "A client connected" << std::endl; //@@@@@@@@@@@@@@@@@@
 			WsConnection::addConnection(ws);
-
-			uWS::Loop::get()->defer([]() {
-				std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 4000: loop defer";
-			});
 
 		},
 		.message = [](auto* ws, std::string_view message, uWS::OpCode opCode) {
@@ -142,18 +164,39 @@ int main() {
 			std::cout << "A client disconnected" << std::endl; //@@@@@@@@@@@@@@@@@@
 			WsConnection::removeConnection(ws);
 		}
-	}).listen("127.0.0.1", 9001, [](auto* listen_socket) {
+	}).listen(ip, port, [port, ip](auto* listen_socket) {
 		if (listen_socket) {
-			std::cout << "Listening on port " << 9001 << std::endl;
+			std::cout << "Listening on port " << port << ", ip " << ip << std::endl;
 		}
 	});//.run();
 
 
-	gaos::GaosServer::create(uWS::Loop::get());
+	 const char* env_port_gaos = std::getenv("PORT_GAOS");
+	 // conver port to int
+	 int port_gaos;
+	 if (env_port_gaos == nullptr)
+	 {
+		 port_gaos = 3010;
+	 }
+	 else
+	 {
+		 try
+		 {
+			 port_gaos = std::stoi(env_port_gaos);
+		 }
+		 catch (const std::exception& e)
+		 {
+			 std::cerr << "main(): ERROR: failed to convert environment variable PORT_GAOS to int" << std::endl;
+		 }
 
-	app.run();
+	 }
 
+	 const char* ip_gaos = std::getenv("IP_GAOS");
+	 if (ip_gaos == nullptr) {
+		 ip_gaos = "127.0.0.1";
+	 }
 
-
-    return 0;
+	 gaos::GaosServer::create(uWS::Loop::get(), ip_gaos, port_gaos);
+	 app.run();
+	 return 0;
 }

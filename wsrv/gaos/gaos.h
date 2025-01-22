@@ -66,10 +66,10 @@ namespace gaos
 		static ReciveResult handleState_message(struct us_socket_t *s, char* data, int length);
 
 		static ServerContext* getServerContext(struct us_socket_t* s);
-		static SocketContext* GaosServer::getSocketContext(struct us_socket_t* s);
+		static SocketContext* getSocketContext(struct us_socket_t* s);
 
 	public:
-		static void create(uWS::Loop *loop);
+		static void create(uWS::Loop *loop, const char* ip, int port);
 
 	};
 

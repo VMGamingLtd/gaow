@@ -50,7 +50,7 @@ namespace gaos
 
 	struct us_socket_t *GaosServer::on_socket_close(struct us_socket_t *s, int code, void *reason) 
 	{
-		printf("GaosServer::on_socket_close() client disconnected\n");
+		std::cerr << "GaosServer::on_socket_close(): INFO: client disconnected." << std::endl;
 		return s;
 	}
 
@@ -318,7 +318,7 @@ namespace gaos
 		sctx->receivedLength = 0;
 		sctx->receiveState = RECEIVE_STATE__NONE;
 
-		printf("GaosServer::on_socket_open(): client connected\n");
+		std::cerr << "GaosServer::on_socket_open(): INFO: client connected" << std::endl;
 		return s;
 	}
 
@@ -326,7 +326,7 @@ namespace gaos
 		return s;
 	}
 
-	void GaosServer::create(uWS::Loop* loop)
+	void GaosServer::create(uWS::Loop* loop, const char* ip, int port)
 	{
 		/* Create the event loop */
 		//struct us_loop_t *loop = us_create_loop(0, GaosServer::on_wakeup, GaosServer::on_pre, GaosServer::on_post, 0);
@@ -335,14 +335,14 @@ namespace gaos
 		struct us_socket_context_options_t options = {};
 
 		struct us_socket_context_t *socket_context = us_create_socket_context(0, (us_loop_t *)loop, sizeof(struct ServerContext), options);
+		if (!socket_context) {
+			std::cerr << "GaosServer::run(): ERROR: Could not create socket context" << std::endl;
+			exit(1);
+		}
 
 		ServerContext* serverContext = (ServerContext*)us_socket_context_ext(0, socket_context);
 		serverContext->loop = loop;
 
-		if (!socket_context) {
-			std::cerr << "GaosServer::run(): Could not create socket context" << std::endl;
-			exit(0);
-		}
 
 		/* Set up event handlers */
 		us_socket_context_on_open(0, socket_context, GaosServer::on_socket_open);
@@ -352,16 +352,16 @@ namespace gaos
 		us_socket_context_on_timeout(0, socket_context, GaosServer::on_socket_timeout);
 		us_socket_context_on_end(0, socket_context, GaosServer::on_socket_end);
 
-		struct us_listen_socket_t *listen_socket = us_socket_context_listen(0, socket_context, 0, 3000, 0, sizeof(struct SocketContext));
+		struct us_listen_socket_t *listen_socket = us_socket_context_listen(0, socket_context, ip, port, 0, sizeof(struct SocketContext));
 		if (listen_socket) 
 		{
-			std::cerr << "GaosServer::run(): Listening on port 3000" << std::endl;
+			std::cerr << "GaosServer::run(): INFO: Listening on port " << port << ", ip " << ip  << std::endl;
 			//us_loop_run(loop);
 		} 
 		else 
 		{
 			printf("Failed to listen!\n");
-			std::cerr << "GaosServer::run(): Failed to listen on port 3000!" << std::endl;
+			std::cerr << "GaosServer::run(): ERROR: Failed to listen on port " << port << ", ip " << ip << std::endl;
 			std::exit(1);
 		}
 	}

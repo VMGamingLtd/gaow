@@ -12,7 +12,7 @@ if(WIN32)
   set(cpackages_install_path /w1/cpackages)
   set(mariadb_connector_install_path "/Program Files/MariaDB/MariaDB C++ Connector 64-bit")
 elseif(UNIX)
-  set(cpackages_install_path $ENV{MY_PATH}/w1/cpackages)
+	set(cpackages_install_path $ENV{HOME}/w1/cpackages)
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1292,6 +1292,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/gmock.lib
   )
 elseif(UNIX)
+  set_target_properties(lib_gmock PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libgmock.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1301,6 +1304,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotobufd.lib
   )
 elseif(UNIX)
+  set_target_properties(libprotobufd PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotobuf.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1310,6 +1316,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotocd.lib
   )
 elseif(UNIX)
+  set_target_properties(libprotocd PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libprotoc.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1319,6 +1328,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/libupbd.lib
   )
 elseif(UNIX)
+  set_target_properties(libupbd PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libupb.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1328,6 +1340,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/utf8_range.lib
   )
 elseif(UNIX)
+  set_target_properties(utf8_range PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libutf8_range.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1337,6 +1352,9 @@ if(WIN32)
     IMPORTED_LOCATION ${cpackages_install_path}/lib/utf8_validity.lib
   )
 elseif(UNIX)
+  set_target_properties(utf8_validity PROPERTIES
+    IMPORTED_LOCATION ${cpackages_install_path}/lib/libutf8_validity.a
+  )
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -1469,6 +1487,7 @@ add_executable(wsrv
   wsrv/DbConnection.cpp
   wsrv/DbConnection.h
   wsrv/config.h
+  wsrv/config.cpp
   wsrv/gaos/gaos.cpp
   wsrv/gaos/gaos.h
   ${protobuf_source_files}
@@ -1611,6 +1630,7 @@ elseif(UNIX)
     libprotobuf
     libprotoc
 # abseil beign
+# note: for linux we had to move libabsl_debugging_internal and libabsl_demangle_internal to the end of list to prevent linker uresolved symbols
 libabsl_atomic_hook_test_helper
 libabsl_bad_any_cast_impl
 libabsl_bad_optional_access
@@ -1628,8 +1648,6 @@ libabsl_crc32c
 libabsl_crc_cord_state
 libabsl_crc_cpu_detect
 libabsl_crc_internal
-libabsl_debugging_internal
-libabsl_demangle_internal
 libabsl_die_if_null
 libabsl_examine_stack
 libabsl_exception_safety_testing
@@ -1710,8 +1728,18 @@ libabsl_time
 libabsl_time_internal_test_util
 libabsl_time_zone
 libabsl_vlog_config_internal
+libabsl_debugging_internal
+libabsl_demangle_internal
 # abseil end
-    ${SSL_LIBRARY}
+# protobuf_other_libs begin
+lib_gmock
+libprotobufd
+libprotocd
+libupbd
+utf8_range
+utf8_validity
+# protobuf_other_libs end
+	${SSL_LIBRARY}
 	${CRYPTO_LIBRARY}
 	${MARIADB_CPP_LIBRARY}
   )

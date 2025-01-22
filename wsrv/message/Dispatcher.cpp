@@ -190,7 +190,7 @@ namespace message
             int32_t methodId = messageHeader.methodid();
 
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            std::cout << "Dispatcher::dispatchMessage(s): namespaceId: " << namespaceId << ", classId: " << classId << ", methodId: " << methodId << std::endl;
+            std::cout << "Dispatcher::dispatchMessage_s(s): namespaceId: " << namespaceId << ", classId: " << classId << ", methodId: " << methodId << std::endl;
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             // switch based on the namespaceId
