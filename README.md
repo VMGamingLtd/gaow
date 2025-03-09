@@ -118,6 +118,7 @@ Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside th
 
 ```
 > apt install build-essential
+> apt install zlib1g-dev
 > cd ~/w1/gaow/uWebSockets
 > make
 ```
