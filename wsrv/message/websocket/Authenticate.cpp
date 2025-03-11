@@ -15,7 +15,7 @@ namespace message
 			GaoProtobuf::AuthenticateResponse response;
 			try
 			{
-				std::cerr << "Authenticate::onAuthenticateRequest(): @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 100" << std::endl;
+				std::cout << "Authenticate::onAuthenticateRequest(): @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 100" << std::endl;
 				uint32_t messageSize = message::Dispatcher::parseMessageaObjectSize(message);
 				std::vector<char> messageBytes = message::Dispatcher::readBytesOrException(message, messageSize);
 				GaoProtobuf::AuthenticateRequest request;
