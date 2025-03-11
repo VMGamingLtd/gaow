@@ -19,7 +19,7 @@ namespace message
 			const std::vector<std::string> connectionIds = Groups::getGroupConnections(groupId);
 			if (IS_DEBUG)
 			{
-				std::cout << "GroupBroadcast::groupCreditsChange(): DEBUG: " << connectionIds.size() << " connections found in the group" << std::endl;
+				std::cout << "GroupBroadcast::groupCreditsChange(): DEBUG: " << connectionIds.size() << " connections found in the group " << groupId << std::endl;
 			}
 
 			if (connectionIds.size() == 0)
