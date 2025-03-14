@@ -53,12 +53,15 @@ std::vector<int> Groups::getUserGroups(int userId) // static
 		// Group owner as such is normally never a member of the group of which he is owner.
 		// This user might still be the owner of a group with some members and thus indirectly (by the virtue of ownership) be the member of that group. 
 		auto ownerGroups = db->getOwnerGroups(userId);
+		std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 7000: " << ownerGroups.size() << std::endl;
 
 		for (int groupId : ownerGroups)
 		{
+			std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 7010 " << std::endl;
 			int count = db->getGroupMembersCount(groupId);
 			if (count > 1) // ignore groups without members
 			{
+				std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 7015 " << std::endl;
 				groups.push_back(groupId);
 			}
 		}
