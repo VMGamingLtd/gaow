@@ -148,8 +148,11 @@ std::vector<int> DbConnection::getUserGroups(int userId)
 		}
 	}
 
+	std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 3400" << std::endl;
+
 	if (ppStmt_getUserGroups == nullptr)
 	{
+		std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 3410" << std::endl;
 		try
 		{
 			ppStmt_getUserGroups = this->connection->prepareStatement(ppStmtStr_getUserGroups);
@@ -161,6 +164,7 @@ std::vector<int> DbConnection::getUserGroups(int userId)
 			return groups;
 		}
 	}
+	std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 3420" << std::endl;
 	ppStmt_getUserGroups->setInt(1, userId);
 	sql::ResultSet* rs;
 	try 
@@ -173,8 +177,10 @@ std::vector<int> DbConnection::getUserGroups(int userId)
 		disconnect();
 		return groups;
 	}
+	std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 3500" << std::endl;
 	while (rs->next())
 	{
+		std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 3510" << rs->getInt(1)  << std::endl;
 		groups.push_back(rs->getInt(1));
 	}
 	delete rs;
