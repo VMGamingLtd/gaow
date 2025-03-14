@@ -57,7 +57,7 @@ std::vector<int> Groups::getUserGroups(int userId) // static
 
 		for (int groupId : ownerGroups)
 		{
-			std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 7010 " << std::endl;
+			std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 7010: " << groupId << std::endl;
 			int count = db->getGroupMembersCount(groupId);
 			if (count > 1) // ignore groups without members
 			{
