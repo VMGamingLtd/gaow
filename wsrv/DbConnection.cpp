@@ -288,6 +288,7 @@ std::vector<int> DbConnection::getOwnerGroups(int userId)
 {
 	std::vector<int> groups;
 
+	std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 6000" << std::endl;
 	if (connection == nullptr)
 	{
 		connect();
@@ -311,6 +312,7 @@ std::vector<int> DbConnection::getOwnerGroups(int userId)
 			return groups;
 		}
 	}
+	std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 6100" << std::endl;
 	ppStmt_getOwnerGroups->setInt(1, userId);
 	sql::ResultSet* rs;
 	try
@@ -323,8 +325,10 @@ std::vector<int> DbConnection::getOwnerGroups(int userId)
 		disconnect();
 		return groups;
 	}
+	std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 6200" << std::endl;
 	while (rs->next())
 	{
+		std::cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ cp 6300" << std::endl;
 		groups.push_back(rs->getInt(1));
 	}
 	delete rs;
