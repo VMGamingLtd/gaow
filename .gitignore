@@ -4,3 +4,6 @@ wsrv/proto
 *.swo
 .vscode/
 build/
+compile_commands.json
+.cache/
+.clangd

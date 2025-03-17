@@ -90,6 +90,39 @@ In powershell terminal run server `wsrv.exe`:
 Listening on port 9001
 ```
 
+##  Generate compile_commands.json for nvim lsp clangd  (windows only)
+
+Install ninja build tools. In powershell run as administartor:
+
+``
+> choco install ninja
+``
+
+In git bash:
+
+```
+> mkdir /w1/gaow_build_1
+> cd /w1/gaow_build_1
+> cmake -S ../gaow -B . -G "Ninja"  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+```
+
+Copy `compile_commands.json`
+
+```
+> cp compile_commands.json ../gaow
+```
+
+Then use following nvim lsp config (we must use clang installed with Visual Studio llvm clang tool chain):
+
+```
+    require 'lspconfig'.clangd.setup {
+        cmd = {
+            "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/Llvm/bin/clangd.exe" ,
+        },
+    }
+```
+
+
 
 ### Visual Studio C++ manual settings (windows only)
 

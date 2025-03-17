@@ -1490,6 +1490,10 @@ add_executable(wsrv
   wsrv/config.cpp
   wsrv/gaos/gaos.cpp
   wsrv/gaos/gaos.h
+  wsrv/routes/ApiHello.cpp
+  wsrv/routes/ApiHello.h
+  wsrv/auth/Auth.cpp
+  wsrv/auth/Auth.h
   ${protobuf_source_files}
 )
 

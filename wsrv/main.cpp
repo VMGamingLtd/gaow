@@ -6,6 +6,7 @@
 #include "./DbConnection.h"
 #include "./groups/Groups.h"
 #include "./gaos/gaos.h"
+#include "routes/ApiHello.h"
 
 #include <sstream>
 #include <iostream>
@@ -164,7 +165,9 @@ int main() {
 			std::cout << "A client disconnected" << std::endl; //@@@@@@@@@@@@@@@@@@
 			WsConnection::removeConnection(ws);
 		}
-	}).listen(ip, port, [port, ip](auto* listen_socket) {
+	})
+	.get("/api/hello", routes::ApiHello::handleHello)
+	.listen(ip, port, [port, ip](auto* listen_socket) {
 		if (listen_socket) {
 			std::cout << "Listening on port " << port << ", ip " << ip << std::endl;
 		}
