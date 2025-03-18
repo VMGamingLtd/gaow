@@ -44,9 +44,10 @@ Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside th
 
 ```
 > cd /c/w1/gaow
-> git clone --recursive https://github.com/uNetworking/uWebSockets.git
+> git clone https://github.com/uNetworking/uWebSockets.git
 > cd uWebSockets
 > git checkout 01058d90e9d092c2d6551956d7e0785e0e94ff21
+> git submodule update --init --recursive
 ```
 
 Open  'x64 tools command prompt' terminal which was installed as part of visual studio installation and run:

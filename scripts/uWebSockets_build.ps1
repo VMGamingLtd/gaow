@@ -7,5 +7,4 @@ $ENV:LDFLAGS='-L C:\w1\vcpkg\installed\x64-windows\lib'
 $ENV:CXX='clang++'
 $ENV:EXEC_SUFFIX='.exe'
 $ENV:WITH_LIBUV='1'
-$ENV:WITH_OPENSSL='0'
 nmake
